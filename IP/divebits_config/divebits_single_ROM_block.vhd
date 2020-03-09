@@ -54,16 +54,14 @@ architecture RTL of divebits_single_ROM_block is
 		return init_data;
 	end function config_rom_init;
 
-
 	
-	signal DIVEBITS_CONFIG_ROM: config_rom_type := (	others => "0"); 	
-	--constant DIVEBITS_CONFIG_ROM: config_rom_type := config_rom_init;
+	signal DIVEBITS_CONFIG_ROM: config_rom_type :=  (others => "0");
+		-- config_rom_init;
 	
 	signal dbuf: std_logic;--_vector(0 downto 0);
 	signal WE: std_logic := '0';
 	signal srvec: std_logic_vector(3 downto 0) := "1010";
 begin
-
 	
 	-- ROM
 	process(clock)
@@ -72,6 +70,9 @@ begin
 			if (WE='1') then
 				DIVEBITS_CONFIG_ROM(to_integer(unsigned(ROM_address)))(0) <= dbuf;
 			end if;
+-- synthesis translate_off
+			DIVEBITS_CONFIG_ROM <= config_rom_init;
+-- synthesis translate_on
 			dbuf <= DIVEBITS_CONFIG_ROM(to_integer(unsigned(ROM_address)))(0);
 		end if;
 	end process;

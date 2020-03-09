@@ -89,52 +89,52 @@ architecture RTL of divebits_config is
 	end function token; 
 
 
-	-- ROM and config string length
-	--signal 
-	type config_rom_type is array(0 to 32767) of std_logic_vector(0 downto 0);
+--	-- ROM and config string length
+--	--signal 
+--	type config_rom_type is array(0 to 32767) of std_logic_vector(0 downto 0);
 	
-	-- just for debugging purposes; ROM will later be initialized by updatemem
-	-- NOTE: should not be used in implementation; so BlockRAM is all 0 without updatemem
-	constant num_of_init_tuples: natural := 10;
-	function config_rom_init return config_rom_type is
-		variable init_data: config_rom_type := (others => "0");
-		type init_tuples_array is array(0 to 2*num_of_init_tuples-1) of integer;
-		constant init_tuples: init_tuples_array := (	-- GLOBAL HEADER
-														20,  20 + (16+16+8) + (16+16+16) + (16+16+24), -- 20 bits of overall payload length 20+8
+--	-- just for debugging purposes; ROM will later be initialized by updatemem
+--	-- NOTE: should not be used in implementation; so BlockRAM is all 0 without updatemem
+--	constant num_of_init_tuples: natural := 10;
+--	function config_rom_init return config_rom_type is
+--		variable init_data: config_rom_type := (others => "0");
+--		type init_tuples_array is array(0 to 2*num_of_init_tuples-1) of integer;
+--		constant init_tuples: init_tuples_array := (	-- GLOBAL HEADER
+--														20,  20 + (16+16+8) + (16+16+16) + (16+16+24), -- 20 bits of overall payload length 20+8
 
-														-- PACKET 1
-														 16,  16#1000#,    -- 16 bits of address 0x1000
-														 16,  8,           -- 16 bits of payload length 8
-														  8,  2#11001001#, -- 8 bits of payload
+--														-- PACKET 1
+--														 16,  16#1000#,    -- 16 bits of address 0x1000
+--														 16,  8,           -- 16 bits of payload length 8
+--														  8,  2#11001001#, -- 8 bits of payload
 
-														-- PACKET 2
-														 16,  16#7470#,    -- 16 bits of address 0x7470
-														 16,  16,           -- 16 bits of payload length 16
-														 16,  16#DEAD#, -- 16 bits of payload
+--														-- PACKET 2
+--														 16,  16#7470#,    -- 16 bits of address 0x7470
+--														 16,  16,           -- 16 bits of payload length 16
+--														 16,  16#DEAD#, -- 16 bits of payload
 
-														-- PACKET 3
-														 16,  16#747F#,    -- 16 bits of address 0x747F
-														 16,  24,           -- 16 bits of payload length 24
-														 24,  16#BEEF42#, -- 24 bits of payload
-														others => 0);
-		variable adr: integer :=0;
-		variable bitcnt: integer;
-		variable bitbuffer: std_logic_vector(31 downto 0); 
-	begin
-		for i in 0 to num_of_init_tuples-1 loop
-			bitcnt := init_tuples(i*2); 
-			if (bitcnt/=0) then
-				bitbuffer := std_logic_vector(to_unsigned(init_tuples(i*2+1),32));
-				for j in 0 to bitcnt-1 loop
-					init_data(adr) := bitbuffer(j downto j);
-					adr := adr + 1;
-				end loop;
-			end if;		
-		end loop;
-		return init_data;
-	end function config_rom_init;
+--														-- PACKET 3
+--														 16,  16#747F#,    -- 16 bits of address 0x747F
+--														 16,  24,           -- 16 bits of payload length 24
+--														 24,  16#BEEF42#, -- 24 bits of payload
+--														others => 0);
+--		variable adr: integer :=0;
+--		variable bitcnt: integer;
+--		variable bitbuffer: std_logic_vector(31 downto 0); 
+--	begin
+--		for i in 0 to num_of_init_tuples-1 loop
+--			bitcnt := init_tuples(i*2); 
+--			if (bitcnt/=0) then
+--				bitbuffer := std_logic_vector(to_unsigned(init_tuples(i*2+1),32));
+--				for j in 0 to bitcnt-1 loop
+--					init_data(adr) := bitbuffer(j downto j);
+--					adr := adr + 1;
+--				end loop;
+--			end if;		
+--		end loop;
+--		return init_data;
+--	end function config_rom_init;
 	
-	constant DIVEBITS_CONFIG_ROM: config_rom_type := config_rom_init; -- (others => "0"); --
+--	constant DIVEBITS_CONFIG_ROM: config_rom_type := config_rom_init; -- (others => "0"); --
 	
 	signal ROM_address: unsigned(17 downto 0);
 	signal ROM_dout: std_logic;
