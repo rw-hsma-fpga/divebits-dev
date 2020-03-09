@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="divebits_config_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="divebits_config_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="867200000fs"></ZoomStartTime>
+      <ZoomEndTime time="1026600001fs"></ZoomEndTime>
+      <Cursor1Time time="1000000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="176"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="44" />
+   <wvobject fp_name="/divebits_config_tb/clock" type="logic">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/rom32k_gen/\roms_gen(0)\/config_rom_R/srvec" type="array">
+      <obj_property name="ElementShortName">srvec[3:0]</obj_property>
+      <obj_property name="ObjectShortName">srvec[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/rom32k_gen/\roms_gen(0)\/config_rom_R/WE" type="logic">
+      <obj_property name="ElementShortName">WE</obj_property>
+      <obj_property name="ObjectShortName">WE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/rom32k_gen/\roms_gen(0)\/config_rom_R/dbuf" type="logic">
+      <obj_property name="ElementShortName">dbuf</obj_property>
+      <obj_property name="ObjectShortName">dbuf</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/rom32k_gen/\roms_gen(7)\/config_rom_R/srvec" type="array">
+      <obj_property name="ElementShortName">srvec[3:0]</obj_property>
+      <obj_property name="ObjectShortName">srvec[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/rom32k_gen/\roms_gen(7)\/config_rom_R/WE" type="logic">
+      <obj_property name="ElementShortName">WE</obj_property>
+      <obj_property name="ObjectShortName">WE</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32904">
+      <obj_property name="label">Release In/Out,FSM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/release" type="logic">
+      <obj_property name="ElementShortName">release</obj_property>
+      <obj_property name="ObjectShortName">release</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/release_in_sync_SR" type="array">
+      <obj_property name="ElementShortName">release_in_sync_SR[2:0]</obj_property>
+      <obj_property name="ObjectShortName">release_in_sync_SR[2:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/DB_CONFIG_STATE" type="other">
+      <obj_property name="ElementShortName">DB_CONFIG_STATE</obj_property>
+      <obj_property name="ObjectShortName">DB_CONFIG_STATE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/release_count" type="other">
+      <obj_property name="ElementShortName">release_count</obj_property>
+      <obj_property name="ObjectShortName">release_count</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/release_out_SR" type="array">
+      <obj_property name="ElementShortName">release_out_SR[3:0]</obj_property>
+      <obj_property name="ObjectShortName">release_out_SR[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/release_out" type="logic">
+      <obj_property name="ElementShortName">release_out</obj_property>
+      <obj_property name="ObjectShortName">release_out</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32902">
+      <obj_property name="label">ROM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/ROM_address" type="array">
+      <obj_property name="ElementShortName">ROM_address[17:0]</obj_property>
+      <obj_property name="ObjectShortName">ROM_address[17:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/config_data_length" type="array">
+      <obj_property name="ElementShortName">config_data_length[19:0]</obj_property>
+      <obj_property name="ObjectShortName">config_data_length[19:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/ROM_dout" type="logic">
+      <obj_property name="ElementShortName">ROM_dout</obj_property>
+      <obj_property name="ObjectShortName">ROM_dout</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32903">
+      <obj_property name="label">Outgoing Data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/token_out_strobe" type="logic">
+      <obj_property name="ElementShortName">token_out_strobe</obj_property>
+      <obj_property name="ObjectShortName">token_out_strobe</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/token_out" type="other">
+      <obj_property name="ElementShortName">token_out</obj_property>
+      <obj_property name="ObjectShortName">token_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/data_out_SR" type="array">
+      <obj_property name="ElementShortName">data_out_SR[1:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out_SR[1:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/db_data_out" type="logic">
+      <obj_property name="ElementShortName">db_data_out</obj_property>
+      <obj_property name="ObjectShortName">db_data_out</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32844">
+      <obj_property name="label">Incoming Data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/db_data_in" type="logic">
+      <obj_property name="ElementShortName">db_data_in</obj_property>
+      <obj_property name="ObjectShortName">db_data_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/data_fb_SR" type="array">
+      <obj_property name="ElementShortName">data_fb_SR[5:0]</obj_property>
+      <obj_property name="ObjectShortName">data_fb_SR[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/token_in" type="other">
+      <obj_property name="ElementShortName">token_in</obj_property>
+      <obj_property name="ObjectShortName">token_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/token_in_strobe" type="logic">
+      <obj_property name="ElementShortName">token_in_strobe</obj_property>
+      <obj_property name="ObjectShortName">token_in_strobe</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/data_in_valid" type="logic">
+      <obj_property name="ElementShortName">data_in_valid</obj_property>
+      <obj_property name="ObjectShortName">data_in_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/dut/data_in" type="logic">
+      <obj_property name="ElementShortName">data_in</obj_property>
+      <obj_property name="ObjectShortName">data_in</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32906">
+      <obj_property name="label">RECEIVER 1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FF0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/rcv/DB_RECEIVE_STATE" type="other">
+      <obj_property name="ElementShortName">DB_RECEIVE_STATE</obj_property>
+      <obj_property name="ObjectShortName">DB_RECEIVE_STATE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/rcv/payload_length" type="array">
+      <obj_property name="ElementShortName">payload_length[15:0]</obj_property>
+      <obj_property name="ObjectShortName">payload_length[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/rcv/dest_address" type="array">
+      <obj_property name="ElementShortName">dest_address[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dest_address[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/rx_data" type="logic">
+      <obj_property name="ElementShortName">rx_data</obj_property>
+      <obj_property name="ObjectShortName">rx_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/rx_data_valid" type="array">
+      <obj_property name="ElementShortName">rx_data_valid[0:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_data_valid[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/Data_SR" type="array">
+      <obj_property name="ElementShortName">Data_SR[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Data_SR[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv1/Vector_out" type="array">
+      <obj_property name="ElementShortName">Vector_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">Vector_out[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider32913">
+      <obj_property name="label">RECEIVER 2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#008000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/rcv/DB_RECEIVE_STATE" type="other">
+      <obj_property name="ElementShortName">DB_RECEIVE_STATE</obj_property>
+      <obj_property name="ObjectShortName">DB_RECEIVE_STATE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/rx_data" type="logic">
+      <obj_property name="ElementShortName">rx_data</obj_property>
+      <obj_property name="ObjectShortName">rx_data</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/rcv/payload_length" type="array">
+      <obj_property name="ElementShortName">payload_length[15:0]</obj_property>
+      <obj_property name="ObjectShortName">payload_length[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/rcv/dest_address" type="array">
+      <obj_property name="ElementShortName">dest_address[15:0]</obj_property>
+      <obj_property name="ObjectShortName">dest_address[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/Vector_00" type="array">
+      <obj_property name="ElementShortName">Vector_00[15:0]</obj_property>
+      <obj_property name="ObjectShortName">Vector_00[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/divebits_config_tb/rcv16/Vector_15" type="array">
+      <obj_property name="ElementShortName">Vector_15[23:0]</obj_property>
+      <obj_property name="ObjectShortName">Vector_15[23:0]</obj_property>
+   </wvobject>
+</wave_config>

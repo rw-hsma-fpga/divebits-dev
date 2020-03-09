@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>hs-mannheim.de</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>divebits_config</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>DiveBits_Out</spirit:name>
+      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_data</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_data_out</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_clock</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_clock_out</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>DiveBits_Feedback</spirit:name>
+      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
+      <spirit:monitor spirit:interfaceMode="master"/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_data</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_data_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_clock</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_clock_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>sys_clock</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>sys_clock_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>FREQ_HZ</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.SYS_CLOCK.FREQ_HZ"/>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>divebits_config</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>c5cb0c43</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>divebits_config</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>c5cb0c43</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>be8610e6</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>sys_clock_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>sys_release_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>sys_release_out</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_clock_out</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_data_out</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_clock_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_data_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="boolean">
+        <spirit:name>RELEASE_HIGH_ACTIVE</spirit:name>
+        <spirit:displayName>Release High Active</spirit:displayName>
+        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RELEASE_HIGH_ACTIVE">true</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="boolean">
+        <spirit:name>INCLUDE_CRC_CHECK</spirit:name>
+        <spirit:displayName>Include Crc Check</spirit:displayName>
+        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.INCLUDE_CRC_CHECK">false</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>RELEASE_DELAY_CYCLES</spirit:name>
+        <spirit:displayName>Release Delay Cycles</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.RELEASE_DELAY_CYCLES" spirit:minimum="4" spirit:maximum="259" spirit:rangeType="long">20</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>NUM_OF_32K_ROMS</spirit:name>
+        <spirit:displayName>Num Of 32k Roms</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">8</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>divebits_single_ROM_block.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divebits_config.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_a7477a0b</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>divebits_single_ROM_block.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divebits_config.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/divebits_config_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_be8610e6</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>divebits_config_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>RELEASE_HIGH_ACTIVE</spirit:name>
+      <spirit:displayName>Release is High-Active</spirit:displayName>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.RELEASE_HIGH_ACTIVE">true</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>INCLUDE_CRC_CHECK</spirit:name>
+      <spirit:displayName>Include CRC Check</spirit:displayName>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.INCLUDE_CRC_CHECK">false</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>RELEASE_DELAY_CYCLES</spirit:name>
+      <spirit:displayName>Release Delay Cycles</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.RELEASE_DELAY_CYCLES" spirit:minimum="4" spirit:maximum="259" spirit:rangeType="long">20</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">divebits_config_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>NUM_OF_32K_ROMS</spirit:name>
+      <spirit:displayName>Num Of 32k Roms</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">8</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>divebits_config_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>15</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2020-03-06T18:33:16Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="nopcore"/>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@78337494_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11e3c662_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a459241_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a0d8774_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a2944b6_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b801bd3_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6eb6d377_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34fc71c5_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20394a00_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b4265bf_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d8057b0_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2edff69d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ca9f918_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1dd9efec_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c60f171_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73a23ed2_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@477711a7_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@354d9b85_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69a442bb_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dc9d84c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3909de60_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3300d3a3_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@471e6253_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6fb387ae_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67bdc047_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19a18129_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a095b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@671881ff_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c083306_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@221718b0_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b72698e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d0610a1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@353813d5_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@759d33bf_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e34a2b6_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@261026de_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@521e3587_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65f24ed7_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bddfa07_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@764df5e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31fd6341_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7dee4316_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b90a439_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cd10a4e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3583be7b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@515fa0f1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@433b4d13_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@967f11e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76e1f9b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bd42b8e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@463dcf50_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50dd4c32_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a9c408d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b0dbc69_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@379938a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@691587c8_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c2ef02e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69b3c699_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64df0eb7_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d334900_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c0c1e30_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@647505f7_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74e8067_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74daa9ca_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a4628ee_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52352c38_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c7bca38_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79e74b52_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53a27905_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@503c4794_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38d2d30a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58053627_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3bb04f94_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16e88b15_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d6bedfd_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1145a168_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d0af3a2_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1bbfd15_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ec5adb5_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4951b922_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d4d62c7_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11551765_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@460c4eb9_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55d3299a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22048f37_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d4e18a1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e774fd_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@618ee5dc_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64645434_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46deb666_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13fa5679_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f5e6b86_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cded526_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c15b579_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d558dff_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c20283f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@491f176f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@153d8bae_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f4ca32a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ef7883d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ddebed0_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3133dc55_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ee69b71_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@283a2cbc_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6384fee8_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@678e07ae_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2349896d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62d50804_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75b58e02_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e826052_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d454fde_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59492ea_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cd8b089_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3198d62d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d4fb145_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@43428242_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4206d104_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@507989a3_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f2de3cd_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7339c88f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e2ef935_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7678ee07_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@724669f9_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61d8372e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1dca7c1b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19afc48b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23853a86_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@108daae_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c339e3a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a23b9c9_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39a2e49b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bfa29a4_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4396342_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7698a5a_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16781e02_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f14026b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@deece2b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@402279b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@605866b_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75556188_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f92195d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72a0c691_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f486f49_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@144c1323_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d91eba1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d5bc686_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10723ee0_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ac8688d_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3af288a1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@404dba4f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@778abb67_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@98e6c8e_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@230bba86_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@628a8980_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f246899_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d10cc74_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@489707ff_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@eb31a1f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2839b87f_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3932acb1_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b03d91c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7428cce2_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42c212b8_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41dd877c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20e54a0c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="8607e669"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="ec1a7dd2"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="43abba30"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8f3645a4"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="378eda4a"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

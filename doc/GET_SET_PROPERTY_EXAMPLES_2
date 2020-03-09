@@ -1,0 +1,58 @@
+get_bd_cells
+/clk_wiz_1 /divebits_testip1_0 /mdm_1 /microblaze_0 /microblaze_0_local_memory /rst_clk_wiz_1_100M
+
+foreach singlecell $mycells { puts [ get_property NAME [ get_bd_cells "$singlecell" ] ] }
+clk_wiz_1
+divebits_testip1_0
+mdm_1
+microblaze_0
+microblaze_0_local_memory
+rst_clk_wiz_1_100M
+
+
+foreach singlecell $mycells { puts [ get_property VLNV [ get_bd_cells "$singlecell" ] ] }
+xilinx.com:ip:clk_wiz:5.4
+hs-mannheim.de:user:divebits_testip1:1.0
+xilinx.com:ip:mdm:3.2
+xilinx.com:ip:microblaze:10.0
+
+xilinx.com:ip:proc_sys_reset:5.0
+
+
+foreach singlecell [ get_bd_cells -hierarchical ] { puts [ get_property VLNV [ get_bd_cells "$singlecell" ] ] }
+xilinx.com:ip:clk_wiz:5.4
+hs-mannheim.de:user:divebits_testip1:1.0
+xilinx.com:ip:mdm:3.2
+xilinx.com:ip:microblaze:10.0
+
+xilinx.com:ip:lmb_bram_if_cntlr:4.0
+xilinx.com:ip:lmb_v10:3.0
+xilinx.com:ip:lmb_bram_if_cntlr:4.0
+xilinx.com:ip:lmb_v10:3.0
+xilinx.com:ip:blk_mem_gen:8.3
+xilinx.com:ip:proc_sys_reset:5.0
+
+foreach singlecell [ get_bd_cells -hierarchical ] { puts [ get_property CONFIG.B_CONST_PARAM_B [ get_bd_cells "$singlecell" ] ] }
+
+true
+
+
+
+
+
+
+
+
+
+foreach singlecell [ get_bd_cells -hierarchical ] { puts [ get_property CONFIG.I_CONST_PARAM_A [ get_bd_cells "$singlecell" ] ] }
+
+27
+
+
+
+
+
+
+
+
+

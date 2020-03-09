@@ -1,0 +1,83 @@
+get_ips
+design_1_clk_wiz_1_0 design_1_divebits_testip1_0_0 design_1_dlmb_bram_if_cntlr_0 design_1_dlmb_v10_0 design_1_ilmb_bram_if_cntlr_0 design_1_ilmb_v10_0 design_1_lmb_bram_0 design_1_mdm_1_0 design_1_microblaze_0_0 design_1_microblaze_0_axi_periph_0 design_1_rst_clk_wiz_1_100M_0
+write_bd_tcl C:/Users/Labor/ESR_Projekte/divebits_test1/design_1.tcl
+INFO: [BD 5-148] Tcl file written out <C:/Users/Labor/ESR_Projekte/divebits_test1/design_1.tcl>.
+
+get_bd_cells divebits_testip1_0
+/divebits_testip1_0
+
+list_property [ get_bd_cells divebits_testip1_0 ]
+CLASS CONFIG.B_CONST_PARAM_B CONFIG.C_S00_AXI_ADDR_WIDTH CONFIG.C_S00_AXI_BASEADDR CONFIG.C_S00_AXI_DATA_WIDTH CONFIG.C_S00_AXI_HIGHADDR CONFIG.Component_Name CONFIG.I_CONST_PARAM_A LOCATION NAME PATH SCREENSIZE TYPE VLNV
+
+get_property CONFIG.I_CONST_PARAM_A [ get_bd_cells divebits_testip1_0 ]
+27
+
+get_property CONFIG.B_CONST_PARAM_B [ get_bd_cells divebits_testip1_0 ]
+false
+
+report_property [ get_bd_cells divebits_testip1_0 ]
+Property                     Type    Read-only  Value
+CLASS                        string  true       bd_cell
+CONFIG.B_CONST_PARAM_B       string  false      false
+CONFIG.C_S00_AXI_ADDR_WIDTH  string  false      4
+CONFIG.C_S00_AXI_BASEADDR    string  false      0xFFFFFFFF
+CONFIG.C_S00_AXI_DATA_WIDTH  string  false      32
+CONFIG.C_S00_AXI_HIGHADDR    string  false      0x00000000
+CONFIG.Component_Name        string  false      design_1_divebits_testip1_0_0
+CONFIG.I_CONST_PARAM_A       string  false      27
+LOCATION                     string  false      4 1220 70
+NAME                         string  false      divebits_testip1_0
+PATH                         string  true       /divebits_testip1_0
+SCREENSIZE                   string  false      140 100
+TYPE                         string  true       ip
+VLNV                         string  true       hs-mannheim.de:user:divebits_testip1:1.0
+
+
+   
+report_property [ get_bd_cells divebits_testip1_0 ]
+Property                     Type    Read-only  Value
+CLASS                        string  true       bd_cell
+CONFIG.B_CONST_PARAM_B       string  false      false
+CONFIG.C_S00_AXI_ADDR_WIDTH  string  false      4
+CONFIG.C_S00_AXI_BASEADDR    string  false      0xFFFFFFFF
+CONFIG.C_S00_AXI_DATA_WIDTH  string  false      32
+CONFIG.C_S00_AXI_HIGHADDR    string  false      0x00000000
+CONFIG.Component_Name        string  false      design_1_divebits_testip1_0_0
+CONFIG.I_CONST_PARAM_A       string  false      27
+LOCATION                     string  false      4 1220 70
+NAME                         string  false      divebits_testip1_0
+PATH                         string  true       /divebits_testip1_0
+SCREENSIZE                   string  false      140 100
+TYPE                         string  true       ip
+VLNV                         string  true       hs-mannheim.de:user:divebits_testip1:1.0
+
+
+get_property CONFIG.I_CONST_PARAM_A [ get_bd_cells divebits_testip1_0 ]
+27
+
+get_property CONFIG.B_CONST_PARAM_B [ get_bd_cells divebits_testip1_0 ]
+false
+
+set_property CONFIG.I_CONST_PARAM_A 28 [ get_bd_cells divebits_testip1_0 ]
+ERROR: [IP_Flow 19-3458] Validation failed for parameter 'I Const Param A(I_CONST_PARAM_A)' for BD Cell 'divebits_testip1_0'. Value '28' is out of the range (27,27)
+INFO: [IP_Flow 19-3438] Customization errors found on 'divebits_testip1_0'. Restoring to previous valid configuration.
+ERROR: [BD 41-245] set_property error - Validation failed for parameter 'I Const Param A(I_CONST_PARAM_A)' for BD Cell 'divebits_testip1_0'. Value '28' is out of the range (27,27)
+Customization errors found on 'divebits_testip1_0'. Restoring to previous valid configuration.
+
+ERROR: [Common 17-39] 'set_property' failed due to earlier errors.
+
+get_property CONFIG.B_CONST_PARAM_B [ get_bd_cells divebits_testip1_0 ]
+false
+
+set_property CONFIG.B_CONST_PARAM_B true [ get_bd_cells divebits_testip1_0 ]
+true
+
+get_property CONFIG.B_CONST_PARAM_B [ get_bd_cells divebits_testip1_0 ]
+true
+
+set_property CONFIG.I_CONST_PARAM_A 27 [ get_bd_cells divebits_testip1_0 ]
+27
+
+reset_property CONFIG.B_CONST_PARAM_B [ get_bd_cells divebits_testip1_0 ]
+ERROR: [Common 17-229] Tcl reset_property command for property <CONFIG.B_CONST_PARAM_B> is currently not supported.  The property <CONFIG.B_CONST_PARAM_B> cannot be reset.
+ERROR: [Common 17-39] 'reset_property' failed due to earlier errors.
