@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MemInfo Version="1" Minor="0">
+  <Processor Endianness="Little" InstPath="dummy">
+  <AddressSpace Name="" Begin="0" End="0">
+      <BusBlock>
+      </BusBlock>
+    </AddressSpace>
+  </Processor>
+<Config>
+  <Option Name="Part" Val="xc7z020clg484-1"/>
+</Config>
+</MemInfo>

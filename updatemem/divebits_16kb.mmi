@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MemInfo Version="1" Minor="6">
+
+  <Processor Endianness="Little" InstPath="divebits/config">
+    <AddressSpace Name="divebits.config" Begin="0" End="2047">
+      <BusBlock>
+        <BitLane MemType="RAMB18" Placement="X4Y9">
+          <DataWidth MSB="31" LSB="0"/>
+			<AddressRange Begin="0" End="511"/>
+          <Parity ON="false" NumBits="0"/>
+        </BitLane>
+      </BusBlock>
+    </AddressSpace>
+  </Processor>
+
+  <Config>
+    <Option Name="Part" Val="xc7z020clg484-1"/>
+  </Config>
+  
+  <DRC>
+    <Rule Name="RDADDRCHANGE" Val="false"/>
+  </DRC>
+  
+</MemInfo>

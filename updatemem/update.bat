@@ -1,0 +1,1 @@
+updatemem -force -meminfo DiveBits_32Kb.mmi -bit  demo_block_wrapper.bit -data dbdata.mem -proc divebits/bram32kb -out download.bit
