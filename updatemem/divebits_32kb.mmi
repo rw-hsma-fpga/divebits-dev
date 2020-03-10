@@ -5,7 +5,7 @@
   <Processor Endianness="Little" InstPath="divebits/config">
     <AddressSpace Name="divebits.config" Begin="0" End="4095">
       <BusBlock>
-        <BitLane MemType="RAMB36" Placement="X5Y10">
+        <BitLane MemType="RAMB36" Placement="X5Y8">
           <DataWidth MSB="31" LSB="0"/>
 			<AddressRange Begin="0" End="1023"/>
           <Parity ON="false" NumBits="0"/>
