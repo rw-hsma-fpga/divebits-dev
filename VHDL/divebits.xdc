@@ -35,9 +35,3 @@ set_property PACKAGE_PIN U14 [get_ports {Vector_out_1[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports -of_objects [get_iobanks 33]]
 
 
-
-#set_property INIT_00 256'h0000000000000000000000000000000000000000000000000000000000000000 [get_cells demo_block_i/divebits_config_0/U0/ROM_address_reg_rep]
-
-
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
-connect_debug_port dbg_hub/clk [get_nets clk]

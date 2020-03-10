@@ -3,8 +3,8 @@
 #foreach ram $bmemslist { puts $ram }
 
 set bmemlist [ get_cells -hierarchical -filter { PRIMITIVE_TYPE =~ BMEM.*.* } ]
-set ram16klist [ lsearch -all -inline $bmemlist *rom16k_gen.roms_gen* ]
-set ram32klist [ lsearch -all -inline $bmemlist *rom32k_gen.roms_gen* ]
+set ram16klist [ lsearch -all -inline $bmemlist *divebits_rom16k_gen_magic1701* ]
+set ram32klist [ lsearch -all -inline $bmemlist *divebits_rom32k_gen_magic1701* ]
 set ram32klist [ lsort $ram32klist ]
 foreach ram16k $ram16klist { puts $ram16k }
 foreach ram32k $ram32klist { puts $ram32k }

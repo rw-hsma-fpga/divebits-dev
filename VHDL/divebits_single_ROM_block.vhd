@@ -4,8 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity divebits_single_ROM_block is
-	Generic ( IS_32K : natural range 0 to 1 := 0;
-			  ROM_index: natural range 0 to 7 := 0);
+	Generic ( IS_32K : natural range 0 to 1 := 0 );
 	Port  ( -- system ports
 			clock : in STD_LOGIC;
 			ROM_address: in std_logic_vector((IS_32K + 13) downto 0);

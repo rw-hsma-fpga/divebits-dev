@@ -8,7 +8,7 @@ entity divebits_config is
 			  INCLUDE_CRC_CHECK   : boolean := false;
 			  RELEASE_DELAY_CYCLES: natural range 4 to 259:= 20;
 			  -- hidden parametres
-			  NUM_OF_32K_ROMS: natural range 0 to 8 := 8 -- 0 means 1x 16k ROM
+			  NUM_OF_32K_ROMS: natural range 0 to 8 := 0 -- 0 means 1x 16k ROM
 			  );			  
 	Port  ( -- system ports
 			sys_clock_in : in STD_LOGIC;
@@ -28,23 +28,10 @@ end divebits_config;
 
 architecture RTL of divebits_config is
 	
---	component divebits_single_ROM_block is
---		Generic ( IS_32K : natural range 0 to 1 := 0);
---		Port  ( -- system ports
---				clock : in STD_LOGIC;
---				ROM_address: in std_logic_vector((IS_32K + 13) downto 0);
---				dout : out STD_LOGIC
---				);
---	end component;	
-
 	-- attributes used
 	attribute ASYNC_REG : string;
 	attribute SHREG_EXTRACT : string;
 
-	-- size in bits of configuration data length
-	constant LENGTH_BITS: integer := 20;
-
-	
 
 	-- release/reset/locked input processing, output release
 	signal release_in_sync_SR: std_logic_vector(2 downto 0);
@@ -60,6 +47,11 @@ architecture RTL of divebits_config is
 	-- FSM states
 	type DB_CONFIG_STATE_TYPE is (dbcs_reset, dbcs_length_load, dbcs_wait_for_STart, dbcs_send, dbcs_transfer_done, dbcs_wait_for_STop, dbcs_released);
 	signal DB_CONFIG_STATE: DB_CONFIG_STATE_TYPE;
+
+
+	-- size in bits of configuration data length
+	constant LENGTH_BITS: integer := 20;
+	signal config_data_length: std_logic_vector(LENGTH_BITS-1 downto 0);
 
 
 
@@ -89,56 +81,9 @@ architecture RTL of divebits_config is
 	end function token; 
 
 
---	-- ROM and config string length
---	--signal 
---	type config_rom_type is array(0 to 32767) of std_logic_vector(0 downto 0);
-	
---	-- just for debugging purposes; ROM will later be initialized by updatemem
---	-- NOTE: should not be used in implementation; so BlockRAM is all 0 without updatemem
---	constant num_of_init_tuples: natural := 10;
---	function config_rom_init return config_rom_type is
---		variable init_data: config_rom_type := (others => "0");
---		type init_tuples_array is array(0 to 2*num_of_init_tuples-1) of integer;
---		constant init_tuples: init_tuples_array := (	-- GLOBAL HEADER
---														20,  20 + (16+16+8) + (16+16+16) + (16+16+24), -- 20 bits of overall payload length 20+8
-
---														-- PACKET 1
---														 16,  16#1000#,    -- 16 bits of address 0x1000
---														 16,  8,           -- 16 bits of payload length 8
---														  8,  2#11001001#, -- 8 bits of payload
-
---														-- PACKET 2
---														 16,  16#7470#,    -- 16 bits of address 0x7470
---														 16,  16,           -- 16 bits of payload length 16
---														 16,  16#DEAD#, -- 16 bits of payload
-
---														-- PACKET 3
---														 16,  16#747F#,    -- 16 bits of address 0x747F
---														 16,  24,           -- 16 bits of payload length 24
---														 24,  16#BEEF42#, -- 24 bits of payload
---														others => 0);
---		variable adr: integer :=0;
---		variable bitcnt: integer;
---		variable bitbuffer: std_logic_vector(31 downto 0); 
---	begin
---		for i in 0 to num_of_init_tuples-1 loop
---			bitcnt := init_tuples(i*2); 
---			if (bitcnt/=0) then
---				bitbuffer := std_logic_vector(to_unsigned(init_tuples(i*2+1),32));
---				for j in 0 to bitcnt-1 loop
---					init_data(adr) := bitbuffer(j downto j);
---					adr := adr + 1;
---				end loop;
---			end if;		
---		end loop;
---		return init_data;
---	end function config_rom_init;
-	
---	constant DIVEBITS_CONFIG_ROM: config_rom_type := config_rom_init; -- (others => "0"); --
-	
+	-- config ROM ports	
 	signal ROM_address: unsigned(17 downto 0);
 	signal ROM_dout: std_logic;
-	signal config_data_length: std_logic_vector(LENGTH_BITS-1 downto 0);
 
 
 	-- output data
@@ -157,10 +102,6 @@ architecture RTL of divebits_config is
 	signal data_in_valid: std_logic;
 	signal data_in: std_logic;
 
-
-	-- DEBUG
-	signal DEBUG_token_out_count: integer range 0 to 7; 
-	signal DEBUG_token_in_count: integer range 0 to 7; 
 
 begin
 	
@@ -256,27 +197,24 @@ begin
 	-- ROM OPERATION
 	
 	-- ROM
-	rom16k_gen: if (NUM_OF_32K_ROMS = 0) generate
+	divebits_rom16k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
+	if (NUM_OF_32K_ROMS = 0) generate
 		config_rom_0: entity work.divebits_single_ROM_block
-			generic map(
-				IS_32K => 0
-			)
+			generic map( IS_32K => 0 )
 			port map(
 				clock       => sys_clock_in,
 				ROM_address => std_logic_vector(ROM_address(13 downto 0)),
 				dout        => ROM_dout
 			);
-	end generate rom16k_gen;
-			--OLD: ROM_dout <= DIVEBITS_CONFIG_ROM(to_integer(ROM_address))(0) when rising_edge(sys_clock_in);
-	rom32k_gen: if (NUM_OF_32K_ROMS /= 0) generate
+	end generate divebits_rom16k_gen_magic1701;
+	
+	divebits_rom32k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
+	if (NUM_OF_32K_ROMS /= 0) generate
 		signal douts:std_logic_vector(7 downto 0) := "00000000";
 	begin
 		roms_gen: for R in 0 to NUM_OF_32K_ROMS-1 generate 
 			config_rom_R: entity work.divebits_single_ROM_block
-				generic map(
-					IS_32K => 1,
-					ROM_index => R
-				)
+				generic map( IS_32K => 1 )
 				port map(
 					clock       => sys_clock_in,
 					ROM_address => std_logic_vector(ROM_address(14 downto 0)),
@@ -284,7 +222,7 @@ begin
 				);
 			end generate roms_gen;
 			ROM_dout <= douts(to_integer(unsigned(ROM_address(17 downto 15))));
-	end generate rom32k_gen;
+	end generate divebits_rom32k_gen_magic1701;
 	
 
 	-- ROM address
@@ -425,20 +363,6 @@ begin
 				data_in_valid <= '0';
 				data_in <= '0';
 			end if;
-		end if;
-	end process;
-
-
-
-
-	-- ONLY FOR DEBUG
-	process(sys_clock_in)
-	begin
-		if (rising_edge(sys_clock_in)) then
-			if (token_out_strobe='1') then
-				DEBUG_token_out_count <= (DEBUG_token_out_count + 1) mod 8;
-			end if;
-			if (Reset='1') then DEBUG_token_out_count <= 0; end if;
 		end if;
 	end process;
 

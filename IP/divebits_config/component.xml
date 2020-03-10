@@ -90,7 +90,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c5cb0c43</spirit:value>
+            <spirit:value>a89e04f7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -106,7 +106,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c5cb0c43</spirit:value>
+            <spirit:value>a89e04f7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -237,7 +237,7 @@
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>NUM_OF_32K_ROMS</spirit:name>
         <spirit:displayName>Num Of 32k Roms</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">8</spirit:value>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">0</spirit:value>
       </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
@@ -251,7 +251,7 @@
       <spirit:file>
         <spirit:name>divebits_config.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_a7477a0b</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_efb4d76e</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -299,7 +299,7 @@
     <spirit:parameter>
       <spirit:name>NUM_OF_32K_ROMS</spirit:name>
       <spirit:displayName>Num Of 32k Roms</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">8</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_OF_32K_ROMS" spirit:minimum="0" spirit:maximum="8" spirit:rangeType="long">0</spirit:value>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
@@ -333,8 +333,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>divebits_config_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>15</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-03-06T18:33:16Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>16</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2020-03-10T16:36:05Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="nopcore"/>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@78337494_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits2/IP/divebits_config</xilinx:tag>
@@ -502,15 +502,25 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@42c212b8_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@41dd877c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@20e54a0c_ARCHIVE_LOCATION">c:/Users/Labor/ESR_Projekte/DiveBits_IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fbebfec_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7129bb8e_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5225145b_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b62e558_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5cfdac82_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@224fc097_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c45f696_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3625fbc1_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@321a734f_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61a14bff_ARCHIVE_LOCATION">c:/Users/Labor/DIVEBITS/IP/divebits_config</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="8607e669"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="ec1a7dd2"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="eaa79e4a"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="43abba30"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="8f3645a4"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="378eda4a"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="da3af8bf"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="62826751"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
