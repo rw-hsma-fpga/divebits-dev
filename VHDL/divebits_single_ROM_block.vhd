@@ -4,7 +4,9 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity divebits_single_ROM_block is
-	Generic ( IS_32K : natural range 0 to 1 := 0 );
+	Generic ( IS_32K : natural range 0 to 1 := 0;
+		      ROM_ID : natural range 0 to 7
+			);
 	Port  ( -- system ports
 			clock : in STD_LOGIC;
 			ROM_address: in std_logic_vector((IS_32K + 13) downto 0);
@@ -59,7 +61,7 @@ architecture RTL of divebits_single_ROM_block is
 	
 	signal dbuf: std_logic;--_vector(0 downto 0);
 	signal WE: std_logic := '0';
-	signal srvec: std_logic_vector(3 downto 0) := "1010";
+	signal srvec: std_logic_vector((4+ROM_ID)-1 downto 0) := ( 1 => '1', 3 => '1', others=> '0');
 begin
 	
 	-- ROM
@@ -83,7 +85,7 @@ begin
 	srshift: process(clock)
 	begin
 		if rising_edge(clock) then
-		   srvec <= srvec(2 downto 0) & srvec(3); -- looping bits 1010 around
+		   srvec <= srvec((4+ROM_ID)-2 downto 0) & srvec((4+ROM_ID)-1); -- looping bits 1010 around
 		end if;
 	end process;
     WE <= '1' when (srvec(3) = srvec(2)) else '0'; -- never actually happening but keeps it a RAM.

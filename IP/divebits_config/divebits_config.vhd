@@ -200,7 +200,7 @@ begin
 	divebits_rom16k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
 	if (NUM_OF_32K_ROMS = 0) generate
 		config_rom_0: entity work.divebits_single_ROM_block
-			generic map( IS_32K => 0 )
+			generic map( IS_32K => 0, ROM_ID => 0 )
 			port map(
 				clock       => sys_clock_in,
 				ROM_address => std_logic_vector(ROM_address(13 downto 0)),
@@ -214,7 +214,7 @@ begin
 	begin
 		roms_gen: for R in 0 to NUM_OF_32K_ROMS-1 generate 
 			config_rom_R: entity work.divebits_single_ROM_block
-				generic map( IS_32K => 1 )
+				generic map( IS_32K => 1, ROM_ID => R )
 				port map(
 					clock       => sys_clock_in,
 					ROM_address => std_logic_vector(ROM_address(14 downto 0)),
