@@ -5,9 +5,10 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity divebits_constant_vector is
 	Generic ( DB_ADDRESS : natural range 16#001# to 16#FFE# := 16#001#;
-			  VECTOR_WIDTH: positive range 1 to 64 := 32;
-			  DEFAULT_VALUE: integer := 0;
-			  DAISY_CHAIN: boolean := true );
+	          DB_TYPE : natural range 1001 to 1001 := 1001; -- must be unique to IP
+			  DB_VECTOR_WIDTH: positive range 1 to 64 := 32;
+			  DB_DEFAULT_VALUE: integer := 0;
+			  DB_DAISY_CHAIN: boolean := true );
 	Port  ( -- DiveBits Slave 
 			db_clock_in : in STD_LOGIC;
 			db_data_in : in STD_LOGIC;
@@ -16,12 +17,14 @@ entity divebits_constant_vector is
 			db_clock_out : out STD_LOGIC;
 			db_data_out : out STD_LOGIC;
 			--
-			Vector_out : out std_logic_vector(VECTOR_WIDTH-1 downto 0)
+			Vector_out : out std_logic_vector(DB_VECTOR_WIDTH-1 downto 0)
 			);
 end divebits_constant_vector;
 
 
 architecture RTL of divebits_constant_vector is
+
+	attribute MARK_DEBUG : string;
 	
 	component divebits_receiver is
 		Generic ( DB_ADDRESS : natural range 16#001# to 16#FFE# := 16#001#;
@@ -50,7 +53,8 @@ architecture RTL of divebits_constant_vector is
 
 	-- the use of rx_reset is not required since this will either be properly filled by DiveBits or not all
 	-- rx_reset is for two-dimensional storage where the write address needs to be reset on a second try
-	signal Data_SR: std_logic_vector(VECTOR_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(DEFAULT_VALUE,VECTOR_WIDTH));
+	signal Data_SR: std_logic_vector(DB_VECTOR_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(DB_DEFAULT_VALUE,DB_VECTOR_WIDTH));
+	   attribute MARK_DEBUG of Data_SR : signal is "true";
 
 begin
 	
@@ -58,7 +62,7 @@ begin
 		generic map(
 			DB_ADDRESS   => DB_ADDRESS,
 			NUM_CHANNELS => 1,
-			DAISY_CHAIN  => DAISY_CHAIN
+			DAISY_CHAIN  => DB_DAISY_CHAIN
 		)
 		port map(
 			db_clock_in   => db_clock_in,
@@ -75,7 +79,7 @@ begin
 	begin
 		if (rising_edge(db_clock_in)) then
 			if (rx_data_valid="1") then
-				Data_SR <= rx_data & Data_SR(VECTOR_WIDTH-1 downto 1);
+				Data_SR <= rx_data & Data_SR(DB_VECTOR_WIDTH-1 downto 1);
 			end if;
 		end if;
 	end process;

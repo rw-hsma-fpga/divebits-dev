@@ -29,6 +29,7 @@ architecture RTL of divebits_receiver is
 
 	-- attributes used
 	attribute SHREG_EXTRACT : string;
+	attribute MARK_DEBUG : string;
 
 	-----------------------------------------
 	-- token type and conversion functions --
@@ -65,30 +66,37 @@ architecture RTL of divebits_receiver is
 	signal data_in_SR: std_logic_vector(5 downto 0) := (others=>'0'); -- explicitly set out of GLOBAL SET RESET;
 		attribute SHREG_EXTRACT of data_in_SR : signal is "no"; -- keep as flipflops to ease placement
 	signal token_in_strobe: std_logic;
+	   attribute MARK_DEBUG of token_in_strobe : signal is "true";
 	signal token_in:token_type := RS; -- explicitly set out of GLOBAL SET RESET;
+	   attribute MARK_DEBUG of token_in : signal is "true";
 	signal data_out_SR: std_logic_vector(1 downto 0) := (others=>'0'); -- explicitly set out of GLOBAL SET RESET;
 		attribute SHREG_EXTRACT of data_out_SR : signal is "no"; -- keep as flipflops to ease placement
 	
 	signal rcv_data_valid: std_logic;
+	   attribute MARK_DEBUG of rcv_data_valid : signal is "true";
 	signal rcv_data: std_logic;
+	   attribute MARK_DEBUG of rcv_data : signal is "true";
 
 
 	-- FSM states
 	type DB_RECEIVE_STATE_TYPE is (dbrs_reset, dbrs_length_rcv, dbrs_address_rcv, dbrs_data_ignore, dbrs_data_rcv, dbrs_done);
 	signal DB_RECEIVE_STATE: DB_RECEIVE_STATE_TYPE;
-
+	   attribute MARK_DEBUG of DB_RECEIVE_STATE : signal is "true";
 
 
 	constant DEST_ADDRESS_BITS: integer := 16;   -- should be 2^x so counter is simple
 	constant PAYLOAD_LENGTH_BITS: integer := 16; -- should be 2^x so counter is simple
 	
 	signal payload_length: std_logic_vector(PAYLOAD_LENGTH_BITS-1 downto 0);
-	signal payload_length_count: unsigned(3 downto 0); -- TODO make log2(PAYLOAD_LENGTH_BITS)
+		   attribute MARK_DEBUG of payload_length : signal is "true";
+    signal payload_length_count: unsigned(3 downto 0); -- TODO make log2(PAYLOAD_LENGTH_BITS)
 	
 	signal dest_address: std_logic_vector(DEST_ADDRESS_BITS-1 downto 0);
+		   attribute MARK_DEBUG of dest_address : signal is "true";
 	signal dest_address_count: unsigned(3 downto 0); -- TODO make log2(DEST_ADDRESS_BITS)
 	
 	signal address_match : boolean;
+		   attribute MARK_DEBUG of address_match : signal is "true";
 
 	signal payload_count: unsigned(PAYLOAD_LENGTH_BITS-1 downto 0);
 	

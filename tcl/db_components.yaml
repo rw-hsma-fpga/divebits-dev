@@ -1,0 +1,29 @@
+db_config_block:
+  NAME: divebits_config_0
+  PATH: /divebits_config_0
+  DB_ADDRESS: 0
+  DB_INCLUDE_CRC_CHECK: false
+  DB_NUM_OF_32K_ROMS: 0
+  DB_RELEASE_DELAY_CYCLES: 20
+  DB_RELEASE_HIGH_ACTIVE: true
+  DB_TYPE: 1000
+
+db_components:
+  - component:
+    NAME: divebits_constant_ve_0
+    PATH: /divebits_constant_ve_0
+    DB_ADDRESS: 42
+    DB_DAISY_CHAIN: true
+    DB_DEFAULT_VALUE: 3
+    DB_TYPE: 1001
+    DB_VECTOR_WIDTH: 4
+
+  - component:
+    NAME: divebits_constant_ve_1
+    PATH: /divebits_constant_ve_1
+    DB_ADDRESS: 43
+    DB_DAISY_CHAIN: true
+    DB_DEFAULT_VALUE: 12
+    DB_TYPE: 1001
+    DB_VECTOR_WIDTH: 4
+

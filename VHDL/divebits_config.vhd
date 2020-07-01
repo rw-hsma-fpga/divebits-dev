@@ -4,11 +4,13 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity divebits_config is
-	Generic ( RELEASE_HIGH_ACTIVE : boolean := true;
-			  INCLUDE_CRC_CHECK   : boolean := false;
-			  RELEASE_DELAY_CYCLES: natural range 4 to 259:= 20;
+	Generic ( DB_RELEASE_HIGH_ACTIVE : boolean := true;
+			  DB_INCLUDE_CRC_CHECK   : boolean := false;
+			  DB_RELEASE_DELAY_CYCLES: natural range 4 to 259:= 20;
 			  -- hidden parametres
-			  NUM_OF_32K_ROMS: natural range 0 to 8 := 0 -- 0 means 1x 16k ROM
+			  DB_ADDRESS : natural range 16#000# to 16#000# := 16#000#; -- special config block address
+	          DB_TYPE : natural range 1000 to 1000 := 1000; -- special config block type
+			  DB_NUM_OF_32K_ROMS: natural range 0 to 8 := 0 -- 0 means 1x 16k ROM
 			  );			  
 	Port  ( -- system ports
 			sys_clock_in : in STD_LOGIC;
@@ -111,12 +113,12 @@ begin
 	-- RELEASE SIGNAL PROCESSING
 	
 	-- input, making high-active synchronous reset out of release input
-	gen_release_high: if (RELEASE_HIGH_ACTIVE) generate
+	gen_release_high: if (DB_RELEASE_HIGH_ACTIVE) generate
 	begin
 		release_in_sync_SR <= release_in_sync_SR(1 downto 0) & not sys_release_in;
 	end generate gen_release_high;
 	
-	gen_release_low: if (not RELEASE_HIGH_ACTIVE) generate
+	gen_release_low: if (not DB_RELEASE_HIGH_ACTIVE) generate
 	begin
 		release_in_sync_SR <= release_in_sync_SR(1 downto 0) & sys_release_in;
 	end generate gen_release_low;
@@ -128,7 +130,7 @@ begin
 	begin
 		if (rising_edge(sys_clock_in)) then
 			if (DB_CONFIG_STATE = dbcs_reset) then
-				release_count <= RELEASE_DELAY_CYCLES - 4;
+				release_count <= DB_RELEASE_DELAY_CYCLES - 4;
 			elsif ((DB_CONFIG_STATE = dbcs_transfer_done) and release_count/=0) then
 				release_count <= release_count - 1;
 			end if;
@@ -143,7 +145,7 @@ begin
 	end process;	
 
 	-- output release signal
-	sys_release_out <= release_out_SR(3) when (RELEASE_HIGH_ACTIVE) else not release_out_SR(3);
+	sys_release_out <= release_out_SR(3) when (DB_RELEASE_HIGH_ACTIVE) else not release_out_SR(3);
 
 
 
@@ -198,7 +200,7 @@ begin
 	
 	-- ROM
 	divebits_rom16k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
-	if (NUM_OF_32K_ROMS = 0) generate
+	if (DB_NUM_OF_32K_ROMS = 0) generate
 		config_rom_0: entity work.divebits_single_ROM_block
 			generic map( IS_32K => 0, ROM_ID => 0 )
 			port map(
@@ -209,10 +211,10 @@ begin
 	end generate divebits_rom16k_gen_magic1701;
 	
 	divebits_rom32k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
-	if (NUM_OF_32K_ROMS /= 0) generate
+	if (DB_NUM_OF_32K_ROMS /= 0) generate
 		signal douts:std_logic_vector(7 downto 0) := "00000000";
 	begin
-		roms_gen: for R in 0 to NUM_OF_32K_ROMS-1 generate 
+		roms_gen: for R in 0 to DB_NUM_OF_32K_ROMS-1 generate 
 			config_rom_R: entity work.divebits_single_ROM_block
 				generic map( IS_32K => 1, ROM_ID => R )
 				port map(
