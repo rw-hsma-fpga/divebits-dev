@@ -10,7 +10,7 @@ entity divebits_config is
 			  -- hidden parametres
 			  DB_ADDRESS : natural range 16#000# to 16#000# := 16#000#; -- special config block address
 	          DB_TYPE : natural range 1000 to 1000 := 1000; -- special config block type
-			  DB_NUM_OF_32K_ROMS: natural range 0 to 8 := 0 -- 0 means 1x 16k ROM
+			  DB_NUM_OF_32K_ROMS: natural range 1 to 8 := 1
 			  );			  
 	Port  ( -- system ports
 			sys_clock_in : in STD_LOGIC;
@@ -86,6 +86,7 @@ architecture RTL of divebits_config is
 	-- config ROM ports	
 	signal ROM_address: unsigned(17 downto 0);
 	signal ROM_dout: std_logic;
+	signal ROM_outputs: std_logic_vector(DB_NUM_OF_32K_ROMS-1 downto 0) := (others => '0');
 
 
 	-- output data
@@ -197,34 +198,18 @@ begin
 
 
 	-- ROM OPERATION
-	
-	-- ROM
-	divebits_rom16k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
-	if (DB_NUM_OF_32K_ROMS = 0) generate
-		config_rom_0: entity work.divebits_single_ROM_block
-			generic map( IS_32K => 0, ROM_ID => 0 )
+
+	-- DO NOT RENAME: used for identification and location retrieval
+	divebits_rom32k_gen_magic1701: for R in 0 to DB_NUM_OF_32K_ROMS-1 generate 
+		config_rom_R: entity work.divebits_single_ROM_block
+			generic map( ROM_ID => R )
 			port map(
 				clock       => sys_clock_in,
-				ROM_address => std_logic_vector(ROM_address(13 downto 0)),
-				dout        => ROM_dout
+				ROM_address => std_logic_vector(ROM_address(14 downto 0)),
+				dout        => ROM_outputs(R)
 			);
-	end generate divebits_rom16k_gen_magic1701;
-	
-	divebits_rom32k_gen_magic1701: -- DO NOT RENAME: used for identification and location retrieval
-	if (DB_NUM_OF_32K_ROMS /= 0) generate
-		signal douts:std_logic_vector(7 downto 0) := "00000000";
-	begin
-		roms_gen: for R in 0 to DB_NUM_OF_32K_ROMS-1 generate 
-			config_rom_R: entity work.divebits_single_ROM_block
-				generic map( IS_32K => 1, ROM_ID => R )
-				port map(
-					clock       => sys_clock_in,
-					ROM_address => std_logic_vector(ROM_address(14 downto 0)),
-					dout        => douts(R)
-				);
-			end generate roms_gen;
-			ROM_dout <= douts(to_integer(unsigned(ROM_address(17 downto 15))));
 	end generate divebits_rom32k_gen_magic1701;
+	ROM_dout <= ROM_outputs(to_integer(unsigned(ROM_address(17 downto 15))));
 	
 
 	-- ROM address

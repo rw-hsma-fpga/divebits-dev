@@ -4,12 +4,10 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity divebits_single_ROM_block is
-	Generic ( IS_32K : natural range 0 to 1 := 0;
-		      ROM_ID : natural range 0 to 7
-			);
+	Generic ( ROM_ID : natural range 0 to 7 );
 	Port  ( -- system ports
 			clock : in STD_LOGIC;
-			ROM_address: in std_logic_vector((IS_32K + 13) downto 0);
+			ROM_address: in std_logic_vector(14 downto 0);
 			dout : out STD_LOGIC
 			);
 end divebits_single_ROM_block;
@@ -17,7 +15,7 @@ end divebits_single_ROM_block;
 
 architecture RTL of divebits_single_ROM_block is
 
-	type config_rom_type is array(0 to ((IS_32K+1)*16384)-1) of std_logic_vector(0 downto 0);
+	type config_rom_type is array(0 to 32767) of std_logic_vector(0 downto 0);
 	
 	-- just for debugging purposes; ROM will later be initialized by updatemem
 	-- NOTE: should not be used in implementation; so BlockRAM is all 0 without updatemem
