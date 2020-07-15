@@ -152,36 +152,34 @@ proc _extract_block_diagram_components {} {
 }
 
 
-proc _call_python3_script { py_script_path } {
+proc _call_python3_script { py_script_path args } {
+
+	global env
 
 	## save and clear Python path variables, so Python 2.x is out
 	if { [ info exists env(PYTHONPATH) ] } {
 		set PYTHONPATH_bak $env(PYTHONPATH)
 		unset env(PYTHONPATH)
-	} else {
-		unset PYTHONPATH_bak
 	}
-
 	if { [ info exists env(PYTHONHOME) ] } {
 		set PYTHONHOME_bak $env(PYTHONHOME)
 		unset env(PYTHONHOME)
-	} else {
-		unset PYTHONHOME_bak
 	}
 	
 	## run script
-	exec python3 $py_script_path
+	set py_output [ exec python3 $py_script_path $args ]
+	puts $py_output
 
 	## restore path variables
 	if { [ info exists env(PYTHONPATH_bak) ] } {
-		set env(PYTHONPATH) $PYTHONPATH_bak
+		set env(PYTHONPATH) $PYTHONPATH_bak 
 	}
 
 	if { [ info exists env(PYTHONHOME_bak) ] } {
 		set env(PYTHONHOME) $PYTHONHOME_bak
 	}
 	
-	return 1
+	return
 
 }
 
@@ -291,11 +289,13 @@ proc _generate_mmi_file { filepath loclist device } {
 
 
 
-proc DB_component_extraction {} {
+proc DB_component_extraction { args } {
 
 	::subDB::_establish_data_path
 	::subDB::_open_block_diagram
 	::subDB::_extract_block_diagram_components
+	
+	::subDB::_call_python3_script  "/home/willenbe/Projekte/divebits-dev/divebits_tools/make_template_file.py"  $args
 	### TODO check success of each, add success/failure message
 }
 
