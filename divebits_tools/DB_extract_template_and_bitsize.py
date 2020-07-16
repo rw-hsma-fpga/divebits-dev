@@ -2,7 +2,7 @@ import sys
 from os import path
 from bitstring import BitArray
 import yaml
-from DiveBits import DiveBits
+from DiveBits_class import DiveBits
 
 DB_CONFIG_LENGTH_BITWIDTH = 20
 
@@ -12,14 +12,12 @@ if __name__ == "__main__":
 
     if (len(sys.argv) > 1):
         db_project_path = str(sys.argv[1])
-        #print (db_project_path)
-    else: #TODO remove below
+    else: # TODO remove below
         db_project_path = "/home/willenbe/Projekte/DB_PROJECT_2020.1a/divebits/"
 
     excomp_file = db_project_path + "/1_extracted_components/db_components.yaml"
-    template_file = db_project_path + "/4_data_template/db_template.yaml"
-    #print(excomp_file)
-    #print(template_file)
+    template_file = db_project_path + "/2_config_file_template/db_template.yaml"
+
 
 
     # Read YAML file
@@ -31,17 +29,17 @@ if __name__ == "__main__":
     else:
         raise SyntaxError('No file with extracted block diagram components')
 
-    plant_ids = []
-    flag_no_ids = 0
-
 
     bitcount = 0
+    db_template_components = []
 
     for component in data['db_components']:
         print()
         print(component["NAME"], "is type", component["DB_TYPE"], "and has address", hex(component["DB_ADDRESS"]))
         print(component)
+
         bitcount += DiveBits.num_configbits(component)
+        db_template_components.append(DiveBits.generate_component_template(component))
 
     bitcount += DB_CONFIG_LENGTH_BITWIDTH
     bram32cnt = bitcount // 32768
@@ -54,13 +52,8 @@ if __name__ == "__main__":
     # TODO: Check against DB_NUM_OF_32K_ROMS parameter for divebits_config
     #       Generate Tcl command or return parameter to fix it
 
-
-
-
-
-
     stream = open(template_file, 'w')
-    yaml.dump(data,stream, sort_keys=False)
+    yaml.dump({"db_components": db_template_components}, stream, sort_keys=False)
 
 
     # print(type(component["NAME"]))
@@ -73,3 +66,21 @@ if __name__ == "__main__":
     #Klaus = BitArray(20)
     #Klaus.overwrite(BitArray(uint=15,length=4), -8)
     #print(Klaus.bin)
+
+    #a = 5
+    #print(a)
+    #b = a
+    #a = 10
+    #b = 20
+    #print(a, b)
+
+    #c = [5, 6]
+    #d = c
+    #print(c)
+    #print(d)
+    #c[0] = 9
+    #print(c)
+    #print(d)
+    #c = [7, 8]
+    #print(c)
+    #print(d)

@@ -13,7 +13,16 @@ proc _get_script_dir {} {
 proc _establish_data_path {} {
 
 	global env
+	
+	global db_subdir_EXTRACTED_COMPONENTS
+	global db_subdir_CONFIG_FILE_TEMPLATE
+	global db_subdir_BITSTREAM_CONFIG_FILES
+	global db_subdir_INPUT_BITSTREAM
+	global db_subdir_MMI_FILE
+	global db_subdir_MEM_CONFIG_FILES
+	global db_subdir_OUTPUT_BITSTREAMS
 
+	
 	if { [ info exists env(DIVEBITS_PROJECT_PATH) ] } {
 		set db_prj_path $env(DIVEBITS_PROJECT_PATH)
 	} else {
@@ -22,13 +31,15 @@ proc _establish_data_path {} {
 		set env(DIVEBITS_PROJECT_PATH) $db_prj_path
 	}
 	
+	
 	file mkdir $db_prj_path
-	file mkdir "${db_prj_path}/1_extracted_components"
-	file mkdir "${db_prj_path}/2_mmi_files"
-	file mkdir "${db_prj_path}/3_input_bitstream"
-	file mkdir "${db_prj_path}/4_config_file_template"
-	file mkdir "${db_prj_path}/5_bitstream_config_files"
-	file mkdir "${db_prj_path}/6_output_bitstreams"
+	file mkdir "${db_prj_path}/${db_subdir_EXTRACTED_COMPONENTS}"
+	file mkdir "${db_prj_path}/${db_subdir_CONFIG_FILE_TEMPLATE}"
+	file mkdir "${db_prj_path}/${db_subdir_BITSTREAM_CONFIG_FILES}"
+	file mkdir "${db_prj_path}/${db_subdir_INPUT_BITSTREAM}"
+	file mkdir "${db_prj_path}/${db_subdir_MMI_FILE}"
+	file mkdir "${db_prj_path}/${db_subdir_MEM_CONFIG_FILES}"
+	file mkdir "${db_prj_path}/${db_subdir_OUTPUT_BITSTREAMS}"
 }
 
 
@@ -45,6 +56,7 @@ proc _open_block_diagram {} {
 proc _extract_block_diagram_components {} {
 
 	global env
+	global db_subdir_EXTRACTED_COMPONENTS
 
 	set blocklist [ get_bd_cells -hierarchical ]
 
@@ -60,7 +72,7 @@ proc _extract_block_diagram_components {} {
 		}
 	### TODO check that there's exactly 1 config block
 
-	set yamlpath "${env(DIVEBITS_PROJECT_PATH)}/1_extracted_components/db_components.yaml"
+	set yamlpath "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/db_components.yaml"
 	set yamlfile [open $yamlpath w]
 
 	# extract config block data
@@ -289,13 +301,16 @@ proc _generate_mmi_file { filepath loclist device } {
 
 
 
-proc DB_component_extraction { args } {
+proc DB_component_extraction { } {
 
+	global db_toolpath
+	global env
+	
 	::subDB::_establish_data_path
 	::subDB::_open_block_diagram
 	::subDB::_extract_block_diagram_components
 	
-	::subDB::_call_python3_script  "/home/willenbe/Projekte/divebits-dev/divebits_tools/make_template_file.py"  $args
+	::subDB::_call_python3_script  "${db_toolpath}/DB_extract_template_and_bitsize.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
 	### TODO check success of each, add success/failure message
 }
 
@@ -303,6 +318,8 @@ proc DB_component_extraction { args } {
 proc DB_get_memory_data_and_bitstream {} {
 
 	global env
+	global db_subdir_MMI_FILE
+	global db_subdir_INPUT_BITSTREAM
 	
 	::subDB::_establish_data_path
 	set impl_run_dir [ ::subDB::_open_implementation ]
@@ -310,14 +327,14 @@ proc DB_get_memory_data_and_bitstream {} {
 	set ram_locs [ ::subDB::_extract_brams ]
 	set project_device [ get_parts -of_objects [get_projects] ]
 	
-	::subDB::_generate_mmi_file "${env(DIVEBITS_PROJECT_PATH)}/2_mmi_files/db_config_rams.mmi" $ram_locs $project_device
+	::subDB::_generate_mmi_file "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MMI_FILE}/db_config_rams.mmi" $ram_locs $project_device
 
 	set bitstream_path [ glob -nocomplain $impl_run_dir/*.bit ]
 	if { 0 == [ llength $bitstream_path ] } {
 		puts "INFO: No bitstream available yet, therefore not copied"
 	} else {
-		file copy -force $bitstream_path "${env(DIVEBITS_PROJECT_PATH)}/3_input_bitstream/input.bit"
-		puts "INFO: Copied $bitstream_path to  /3_input_bitstream/  folder."
+		file copy -force $bitstream_path "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_INPUT_BITSTREAM}/input.bit"
+		puts "INFO: Copied $bitstream_path to  /${db_subdir_INPUT_BITSTREAM}/  folder."
 	}
 	
 }
@@ -327,6 +344,7 @@ proc DB_get_other_input_bitstream { args } {
 
 	global env
 	global divebits_external_bitstream
+	global db_subdir_INPUT_BITSTREAM
 	
 	::subDB::_establish_data_path
 	
@@ -355,14 +373,33 @@ proc DB_get_other_input_bitstream { args } {
 		}
 	}
 		
-	file copy -force $divebits_external_bitstream "${env(DIVEBITS_PROJECT_PATH)}/3_input_bitstream/input.bit"
-	puts "INFO: Copied $divebits_external_bitstream to  /3_input_bitstream/  folder."
+	file copy -force $divebits_external_bitstream "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_INPUT_BITSTREAM}/input.bit"
+	puts "INFO: Copied $divebits_external_bitstream to  /${db_subdir_INPUT_BITSTREAM}/  folder."
 }
 
 
 proc DB_generate_bitstreams {} {
 }
 
+global db_toolpath
+
+set db_toolpath [ ::subDB::_get_script_dir ]
+
+global db_subdir_EXTRACTED_COMPONENTS
+global db_subdir_CONFIG_FILE_TEMPLATE
+global db_subdir_BITSTREAM_CONFIG_FILES
+global db_subdir_INPUT_BITSTREAM
+global db_subdir_MMI_FILE
+global db_subdir_MEM_CONFIG_FILES
+global db_subdir_OUTPUT_BITSTREAMS
+
+set db_subdir_EXTRACTED_COMPONENTS "1_extracted_components"
+set db_subdir_CONFIG_FILE_TEMPLATE "2_config_file_template"
+set db_subdir_BITSTREAM_CONFIG_FILES "3_bitstream_config_files"
+set db_subdir_INPUT_BITSTREAM "4_input_bitstream"
+set db_subdir_MMI_FILE "5_mmi_file"
+set db_subdir_MEM_CONFIG_FILES "6_mem_config_files"
+set db_subdir_OUTPUT_BITSTREAMS "7_output_bitstreams"
 
 
 set message "\n" ; append message "\n" ; append message "\n" ; append message "\n"
