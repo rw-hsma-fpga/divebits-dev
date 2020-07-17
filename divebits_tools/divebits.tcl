@@ -379,6 +379,39 @@ proc DB_get_other_input_bitstream { args } {
 
 
 proc DB_generate_bitstreams {} {
+
+	global db_toolpath
+	global env
+	global db_subdir_INPUT_BITSTREAM
+	global db_subdir_MMI_FILE
+	global db_subdir_MEM_CONFIG_FILES
+	global db_subdir_OUTPUT_BITSTREAMS
+	
+	::subDB::_establish_data_path
+	
+	::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
+	
+	set memfiles [ glob -tails -nocomplain -directory "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}" "*.mem" ]
+	set memfiles [ lsort $memfiles ]
+	
+	set stripped_filenames []
+	foreach memfile $memfiles {
+		lappend stripped_filenames [ string range $memfile 0 end-4 ]
+	}
+	
+	set bitstream_in "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_INPUT_BITSTREAM}/input.bit"
+	set mmifile "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MMI_FILE}/db_config_rams.mmi"
+	
+	foreach filename $stripped_filenames {
+	
+		set memfile "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}/${filename}.mem"
+		set bitstream_out "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_OUTPUT_BITSTREAMS}/${filename}.bit"
+		set um_command "updatemem -force -meminfo $mmifile -bit $bitstream_in -data $memfile -proc divebits/config -out $bitstream_out"
+		puts "EXECUTING updatemem -force -meminfo $mmifile -bit $bitstream_in -data $memfile -proc divebits/config -out $bitstream_out"
+		set um_output [ exec updatemem -force -meminfo $mmifile -bit $bitstream_in -data $memfile -proc divebits/config -out $bitstream_out ]
+		puts $um_output
+	}
+
 }
 
 global db_toolpath

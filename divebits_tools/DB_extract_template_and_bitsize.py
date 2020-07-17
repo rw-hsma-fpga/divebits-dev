@@ -18,8 +18,6 @@ if __name__ == "__main__":
     excomp_file = db_project_path + "/1_extracted_components/db_components.yaml"
     template_file = db_project_path + "/2_config_file_template/db_template.yaml"
 
-
-
     # Read YAML file
     if (path.exists(excomp_file)):
         data = yaml.safe_load(open(excomp_file))

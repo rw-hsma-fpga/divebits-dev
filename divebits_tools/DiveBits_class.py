@@ -1,5 +1,5 @@
 import sys
-import bitstring
+from bitstring import BitArray
 import yaml
 
 DB_ADDRESS_BITWIDTH = 12
@@ -72,3 +72,24 @@ class DiveBits:
                 raise SyntaxError('DB_TYPE unknown')
 
         return temp_comp
+
+    @staticmethod
+    def generate_config_bitstring(component, address) -> BitArray:
+        # TODO db_type should not come from config yaml either, but from extracted or template yaml
+        db_type = component["READONLY"]["DB_TYPE"]
+        if db_type == TYPE_DIVEBITS_CONSTANT:
+            # TODO should DB_VECTOR_WIDTH come from config.yaml? Instance-specific but unprotected read-only
+            db_vector_width = component["READONLY"]["DB_VECTOR_WIDTH"]
+            value = component["CONFIGURABLE"]["VALUE"]
+            configbits = BitArray(uint=0, length=DB_CHANNEL_BITWIDTH)
+            configbits.prepend(BitArray(uint=address, length=DB_ADDRESS_BITWIDTH))
+            configbits.prepend(BitArray(uint=db_vector_width, length=DB_LENGTH_BITWIDTH))
+            configbits.prepend(BitArray(uint=value, length=db_vector_width))
+
+        # TODO ... elseif other types...
+        #
+        else:
+            raise SyntaxError('DB_TYPE unknown')
+
+        # TODO remove
+        return configbits
