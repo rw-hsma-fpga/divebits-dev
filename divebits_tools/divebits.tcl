@@ -8,6 +8,16 @@ proc _get_script_dir {} {
 }
 
 
+proc _get_host_time_id {} {
+	
+	set host [ info host ]
+	set systemtime [ clock seconds ]
+	set datetime [ clock format $systemtime -format "_%Y%m%d_%H%M%S" ]
+	return "${host}${datetime}"
+}
+
+
+
 ### TODO: Account for Non-Project Batch mode!
 ### TODO: Allow to set path by parameter
 proc _establish_data_path {} {
@@ -60,7 +70,7 @@ proc _extract_block_diagram_components {} {
 
 	set blocklist [ get_bd_cells -hierarchical ]
 
-	## identify and remove divebits config block
+	## identify config block, extract data and and remove from block list
 	foreach block $blocklist {
 			set DB_ADDRESS [ get_property CONFIG.DB_ADDRESS [ get_bd_cells $block ] ]
 			if { $DB_ADDRESS == 0 } {
@@ -68,6 +78,7 @@ proc _extract_block_diagram_components {} {
 				set blocklist [ lsearch -all -inline -not -exact $blocklist $config_block ]
 				set configname [ get_property NAME [ get_bd_cells $block ] ]
 				set configpath [ get_property PATH [ get_bd_cells $block ] ]
+				set BRAMcount [ get_property CONFIG.DB_NUM_OF_32K_ROMS [ get_bd_cells $block ] ]
 			}
 		}
 	### TODO check that there's exactly 1 config block
@@ -76,8 +87,9 @@ proc _extract_block_diagram_components {} {
 	set yamlfile [open $yamlpath w]
 
 	# extract config block data
+	set hosttime_id [ subDB::_get_host_time_id ]
+	puts $yamlfile "Hosttime_ID: $hosttime_id"
 	puts $yamlfile "db_config_block:"
-	puts $yamlfile "  NAME: $configname"
 	puts $yamlfile "  PATH: $configpath"
 
 	## output all DB_* properties
@@ -143,9 +155,7 @@ proc _extract_block_diagram_components {} {
 	foreach block $blocklist {
 			set compname [ get_property NAME [ get_bd_cells $block ] ]
 			set comppath [ get_property PATH [ get_bd_cells $block ] ]
-			puts $yamlfile "  - component:"
-			puts $yamlfile "    NAME: $compname"
-			puts $yamlfile "    PATH: $comppath"
+			puts $yamlfile "  - PATH: $comppath"
 			
 			set PROPLIST [ list_property  $block ]
 			set PROPLIST [ lsearch -all -inline -glob $PROPLIST "CONFIG.DB*" ]
@@ -159,8 +169,9 @@ proc _extract_block_diagram_components {} {
 		
 	# close and check-print YAML file
 	close $yamlfile
-	#set yamltext [read [open $yamlpath r]]
-#	puts "" ; puts "" ; puts $yamltext
+	
+	set return_vals "$configpath $BRAMcount"
+	return $return_vals
 }
 
 
@@ -305,12 +316,38 @@ proc DB_component_extraction { } {
 
 	global db_toolpath
 	global env
+	global db_subdir_EXTRACTED_COMPONENTS
+	global db_subdir_CONFIG_FILE_TEMPLATE
 	
 	::subDB::_establish_data_path
 	::subDB::_open_block_diagram
-	::subDB::_extract_block_diagram_components
+	set config_bram_info [ ::subDB::_extract_block_diagram_components ]
 	
-	::subDB::_call_python3_script  "${db_toolpath}/DB_extract_template_and_bitsize.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
+	::subDB::_call_python3_script \
+				"${db_toolpath}/DB_extract_template_and_bitsize.py" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/"
+
+	set CONFIG_BLOCK_PATH [ lindex $config_bram_info 0 ]
+	set NUM_BRAMS [ lindex $config_bram_info 1 ]
+
+	set python_tcl_file "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/set_bram_count.tcl"
+	if { [ file exists $python_tcl_file ] } {
+		source -notrace $python_tcl_file
+	} else {
+		puts "No Python-generated tcl file found..."
+		set $REQUIRED_BRAMS $NUM_BRAMS
+	}
+	
+	if { $REQUIRED_BRAMS != $NUM_BRAMS } {	
+		puts "Setting DB_NUM_OF_32K_ROMS parameter to $REQUIRED_BRAMS..."
+		set_property CONFIG.DB_NUM_OF_32K_ROMS $REQUIRED_BRAMS [ get_bd_cells $CONFIG_BLOCK_PATH ]
+		save_bd_design
+	} else {
+		puts "DB_NUM_OF_32K_ROMS already correct size"
+	}
+	
+
 	### TODO check success of each, add success/failure message
 }
 
@@ -385,11 +422,25 @@ proc DB_generate_bitstreams {} {
 	global db_subdir_INPUT_BITSTREAM
 	global db_subdir_MMI_FILE
 	global db_subdir_MEM_CONFIG_FILES
+	global db_subdir_BITSTREAM_CONFIG_FILES
 	global db_subdir_OUTPUT_BITSTREAMS
+	global db_subdir_CONFIG_FILE_TEMPLATE
+	global db_subdir_EXTRACTED_COMPONENTS
 	
 	::subDB::_establish_data_path
 	
-	::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
+	#::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
+	
+	::subDB::_call_python3_script \
+				"${db_toolpath}/DB_extract_template_and_bitsize.py" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_BITSTREAM_CONFIG_FILES}/" \
+				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}/"
+	
+	
+	
+	
 	
 	set memfiles [ glob -tails -nocomplain -directory "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}" "*.mem" ]
 	set memfiles [ lsort $memfiles ]

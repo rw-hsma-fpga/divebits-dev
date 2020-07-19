@@ -2,6 +2,7 @@ import sys
 from bitstring import BitArray
 import yaml
 
+DB_CONFIG_LENGTH_BITWIDTH = 20
 DB_ADDRESS_BITWIDTH = 12
 DB_CHANNEL_BITWIDTH = 4
 DB_LENGTH_BITWIDTH = 16
@@ -10,11 +11,6 @@ TYPE_DIVEBITS_CONSTANT = 1001
 
 
 class DiveBits:
-
-    @staticmethod
-    def dbtest():
-        print("Hi here's DiveBits' first static method!")
-        # raise SyntaxError('MUHAHA THIS IS A ERROR')
 
     @staticmethod
     def num_configbits(component) -> int:
@@ -31,10 +27,10 @@ class DiveBits:
                 else:
                     db_vector_width = component["DB_VECTOR_WIDTH"]
                     if db_vector_width != 0:
-                        bitcount += db_vector_width
                         bitcount += DB_ADDRESS_BITWIDTH
                         bitcount += DB_CHANNEL_BITWIDTH
                         bitcount += DB_LENGTH_BITWIDTH
+                        bitcount += db_vector_width
                         return bitcount
                     else:
                         raise SyntaxError('DB_VECTOR_WIDTH is 0')
@@ -45,15 +41,13 @@ class DiveBits:
 
     @staticmethod
     def generate_component_template(component) -> dict:
-        temp_comp = {}
-        temp_comp["READONLY"] = {}
-        temp_comp["CONFIGURABLE"] = {}
+        temp_comp: dict = {"PATH": "", "READONLY": {}, "CONFIGURABLE": {}}
 
         # TODO maybe check existence of all required values
         if "DB_TYPE" not in component:
             raise SyntaxError('No DB_TYPE in component')
         else:
-            temp_comp["READONLY"]["PATH"] = component["PATH"]
+            temp_comp["PATH"] = component["PATH"]
             db_type = component["DB_TYPE"]
             temp_comp["READONLY"]["DB_TYPE"] = db_type
 

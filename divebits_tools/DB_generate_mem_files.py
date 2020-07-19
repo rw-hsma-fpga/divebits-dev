@@ -2,7 +2,6 @@ import os
 import sys
 from datetime import datetime
 import glob
-from os import path
 from bitstring import BitArray
 import yaml
 from DiveBits_class import DiveBits
@@ -13,26 +12,38 @@ db_project_path = ""
 
 if __name__ == "__main__":
 
-    if (len(sys.argv) > 1):
-        db_project_path = str(sys.argv[1])
-    else: # TODO remove below
-        db_project_path = "/home/willenbe/Projekte/DB_PROJECT_2020.1a/divebits/"
+    if len(sys.argv) != 2:
+        print(len(sys.argv))
+        exit()
+        raise SyntaxError('Wrong number of arguments')
+    tcl_args = str(sys.argv[1]).split()
+    if len(tcl_args) != 4:
+        print(len(tcl_args))
+        exit()
+        raise SyntaxError('Wrong number of arguments')
 
-    excomp_file       = db_project_path + "/1_extracted_components/db_components.yaml"
-    template_file     = db_project_path + "/2_config_file_template/db_template.yaml"
-    config_files_path = db_project_path + "/3_bitstream_config_files/"
-    mem_files_path    = db_project_path + "/6_mem_config_files/"
+    excomp_path       = tcl_args[0]
+    excomp_file       = excomp_path + "/db_components.yaml"
+    template_path     = tcl_args[1]
+    template_file     = template_path + "/db_template.yaml"
+    config_files_path = tcl_args[2]
+    mem_files_path    = tcl_args[3]
+
+    if os.path.exists(excomp_file):
+        raise SyntaxError("Extracted components file doesn't exist")
+
+    if os.path.exists(template_file):
+        raise SyntaxError("Template file doesn't exist")
+
+    if os.path.exists(config_files_path):
+        raise SyntaxError("Path for bitstream config files doesn't exist")
+
+    if os.path.exists(mem_files_path):
+        raise SyntaxError("Path for bitstream update *.mem files doesn't exist")
 
     # Read YAML files
-    if (path.exists(excomp_file)):
-        excomp_data = yaml.safe_load(open(excomp_file))
-    else:
-        raise SyntaxError('No file with extracted block diagram components')
-
-    if (path.exists(template_file)):
-        template_data = yaml.safe_load(open(template_file))
-    else:
-        raise SyntaxError('No template file')
+    excomp_data = yaml.safe_load(open(excomp_file))
+    template_data = yaml.safe_load(open(template_file))
 
     # ADDRESS-PATH matching
     path_addr_dict = {}
@@ -56,6 +67,7 @@ if __name__ == "__main__":
 
         # open configuration file based on template
         config_data = yaml.safe_load(open(config_files_path+file+".yaml"))
+        # TODO support JSON load
 
         # generate all components' config bits and concatenate
         for component in config_data['db_components']:

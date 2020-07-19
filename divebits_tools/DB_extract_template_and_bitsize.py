@@ -1,84 +1,72 @@
 import sys
-from os import path
-from bitstring import BitArray
+import os
 import yaml
+import json
 from DiveBits_class import DiveBits
+from DiveBits_class import DB_CONFIG_LENGTH_BITWIDTH
 
-DB_CONFIG_LENGTH_BITWIDTH = 20
 
 db_project_path = ""
 
 if __name__ == "__main__":
 
-    if (len(sys.argv) > 1):
-        db_project_path = str(sys.argv[1])
-    else: # TODO remove below
-        db_project_path = "/home/willenbe/Projekte/DB_PROJECT_2020.1a/divebits/"
+    if len(sys.argv) != 2:
+        raise SyntaxError('Wrong number of arguments')
+    tcl_args = str(sys.argv[1]).split()
+    if len(tcl_args) != 2:
+        raise SyntaxError('Wrong number of arguments')
+    excomp_path = tcl_args[0]
+    template_path = tcl_args[1]
 
-    excomp_file = db_project_path + "/1_extracted_components/db_components.yaml"
-    template_file = db_project_path + "/2_config_file_template/db_template.yaml"
+    excomp_file = excomp_path + "/db_components.yaml"
+    bram_tcl_file = excomp_path + "/set_bram_count.tcl"
 
-    # Read YAML file
-    if (path.exists(excomp_file)):
-        data = yaml.safe_load(open(excomp_file))
-        print()
-        print("Complete db_components list:")
-        print(data['db_components'])
-    else:
-        raise SyntaxError('No file with extracted block diagram components')
+    if not os.path.exists(excomp_file):
+        raise SyntaxError("Extracted components file doesn't exist")
 
+    if not os.path.exists(template_path):
+        raise SyntaxError("Template path doesn't exist")
 
-    bitcount = 0
+    template_file = template_path + "/db_template.yaml"
+    template_json = template_path + "/db_template.json"
+
+    # read extracted components file
+    data = yaml.safe_load(open(excomp_file))
+
+    # parse extracted component data TODO error checks?
+    bitcount = DB_CONFIG_LENGTH_BITWIDTH
     db_template_components = []
 
     for component in data['db_components']:
-        print()
-        print(component["NAME"], "is type", component["DB_TYPE"], "and has address", hex(component["DB_ADDRESS"]))
-        print(component)
-
+        # accumulate length of configuration bitstring for storage requirements
         bitcount += DiveBits.num_configbits(component)
+        # generate template data structure by component
         db_template_components.append(DiveBits.generate_component_template(component))
 
-    bitcount += DB_CONFIG_LENGTH_BITWIDTH
     bram32cnt = bitcount // 32768
-    if ((bitcount % 32768) != 0):
+    if (bitcount % 32768) != 0:
         bram32cnt += 1
 
     print()
     print("Complete number of DB config bits:", bitcount)
     print("Number of RAMB36 required:", bram32cnt)
-    # TODO: Check against DB_NUM_OF_32K_ROMS parameter for divebits_config
-    #       Generate Tcl command or return parameter to fix it
+    # Generate Tcl command to set required number of BRAMs
+    tcl_file = open(bram_tcl_file, 'w')
+    tcl_file.write("global REQUIRED_BRAMS\n")
+    tcl_file.write("set REQUIRED_BRAMS " + str(bram32cnt) + "\n")
+    tcl_file.close()
 
-    stream = open(template_file, 'w')
-    yaml.dump({"db_components": db_template_components}, stream, sort_keys=False)
+    # write template file in YAML
+    template = open(template_file, 'w')
+    yaml.dump({"Hosttime_ID": data["Hosttime_ID"]}, template, sort_keys=False)
+    template.write("# READONLY branches can be dropped in bitstream config files;\n")
+    template.write("# the corresponding data is matched through the PATH value\n")
+    yaml.dump({"db_components": db_template_components}, template, sort_keys=False)
+    template.close()
 
-
-    # print(type(component["NAME"]))
-    # print(type(component["DB_TYPE"]))
-    # print(type(component["DB_ADDRESS"]))
-    # print(int(-65).bit_length())
-    # print(BitArray(int=component["DB_ADDRESS"],length=16).bin)
-    #print("sys.maxsize", sys.maxsize)
-    #DiveBits.dbtest()
-    #Klaus = BitArray(20)
-    #Klaus.overwrite(BitArray(uint=15,length=4), -8)
-    #print(Klaus.bin)
-
-    #a = 5
-    #print(a)
-    #b = a
-    #a = 10
-    #b = 20
-    #print(a, b)
-
-    #c = [5, 6]
-    #d = c
-    #print(c)
-    #print(d)
-    #c[0] = 9
-    #print(c)
-    #print(d)
-    #c = [7, 8]
-    #print(c)
-    #print(d)
+    # write template file in JSON - TODO make optional/choice?
+    jtemplate = open(template_json, 'w')
+    json.dump({"Hosttime_ID": data["Hosttime_ID"]}, jtemplate, sort_keys=False, indent=2, separators=(',\n', ':'))
+    jtemplate.write("\n") # TODO check if correct separation
+    json.dump({"db_components": db_template_components}, jtemplate, sort_keys=False, indent=2, separators=(',\n', ':'))
+    jtemplate.close()
