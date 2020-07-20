@@ -89,8 +89,8 @@ proc _extract_block_diagram_components {} {
 	# extract config block data
 	set hosttime_id [ subDB::_get_host_time_id ]
 	puts $yamlfile "Hosttime_ID: $hosttime_id"
-	puts $yamlfile "db_config_block:"
-	puts $yamlfile "  PATH: $configpath"
+#	puts $yamlfile "db_config_block:"
+#	puts $yamlfile "  BLOCK_PATH: $configpath"
 
 	## output all DB_* properties
 	set PROPLIST [ list_property $config_block ]
@@ -98,9 +98,9 @@ proc _extract_block_diagram_components {} {
 	foreach prop $PROPLIST {
 			set propval [ get_property $prop [ get_bd_cells $config_block ] ]
 			set prop [ string range $prop 7 [ string length $prop ] ]
-			puts $yamlfile "  $prop: $propval"
+#			puts $yamlfile "  $prop: $propval"
 		}
-	puts $yamlfile ""
+#	puts $yamlfile ""
 
 	
 	
@@ -155,7 +155,7 @@ proc _extract_block_diagram_components {} {
 	foreach block $blocklist {
 			set compname [ get_property NAME [ get_bd_cells $block ] ]
 			set comppath [ get_property PATH [ get_bd_cells $block ] ]
-			puts $yamlfile "  - PATH: $comppath"
+			puts $yamlfile "  - BLOCK_PATH: $comppath"
 			
 			set PROPLIST [ list_property  $block ]
 			set PROPLIST [ lsearch -all -inline -glob $PROPLIST "CONFIG.DB*" ]
@@ -312,7 +312,7 @@ proc _generate_mmi_file { filepath loclist device } {
 
 
 
-proc DB_component_extraction { } {
+proc DB_1_component_extraction { } {
 
 	global db_toolpath
 	global env
@@ -352,7 +352,7 @@ proc DB_component_extraction { } {
 }
 
 
-proc DB_get_memory_data_and_bitstream {} {
+proc DB_2_get_memory_data_and_bitstream {} {
 
 	global env
 	global db_subdir_MMI_FILE
@@ -377,7 +377,7 @@ proc DB_get_memory_data_and_bitstream {} {
 }
 
 
-proc DB_get_other_input_bitstream { args } {
+proc DB_2b_get_other_input_bitstream { args } {
 
 	global env
 	global divebits_external_bitstream
@@ -415,7 +415,7 @@ proc DB_get_other_input_bitstream { args } {
 }
 
 
-proc DB_generate_bitstreams {} {
+proc DB_3_generate_bitstreams {} {
 
 	global db_toolpath
 	global env
@@ -432,7 +432,7 @@ proc DB_generate_bitstreams {} {
 	#::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
 	
 	::subDB::_call_python3_script \
-				"${db_toolpath}/DB_extract_template_and_bitsize.py" \
+				"${db_toolpath}/DB_generate_mem_files.py" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_BITSTREAM_CONFIG_FILES}/" \
@@ -487,12 +487,12 @@ set db_subdir_OUTPUT_BITSTREAMS "7_output_bitstreams"
 
 
 set message "\n" ; append message "\n" ; append message "\n" ; append message "\n"
-append message "***************************************************************************" ; append message "\n"
-append message " call  DB_component_extraction              after block design is finished " ; append message "\n"
+append message "******************************************************************************" ; append message "\n"
+append message " call  DB_1_component_extraction               after block design is finished " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_get_memory_data_and_bitstream     after implementation           " ; append message "\n"
+append message " call  DB_2_get_memory_data_and_bitstream      after implementation           " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_get_other_input_bitstream \$path   if other bitstream (e.g. SDK)  " ; append message "\n"
+append message " call  DB_2b_get_other_input_bitstream \$path  if other bitstream (e.g. SDK)  " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_generate_bitstreams               to make diversified bitstreams " ; append message "\n"
-append message "***************************************************************************" ; append message "\n"
+append message " call  DB_3_generate_bitstreams                to make diversified bitstreams " ; append message "\n"
+append message "******************************************************************************" ; append message "\n"

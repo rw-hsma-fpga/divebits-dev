@@ -60,7 +60,7 @@ if __name__ == "__main__":
     template = open(template_file, 'w')
     yaml.dump({"Hosttime_ID": data["Hosttime_ID"]}, template, sort_keys=False)
     template.write("# READONLY branches can be dropped in bitstream config files;\n")
-    template.write("# the corresponding data is matched through the PATH value\n")
+    template.write("# the corresponding data is matched through the BLOCK_PATH\n")
     yaml.dump({"db_components": db_template_components}, template, sort_keys=False)
     template.close()
 

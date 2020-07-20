@@ -14,12 +14,10 @@ if __name__ == "__main__":
 
     if len(sys.argv) != 2:
         print(len(sys.argv))
-        exit()
         raise SyntaxError('Wrong number of arguments')
     tcl_args = str(sys.argv[1]).split()
     if len(tcl_args) != 4:
         print(len(tcl_args))
-        exit()
         raise SyntaxError('Wrong number of arguments')
 
     excomp_path       = tcl_args[0]
@@ -29,26 +27,27 @@ if __name__ == "__main__":
     config_files_path = tcl_args[2]
     mem_files_path    = tcl_args[3]
 
-    if os.path.exists(excomp_file):
+    if not os.path.exists(excomp_file):
         raise SyntaxError("Extracted components file doesn't exist")
 
-    if os.path.exists(template_file):
+    if not os.path.exists(template_file):
         raise SyntaxError("Template file doesn't exist")
 
-    if os.path.exists(config_files_path):
+    if not os.path.exists(config_files_path):
         raise SyntaxError("Path for bitstream config files doesn't exist")
 
-    if os.path.exists(mem_files_path):
+    if not os.path.exists(mem_files_path):
         raise SyntaxError("Path for bitstream update *.mem files doesn't exist")
 
     # Read YAML files
     excomp_data = yaml.safe_load(open(excomp_file))
+    block_list: list = excomp_data['db_components']
     template_data = yaml.safe_load(open(template_file))
 
     # ADDRESS-PATH matching
     path_addr_dict = {}
     for component in excomp_data['db_components']:
-        path_addr_dict[component["PATH"]] = component["DB_ADDRESS"]
+        path_addr_dict[component["BLOCK_PATH"]] = component["DB_ADDRESS"]
 
     # find config data files
     current_dir = os.getcwd()
@@ -70,9 +69,13 @@ if __name__ == "__main__":
         # TODO support JSON load
 
         # generate all components' config bits and concatenate
-        for component in config_data['db_components']:
-            db_address = path_addr_dict[component["READONLY"]["PATH"]]
-            configbits.prepend(DiveBits.generate_config_bitstring(component, db_address))
+        for config_component in config_data['db_components']:
+            # get template data with matching BLOCK_PATH
+            for i in block_list:
+                if i["BLOCK_PATH"] == config_component["BLOCK_PATH"]:
+                    block_component: dict = i
+                    break
+            configbits.prepend(DiveBits.generate_config_bitstring(config_component, block_component))
 
         # insert length into lower end of bitstring
         configbits.overwrite(BitArray(uint=configbits.length,length=DB_CONFIG_LENGTH_BITWIDTH),-DB_CONFIG_LENGTH_BITWIDTH)
@@ -93,7 +96,7 @@ if __name__ == "__main__":
         memfile.write("@0000\n")
 
         xpos = 0
-        while (configbits.length) > 0:
+        while configbits.length > 0:
             memfile.write(configbits[-8:].hex.upper() + " ")
             del configbits[-8:]
             xpos = (xpos + 1) % 17
