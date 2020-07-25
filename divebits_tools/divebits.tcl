@@ -414,7 +414,7 @@ proc DB_2b_get_other_input_bitstream { args } {
 	puts "INFO: Copied $divebits_external_bitstream to  /${db_subdir_INPUT_BITSTREAM}/  folder."
 }
 
-
+### TODO clean out mem and outbut bitstream dirs before generating new ones
 proc DB_3_generate_bitstreams {} {
 
 	global db_toolpath
@@ -465,6 +465,7 @@ proc DB_3_generate_bitstreams {} {
 
 }
 
+### IS THERE MORE THAN CAN BE MOVED INTO PYTHON (portability?) Calling Xilinx-specific Tcl stuff from Python?
 global db_toolpath
 
 set db_toolpath [ ::subDB::_get_script_dir ]
