@@ -6,7 +6,10 @@ DB_CHANNEL_BITWIDTH = 4
 DB_LENGTH_BITWIDTH = 16
 
 TYPE_DIVEBITS_CONSTANT = 1001
+TYPE_DIVEBITS_4_CONSTANTS = 1003
 TYPE_DIVEBITS_16_CONSTANTS = 1005
+
+TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
 
 
 class DiveBits:
@@ -47,6 +50,27 @@ class DiveBits:
                 else:
                     raise SyntaxError('DB_VECTOR_WIDTH is 0')
 
+            elif db_type == TYPE_DIVEBITS_4_CONSTANTS:
+                # TODO add all parameter sanity checks
+                db_vector_width = component["DB_VECTOR_WIDTH"]
+                if db_vector_width != 0:
+                    bitcount += (DB_ADDRESS_BITWIDTH * 4)
+                    bitcount += (DB_CHANNEL_BITWIDTH * 4)
+                    bitcount += (DB_LENGTH_BITWIDTH * 4)
+                    bitcount += (db_vector_width * 4)
+                    return bitcount
+                else:
+                    raise SyntaxError('DB_VECTOR_WIDTH is 0')
+
+            elif db_type == TYPE_DIVEBITS_AXI_4_CONSTANT_REGS:
+                # TODO add all parameter sanity checks
+                db_register_width = 32
+                bitcount += (DB_ADDRESS_BITWIDTH * 4)
+                bitcount += (DB_CHANNEL_BITWIDTH * 4)
+                bitcount += (DB_LENGTH_BITWIDTH * 4)
+                bitcount += (db_register_width * 4)
+                return bitcount
+
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -81,6 +105,21 @@ class DiveBits:
                     temp_comp["CONFIGURABLE"]["VALUE_" + f'{i:02d}'] = \
                         component["DB_DEFAULT_VALUE_" + f'{i:02d}'] + db_default_value
 
+            elif db_type == TYPE_DIVEBITS_4_CONSTANTS:
+                # TODO add all parameter sanity checks
+                temp_comp["READONLY"]["DB_VECTOR_WIDTH"] = component["DB_VECTOR_WIDTH"]
+                # TODO maybe error checking size of default values?
+                db_default_value = component["DB_DEFAULT_VALUE_ALL"]
+                for i in range (0, 4):
+                    temp_comp["CONFIGURABLE"]["VALUE_" + f'{i:02d}'] = \
+                        component["DB_DEFAULT_VALUE_" + f'{i:02d}'] + db_default_value
+
+            elif db_type == TYPE_DIVEBITS_AXI_4_CONSTANT_REGS:
+                # TODO maybe error checking size of default values?
+                db_default_value = component["DB_DEFAULT_VALUE"]
+                for i in range (0, 4):
+                    temp_comp["CONFIGURABLE"]["REGISTER_" + f'{i:02d}' + "_VALUE"] = db_default_value
+
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -109,6 +148,24 @@ class DiveBits:
                 configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
                 configbits.prepend(BitArray(uint=db_vector_width, length=DB_LENGTH_BITWIDTH))
                 configbits.prepend(BitArray(uint=value, length=db_vector_width))
+
+        elif db_type == TYPE_DIVEBITS_4_CONSTANTS:
+            db_vector_width = block_data["DB_VECTOR_WIDTH"]
+            for i in range(0, 4):
+                value = config_data["CONFIGURABLE"]["VALUE_" + f'{i:02d}']
+                configbits.prepend(BitArray(uint=i, length=DB_CHANNEL_BITWIDTH))
+                configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+                configbits.prepend(BitArray(uint=db_vector_width, length=DB_LENGTH_BITWIDTH))
+                configbits.prepend(BitArray(uint=value, length=db_vector_width))
+
+        elif db_type == TYPE_DIVEBITS_AXI_4_CONSTANT_REGS:
+            db_register_width = 32
+            for i in range(0, 4):
+                value = config_data["CONFIGURABLE"]["REGISTER_" + f'{i:02d}' + "_VALUE"]
+                configbits.prepend(BitArray(uint=i, length=DB_CHANNEL_BITWIDTH))
+                configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+                configbits.prepend(BitArray(uint=db_register_width, length=DB_LENGTH_BITWIDTH))
+                configbits.prepend(BitArray(uint=value, length=db_register_width))
 
         else:
             raise SyntaxError('DB_TYPE unknown')
