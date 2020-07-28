@@ -23,6 +23,11 @@ proc init { cellpath otherInfo } {
 	}                                                                                                        
 }
 
+proc post_config_ip { cellpath undefined_params } {
+
+	#puts "Entering proc post_config_ip... Cell path: $cellpath"
+
+}
 
 proc pre_propagate {cellpath otherInfo } {                                                           
                                                                                                              

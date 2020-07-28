@@ -1,5 +1,7 @@
 from bitstring import BitArray
 
+import yaml
+
 DB_CONFIG_LENGTH_BITWIDTH = 20
 DB_ADDRESS_BITWIDTH = 12
 DB_CHANNEL_BITWIDTH = 4
@@ -11,6 +13,7 @@ TYPE_DIVEBITS_16_CONSTANTS = 1005
 
 TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
 
+TYPE_DIVEBITS_BLOCKRAM_INIT = 3000
 
 class DiveBits:
 
@@ -71,6 +74,13 @@ class DiveBits:
                 bitcount += (db_register_width * 4)
                 return bitcount
 
+            elif db_type == TYPE_DIVEBITS_BLOCKRAM_INIT:
+                db_bram_addr_width = component["DB_BRAM_ADDR_WIDTH"]
+                db_bram_data_width = component["DB_BRAM_DATA_WIDTH"]
+                bitcount += DB_ADDRESS_BITWIDTH
+                bitcount += DB_CHANNEL_BITWIDTH
+                bitcount += (db_bram_data_width * pow(2, db_bram_addr_width))
+                return bitcount
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -120,6 +130,11 @@ class DiveBits:
                 for i in range (0, 4):
                     temp_comp["CONFIGURABLE"]["REGISTER_" + f'{i:02d}' + "_VALUE"] = db_default_value
 
+            elif db_type == TYPE_DIVEBITS_BLOCKRAM_INIT:
+                temp_comp["READONLY"]["DB_BRAM_ADDR_WIDTH"] = component["DB_BRAM_ADDR_WIDTH"]
+                temp_comp["READONLY"]["DB_BRAM_DATA_WIDTH"] = component["DB_BRAM_DATA_WIDTH"]
+                temp_comp["CONFIGURABLE"]["default"] = 0
+
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -166,6 +181,39 @@ class DiveBits:
                 configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
                 configbits.prepend(BitArray(uint=db_register_width, length=DB_LENGTH_BITWIDTH))
                 configbits.prepend(BitArray(uint=value, length=db_register_width))
+
+        elif db_type == TYPE_DIVEBITS_BLOCKRAM_INIT:
+            db_bram_addr_width = block_data["DB_BRAM_ADDR_WIDTH"]
+            db_bram_data_width = block_data["DB_BRAM_DATA_WIDTH"]
+            bram_num_words = pow(2, db_bram_addr_width)
+            bram_data_length = (db_bram_data_width * bram_num_words)
+
+            configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
+            configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+            configbits.prepend(BitArray(uint=bram_data_length, length=DB_LENGTH_BITWIDTH))
+
+            #print("------")
+            #print(bram_data_config)
+            #print("------")
+            #dumpfile = open("dumpfile.yaml", 'w')
+            #yaml.dump({"CONFIGURABLE": bram_data_config}, dumpfile, sort_keys=False)
+            #dumpfile.close()
+            # TODO total fake: grab out of config data!!!!
+            bram_config_data = config_data["CONFIGURABLE"]
+            for addr in range(0, bram_num_words):
+                if addr in bram_config_data["words"]:
+                    value = bram_config_data["words"][addr]
+                else:
+                    found_in_range = False
+                    for addr_range in bram_config_data["ranges"]:
+                        if addr_range["from"] <= addr <= addr_range["to"]:
+                            value = addr_range["value"]
+                            found_in_range = True
+                    if not found_in_range:
+                        value = bram_config_data["default_value"]
+                configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
+                #print(addr, ":", value)
+
 
         else:
             raise SyntaxError('DB_TYPE unknown')

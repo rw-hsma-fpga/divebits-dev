@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>hs-mannheim.de</spirit:vendor>
+  <spirit:library>divebits</spirit:library>
+  <spirit:name>divebits_BlockRAM_init</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>DiveBits_in</spirit:name>
+      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
+      <spirit:monitor spirit:interfaceMode="master"/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_data</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_data_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_clock</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_clock_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>DiveBits_out</spirit:name>
+      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_data</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_data_out</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_clock</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_clock_out</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:vendorExtensions>
+        <xilinx:busInterfaceInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:resolve="dependent" xilinx:id="BUSIF_ENABLEMENT.DiveBits_out" xilinx:dependency="$DB_DAISY_CHAIN=true">true</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:busInterfaceInfo>
+      </spirit:vendorExtensions>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>BRAM_INIT</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="bram" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="bram_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>DIN</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>DOUT</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>EN</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>EN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WE</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>WEN</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ADDR</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>ADDR</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>MASTER_TYPE</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.BRAM_INIT.MASTER_TYPE"/>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>bd_tcl</spirit:name>
+        <spirit:displayName>Block Diagram</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:block.diagram</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>bd_tcl_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>fe2d8afa</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>divebits_BlockRAM_init</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>a37da17d</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>VHDL</spirit:language>
+        <spirit:modelName>divebits_BlockRAM_init</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>a37da17d</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>6cba4e9e</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_utilityxitfiles</spirit:name>
+        <spirit:displayName>Utility XIT/TTCL</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xit.util</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_utilityxitfiles_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>b5038f23</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>db_clock_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_data_in</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_clock_out</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>db_data_out</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DEBUG_rx_data_valid_0</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DEBUG_rx_data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DEBUG_bit_cnt</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">5</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>CLK</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>ADDR</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.FULL_ADDR_WIDTH&apos;)) - 1)">9</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>DOUT</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.FULL_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>WEN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.FULL_WEN_WIDTH&apos;)) - 1)">0</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>EN</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>RST</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>DB_ADDRESS</spirit:name>
+        <spirit:displayName>Db Address</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_ADDRESS" spirit:minimum="1" spirit:maximum="4094" spirit:rangeType="long">1</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DB_TYPE</spirit:name>
+        <spirit:displayName>Db Type</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_TYPE" spirit:minimum="3000" spirit:maximum="3000" spirit:rangeType="long">3000</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DB_BRAM_DATA_WIDTH</spirit:name>
+        <spirit:displayName>Db Bram Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_BRAM_DATA_WIDTH" spirit:minimum="1" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DB_BRAM_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>Db Bram Addr Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_BRAM_ADDR_WIDTH" spirit:minimum="1" spirit:maximum="16" spirit:rangeType="long">10</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="boolean">
+        <spirit:name>DB_BRAMCTRL_MODE</spirit:name>
+        <spirit:displayName>Db Bramctrl Mode</spirit:displayName>
+        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_BRAMCTRL_MODE">false</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>FULL_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>Full Addr Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FULL_ADDR_WIDTH" spirit:minimum="1" spirit:maximum="32" spirit:rangeType="long">10</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>FULL_DATA_WIDTH</spirit:name>
+        <spirit:displayName>Full Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FULL_DATA_WIDTH" spirit:minimum="1" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>FULL_WEN_WIDTH</spirit:name>
+        <spirit:displayName>Full Wen Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FULL_WEN_WIDTH" spirit:minimum="1" spirit:maximum="8" spirit:rangeType="long">1</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="boolean">
+        <spirit:name>DB_DAISY_CHAIN</spirit:name>
+        <spirit:displayName>Db Daisy Chain</spirit:displayName>
+        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>bd_tcl_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>bd/bd.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>divebits_receiver.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divebits_BlockRAM_init.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_83162fcd</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>divebits_receiver.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>divebits_BlockRAM_init.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/divebits_BlockRAM_init_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_6cba4e9e</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_utilityxitfiles_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>gui/divebits_BlockRAM_init_v1_0.gtcl</spirit:name>
+        <spirit:userFileType>GTCL</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>divebits_BlockRAM_init_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>DB_ADDRESS</spirit:name>
+      <spirit:displayName>Db Address</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_ADDRESS" spirit:minimum="1" spirit:maximum="4094" spirit:rangeType="long">1</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">divebits_BlockRAM_init_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DB_TYPE</spirit:name>
+      <spirit:displayName>Db Type</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_TYPE" spirit:minimum="3000" spirit:maximum="3000" spirit:rangeType="long">3000</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DB_BRAM_DATA_WIDTH</spirit:name>
+      <spirit:displayName>Db Bram Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_BRAM_DATA_WIDTH" spirit:minimum="1" spirit:maximum="64" spirit:rangeType="long">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DB_BRAM_ADDR_WIDTH</spirit:name>
+      <spirit:displayName>Db Bram Addr Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_BRAM_ADDR_WIDTH" spirit:minimum="1" spirit:maximum="16" spirit:rangeType="long">10</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DB_BRAMCTRL_MODE</spirit:name>
+      <spirit:displayName>Db Bramctrl Mode</spirit:displayName>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_BRAMCTRL_MODE">false</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>FULL_ADDR_WIDTH</spirit:name>
+      <spirit:displayName>Full Addr Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.FULL_ADDR_WIDTH">10</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.FULL_ADDR_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>FULL_DATA_WIDTH</spirit:name>
+      <spirit:displayName>Full Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.FULL_DATA_WIDTH">32</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.FULL_DATA_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>FULL_WEN_WIDTH</spirit:name>
+      <spirit:displayName>Full Wen Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.FULL_WEN_WIDTH">1</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:isEnabled xilinx:id="PARAM_ENABLEMENT.FULL_WEN_WIDTH">false</xilinx:isEnabled>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DB_DAISY_CHAIN</spirit:name>
+      <spirit:displayName>Db Daisy Chain</spirit:displayName>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>divebits_BlockRAM_init_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>12</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>user.org:user:divebits_BlockRAM_init:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2020-07-28T18:25:44Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="nopcore"/>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c602de2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@133d9a45_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23a5c83c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cc28f3e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cab260f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ee6dae2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19f63eb7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e6f5405_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@760074b8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67eb6dcc_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58c95154_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@464a7e10_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@601fc3e7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b98e955_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61df823b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b635616_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f9c1503_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46fb956_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19535de7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4c5e4659_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71c8878_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ad7fb6_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@98336ed_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e3a7dd9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e679fec_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59b701c2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a0551a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@61141959_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@339036f9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@87857fe_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7118e9ba_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2fef62ec_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38a7290c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79dcc813_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12966b4f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44948d5e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20fc5f93_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2978ebd1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7980553e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f22f33c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@134ce157_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3aa677d0_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@331168c8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53869f02_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1888fc00_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@138b1b5a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c9bcc73_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5cc3eba2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@209e98cf_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c954077_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@130140fe_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21ddc890_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a91e34e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a4cbe9e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71cf565d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@697e2f6b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@537af32a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33f67d29_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f22111f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36c29fe5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2bbec869_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d0da083_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e61bf6b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41374105_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36a714dd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48fd414_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@253ff5e2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57eac9f5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60ebd88a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@490f869b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@669b1aeb_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ba4d96f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7473da80_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e27c1b8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b1b631e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a9c6a1c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aa78f37_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@832e250_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21878805_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@798b7c5f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e75b2f2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42c32a5d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31277279_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e4d00ca_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@353da406_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@438e4927_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@a04ee57_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ec49dbc_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e15e3cd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15b6e270_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e27f9fa_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37f88f37_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@257830a7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67620f0a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17aa91ad_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@68893746_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44105cee_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e705f90_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d71787f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20f0575d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3218a84f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a0e25c8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13a887fc_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a481185_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6893c03f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44fd8007_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ca7b41c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ab0b473_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4235eb5a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@763c9701_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e71767d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a3b1979_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f351ee4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@b17c85_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f9288ac_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@668bbb78_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d319ac3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ee38590_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a92fde9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@464d16f2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@523aab3e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13f9afd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31d59906_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@466bb1ac_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a54165e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a171d89_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f2489b6_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4769d9f7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36648437_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33077e3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf5a4a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f8e1d2f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@701d1800_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69966971_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d6ae20c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74a239b5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d4b9bd2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4135edb9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f152e12_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28b3051e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69ce5f06_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8193e2a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d231bab_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15339f76_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70a87f34_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d45b0e2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42640d3b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@762e3153_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65916124_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@babf4ce_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2985b687_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41fd3e1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@511ffd68_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59e43fcb_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b609455_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@22807ee5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e4bf0db_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e0774aa_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@614f1b58_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76dfecb_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48fe51cd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e6c1574_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ec3725f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34a599ff_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f3a375e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64116629_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2004ef83_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@83577a1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2319ed24_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2fe6f9f1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72e2c7fa_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1414a70f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50cb3e73_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39ba0bc4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1fbd4975_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f5ddf14_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62d70920_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3dd5518e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@472d02f3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39d997e8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53875ae_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@190084d1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@866c1c2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@40a55db_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54085733_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a815e88_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@253867c1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7261c99a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fe559b5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17bf77c5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@60e5110e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ef9bcd4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e8de1e7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@141d478_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4209546f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46878349_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_BlockRAM_init</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2020.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="12fb4c08"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2c9b2bce"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="e6184943"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="b550a0c0"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="e1f62aa3"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

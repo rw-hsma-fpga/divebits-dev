@@ -59,7 +59,22 @@ architecture RTL of divebits_single_ROM_block is
 	
 	signal dbuf: std_logic;--_vector(0 downto 0);
 	signal WE: std_logic := '0';
-	signal srvec: std_logic_vector((4+ROM_ID)-1 downto 0) := ( 1 => '1', 3 => '1', others=> '0');
+
+	function srvec_init return std_logic_vector((4+ROM_ID*2)-1 downto 0) is
+		variable bitbuffer: std_logic_vector((4+ROM_ID*2)-1 downto 0); 
+	begin
+		for i in 0 to (4+ROM_ID*2)-1 loop
+			if ((i mod 2)=1) then
+				bitbuffer(i) := '1';
+			else
+				bitbuffer(i) := '0';
+			end if;
+		end loop;
+		return bitbuffer;
+	end function srvec_init;
+
+	signal srvec: std_logic_vector((4+ROM_ID*2)-1 downto 0) := srvec_init;--( 1 => '1', 3 => '1', others=> '0');
+	
 begin
 	
 	-- ROM
@@ -83,9 +98,10 @@ begin
 	srshift: process(clock)
 	begin
 		if rising_edge(clock) then
-		   srvec <= srvec((4+ROM_ID)-2 downto 0) & srvec((4+ROM_ID)-1); -- looping bits 1010 around
+		   srvec <= srvec((4+ROM_ID*2)-2 downto 0) & srvec((4+ROM_ID*2)-1); -- looping bits 1010 around
 		end if;
 	end process;
-    WE <= '1' when (srvec(3) = srvec(2)) else '0'; -- never actually happening but keeps it a RAM.
+	--WE <= srvec(3) and srvec(2);
+    WE <= '1' when (srvec(3)=srvec(2)) else '0'; -- never actually happening but keeps it a RAM.
 
 end RTL;

@@ -58,7 +58,19 @@ proc _open_block_diagram {} {
 	### TODO allow specifying BD path
 
 	set design_fileset [ lindex [ get_filesets -filter { FILESET_TYPE == DesignSrcs } ] 0 ]
-	set block_design_path [ get_files -of_objects $design_fileset -filter { FILE_TYPE == "Block Designs" } ]
+	set block_design_paths [ get_files -of_objects $design_fileset -filter { FILE_TYPE == "Block Designs" } ]
+
+	set min_path_depth 10000
+	foreach bd_path $block_design_paths {
+		# TODO handle forwards slashes in Windows
+		set path_depth [expr {[llength [split $bd_path "/"]] - 1}]
+		if { $path_depth < $min_path_depth } {
+			set min_path_depth $path_depth
+			set block_design_path $bd_path
+		}
+	}
+	puts "Top BD path is $block_design_path"
+	
 	open_bd_design $block_design_path
 }
 
