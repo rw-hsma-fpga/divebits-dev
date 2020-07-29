@@ -13,6 +13,8 @@ TYPE_DIVEBITS_16_CONSTANTS = 1005
 
 TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
 
+TYPE_DIVEBITS_AXI4L_RDWRMASTER = 3010
+
 TYPE_DIVEBITS_BLOCKRAM_INIT = 3000
 
 class DiveBits:
@@ -81,6 +83,14 @@ class DiveBits:
                 bitcount += DB_CHANNEL_BITWIDTH
                 bitcount += (db_bram_data_width * pow(2, db_bram_addr_width))
                 return bitcount
+
+            elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+                db_num_codewords = component["DB_NUM_CODE_WORDS"]
+                bitcount += DB_ADDRESS_BITWIDTH
+                bitcount += DB_CHANNEL_BITWIDTH
+                bitcount += (32 * db_num_codewords)
+                return bitcount
+
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -135,6 +145,40 @@ class DiveBits:
                 temp_comp["READONLY"]["DB_BRAM_DATA_WIDTH"] = component["DB_BRAM_DATA_WIDTH"]
                 temp_comp["CONFIGURABLE"]["default"] = 0
 
+            elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+                temp_comp["READONLY"]["DB_NUM_CODE_WORDS"] = component["DB_NUM_CODE_WORDS"]
+                code: dict = {}
+
+                n = 0
+                codeword: dict = {}
+                codeword["OPCODE"] = "WRITE_FROM_CODE"
+                codeword["ADDR"] = 0x40600000
+                codeword["DATA"] = 0x41
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {}
+                codeword["OPCODE"] = "READ_TO_BUFFER"
+                codeword["ADDR"] = 0x40600000
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {}
+                codeword["OPCODE"] = "WRITE_FROM_BUFFER"
+                codeword["ADDR"] = 0x40600000
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {}
+                codeword["OPCODE"] = "READ_CHECK_WAIT"
+                codeword["ADDR"] = 0x40600004
+                codeword["CHECK_MASK"] = 0x0 # means everything checks
+                codeword["CHECK_DATA"] = 0x42
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {}
+                codeword["OPCODE"] = "END_OF_CODE"
+                code[n] = codeword.copy()
+                n += 1
+                temp_comp["CONFIGURABLE"]["OPCODE_COUNT"] = n
+                temp_comp["CONFIGURABLE"]["CODE"] = code
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -192,13 +236,6 @@ class DiveBits:
             configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
             configbits.prepend(BitArray(uint=bram_data_length, length=DB_LENGTH_BITWIDTH))
 
-            #print("------")
-            #print(bram_data_config)
-            #print("------")
-            #dumpfile = open("dumpfile.yaml", 'w')
-            #yaml.dump({"CONFIGURABLE": bram_data_config}, dumpfile, sort_keys=False)
-            #dumpfile.close()
-            # TODO total fake: grab out of config data!!!!
             bram_config_data = config_data["CONFIGURABLE"]
             for addr in range(0, bram_num_words):
                 if addr in bram_config_data["words"]:
@@ -212,8 +249,44 @@ class DiveBits:
                     if not found_in_range:
                         value = bram_config_data["default_value"]
                 configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
-                #print(addr, ":", value)
 
+        elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+            db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
+            configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
+            configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+            configbits.prepend(BitArray(uint=32*db_num_codewords, length=DB_LENGTH_BITWIDTH))
+
+            opcode_cnt = config_data["CONFIGURABLE"]["OPCODE_COUNT"]
+            code = config_data["CONFIGURABLE"]["CODE"]
+            wordcount = db_num_codewords
+            for i in range(0,opcode_cnt):
+                op = code[i]
+                if op["OPCODE"] == "WRITE_FROM_CODE": # TODO check remaining wordcount first
+                    addr = op["ADDR"] - (op["ADDR"] % 4) + 0 # clean 2 LSBs, adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+                    configbits.prepend(BitArray(uint=op["DATA"], length=32))
+                    wordcount -= 2
+                elif op["OPCODE"] == "WRITE_FROM_BUFFER":
+                    addr = op["ADDR"] - (op["ADDR"] % 4) + 1 # clean 2 LSBs, adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+                    wordcount -= 1
+                elif op["OPCODE"] == "READ_TO_BUFFER":
+                    addr = op["ADDR"] - (op["ADDR"] % 4) + 2 # clean 2 LSBs, adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+                    wordcount -= 1
+                elif op["OPCODE"] == "READ_CHECK_WAIT":
+                    addr = op["ADDR"] - (op["ADDR"] % 4) + 3 # clean 2 LSBs, adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+                    configbits.prepend(BitArray(uint=op["CHECK_MASK"], length=32))
+                    configbits.prepend(BitArray(uint=op["CHECK_DATA"], length=32))
+                    wordcount -= 3
+                elif op["OPCODE"] == "END_OF_CODE": # TODO check if code ends on this, etc.
+                    configbits.prepend(BitArray(uint=0, length=32))
+                    wordcount -= 1
+
+            # stuff with zeroes
+            print("Remaining words: ",wordcount)
+            configbits.prepend(BitArray(32*(wordcount)))
 
         else:
             raise SyntaxError('DB_TYPE unknown')
