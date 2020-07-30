@@ -5,10 +5,11 @@ use ieee.numeric_std.all;
 entity divebits_AXI4L_RdWrMaster_v1_0 is
 	generic (
 			DB_ADDRESS : natural range 16#001# to 16#FFE# := 16#001#;
-			DB_TYPE : natural range 3010 to 3010 := 3010; -- must be unique to IP
+			DB_TYPE : natural range 2010 to 2010 := 2010; -- must be unique to IP
 			
 			DB_NUM_CODE_WORDS: natural range 64 to 256 := 64; -- actually only 64,128,256 useful with LUTRAM - do in IP parameter settings
-			DB_RECHECK_WAITCYCLES_WIDTH: natural range 3 to 20 := 7; -- re-check after 2^7=128 cycles by default
+			DB_REPEAT_WAITCYCLES_WIDTH: natural range 3 to 20 := 7; -- re-check after 2^7=128 cycles by default
+			DB_REPEAT_AFTER_BUS_ERROR: boolean := true;
 
 			DB_DAISY_CHAIN: boolean := true;
 		-- Users to add parameters here
@@ -129,7 +130,7 @@ architecture arch_imp of divebits_AXI4L_RdWrMaster_v1_0 is
 	
 	signal fetched_code_word : std_logic_vector(31 downto 0);
 	signal opcode : std_logic_vector(1 downto 0);
-	constant OPCODE_WRITE_WORD : std_logic_vector(1 downto 0)        := "00"; -- write next code word
+	constant OPCODE_WRITE_FROM_CODE : std_logic_vector(1 downto 0)   := "00"; -- write next code word
 	constant OPCODE_WRITE_FROM_BUFFER : std_logic_vector(1 downto 0) := "01"; -- write what's in data buffer
 	constant OPCODE_READ_TO_BUFFER : std_logic_vector(1 downto 0)    := "10"; -- read to data buffer
 	constant OPCODE_READ_CHECK_WAIT : std_logic_vector(1 downto 0)   := "11"; -- read and check, repeat until data/mask match
@@ -140,12 +141,12 @@ architecture arch_imp of divebits_AXI4L_RdWrMaster_v1_0 is
 	signal check_mask : std_logic_vector(31 downto 0);
 	signal check_data : std_logic_vector(31 downto 0);
 	
-	signal check_wait_cnt : unsigned(DB_RECHECK_WAITCYCLES_WIDTH-1 downto 0) := (others => '0');
+	signal check_wait_cnt : unsigned(DB_REPEAT_WAITCYCLES_WIDTH-1 downto 0) := (others => '0');
 	
 	
 	type db_axi_master_state_type is (	ST_idle, ST_fetch, ST_decode,
 										ST_wr_addr, ST_wr_data, ST_wr_ack, ST_wr_err,
-										ST_ld_checkmask, ST_ld_checkdata, ST_check, ST_recheck_wait,
+										ST_ld_checkmask, ST_ld_checkdata, ST_check, ST_repeat_wait,
 										ST_rd_addr, ST_rd_data, ST_rd_err,
 										ST_done
 	);
@@ -249,7 +250,7 @@ begin
 		end if;
 	end process;
 	code_rd_en <= '1' when (
-						(master_state=ST_fetch) or (master_state=ST_decode and opcode=OPCODE_WRITE_WORD) or
+						(master_state=ST_fetch) or (master_state=ST_decode and opcode=OPCODE_WRITE_FROM_CODE) or
 						(master_state=ST_ld_checkmask) or (master_state=ST_ld_checkdata)						
 						) else '0';
 
@@ -288,7 +289,7 @@ begin
 							case opcode is
 								when OPCODE_WRITE_FROM_BUFFER =>
 									master_state <= ST_wr_addr;
-								when OPCODE_WRITE_WORD =>
+								when OPCODE_WRITE_FROM_CODE =>
 									master_state <= ST_wr_addr;
 								when OPCODE_READ_TO_BUFFER =>
 									master_state <= ST_rd_addr;
@@ -318,8 +319,8 @@ begin
 						end if;
 						
 					when ST_wr_err =>
-						null;
-						
+						if (DB_REPEAT_AFTER_BUS_ERROR) then
+							master_state <= ST_repeat_wait; end if;
 						
 					when ST_ld_checkmask =>
 						master_state <= ST_ld_checkdata;
@@ -346,19 +347,23 @@ begin
 						end if;
 						
 					when ST_rd_err =>
-						null;
-						
+						if (DB_REPEAT_AFTER_BUS_ERROR) then
+							master_state <= ST_repeat_wait; end if;
 						
 					when ST_check =>
 						if (check_match) then
 							master_state <= ST_fetch;
 						else
-							master_state <= ST_recheck_wait;
+							master_state <= ST_repeat_wait;
 						end if;
 						
-					when ST_recheck_wait =>
+					when ST_repeat_wait =>
 						if (check_wait_cnt=0) then
-							master_state <= ST_rd_addr;
+							if (opcode=OPCODE_WRITE_FROM_CODE or opcode=OPCODE_WRITE_FROM_BUFFER) then
+								master_state <= ST_wr_addr;
+							else
+								master_state <= ST_rd_addr;
+							end if;
 						end if;
 						
 						
@@ -377,7 +382,8 @@ begin
 		if (rising_edge(m00_axi_aclk)) then
 			if (m00_axi_aresetn='0') then
 				check_wait_cnt <= (others => '0');
-			elsif ((check_wait_cnt/=0) or (master_state=ST_check and not check_match)) then
+			elsif ((check_wait_cnt/=0) or (master_state=ST_check and not check_match)
+					or (master_state=ST_rd_err) or (master_state=ST_wr_err)) then
 				check_wait_cnt <= check_wait_cnt - 1; 
 			end if;
 		end if;
@@ -411,7 +417,7 @@ begin
 	process(m00_axi_aclk)
 	begin
 		if (rising_edge(m00_axi_aclk)) then
-			if (master_state=ST_decode and opcode=OPCODE_WRITE_WORD) then
+			if (master_state=ST_decode and opcode=OPCODE_WRITE_FROM_CODE) then
 				data_buffer <= code_word; 
 			elsif (master_state=ST_rd_data and m00_axi_rvalid='1') then
 				data_buffer <= m00_axi_rdata(31 downto 0); 

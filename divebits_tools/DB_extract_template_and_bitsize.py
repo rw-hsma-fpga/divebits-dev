@@ -2,13 +2,20 @@ import sys
 import os
 import yaml
 import json
+from DiveBits_class import HexInt
 from DiveBits_class import DiveBits
 from DiveBits_class import DB_CONFIG_LENGTH_BITWIDTH
+
+
+def representer(dumper, data):
+    return yaml.ScalarNode('tag:yaml.org,2002:int', hex(data))
 
 
 db_project_path = ""
 
 if __name__ == "__main__":
+
+    yaml.add_representer(HexInt, representer)
 
     if len(sys.argv) != 2:
         raise SyntaxError('Wrong number of arguments')

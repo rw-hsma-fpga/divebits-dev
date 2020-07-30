@@ -7,7 +7,8 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "DB_ADDRESS" -parent ${Page_0}
   set DB_NUM_CODE_WORDS [ipgui::add_param $IPINST -name "DB_NUM_CODE_WORDS" -parent ${Page_0} -widget comboBox]
   set_property tooltip {(Size of Code Memory)} ${DB_NUM_CODE_WORDS}
-  ipgui::add_param $IPINST -name "DB_RECHECK_WAITCYCLES_WIDTH" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "DB_REPEAT_WAITCYCLES_WIDTH" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "DB_REPEAT_AFTER_BUS_ERROR" -parent ${Page_0}
   ipgui::add_param $IPINST -name "C_M00_AXI_ADDR_WIDTH" -parent ${Page_0}
   ipgui::add_param $IPINST -name "C_M00_AXI_DATA_WIDTH" -parent ${Page_0} -widget comboBox
 
@@ -41,12 +42,21 @@ proc validate_PARAM_VALUE.DB_NUM_CODE_WORDS { PARAM_VALUE.DB_NUM_CODE_WORDS } {
 	return true
 }
 
-proc update_PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH { PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH } {
-	# Procedure called to update DB_RECHECK_WAITCYCLES_WIDTH when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR { PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR } {
+	# Procedure called to update DB_REPEAT_AFTER_BUS_ERROR when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH { PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH } {
-	# Procedure called to validate DB_RECHECK_WAITCYCLES_WIDTH
+proc validate_PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR { PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR } {
+	# Procedure called to validate DB_REPEAT_AFTER_BUS_ERROR
+	return true
+}
+
+proc update_PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH { PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH } {
+	# Procedure called to update DB_REPEAT_WAITCYCLES_WIDTH when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH { PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH } {
+	# Procedure called to validate DB_REPEAT_WAITCYCLES_WIDTH
 	return true
 }
 
@@ -103,13 +113,18 @@ proc update_MODELPARAM_VALUE.DB_NUM_CODE_WORDS { MODELPARAM_VALUE.DB_NUM_CODE_WO
 	set_property value [get_property value ${PARAM_VALUE.DB_NUM_CODE_WORDS}] ${MODELPARAM_VALUE.DB_NUM_CODE_WORDS}
 }
 
-proc update_MODELPARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH { MODELPARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH } {
-	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH}] ${MODELPARAM_VALUE.DB_RECHECK_WAITCYCLES_WIDTH}
-}
-
 proc update_MODELPARAM_VALUE.DB_DAISY_CHAIN { MODELPARAM_VALUE.DB_DAISY_CHAIN PARAM_VALUE.DB_DAISY_CHAIN } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.DB_DAISY_CHAIN}] ${MODELPARAM_VALUE.DB_DAISY_CHAIN}
+}
+
+proc update_MODELPARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR { MODELPARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR}] ${MODELPARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR}
+}
+
+proc update_MODELPARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH { MODELPARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH}] ${MODELPARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH}
 }
 
