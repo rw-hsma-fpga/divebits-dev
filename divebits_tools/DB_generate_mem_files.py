@@ -78,7 +78,8 @@ if __name__ == "__main__":
             configbits.prepend(DiveBits.generate_config_bitstring(config_component, block_component))
 
         # insert length into lower end of bitstring
-        configbits.overwrite(BitArray(uint=configbits.length,length=DB_CONFIG_LENGTH_BITWIDTH),-DB_CONFIG_LENGTH_BITWIDTH)
+        configbits.overwrite(BitArray(uint=configbits.length, length=DB_CONFIG_LENGTH_BITWIDTH),
+                             -DB_CONFIG_LENGTH_BITWIDTH)
 
         # extend bitstring to multiple of 8
         if (configbits.length % 8) != 0:

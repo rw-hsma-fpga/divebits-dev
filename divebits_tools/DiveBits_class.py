@@ -1,8 +1,8 @@
 from bitstring import BitArray
 
-import yaml
 
-class HexInt(int): pass
+class HexInt(int):  # subtype definition to allow Hex YAML output
+    pass
 
 
 DB_CONFIG_LENGTH_BITWIDTH = 20
@@ -16,6 +16,7 @@ TYPE_DIVEBITS_16_CONSTANTS = 1005
 
 TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
 TYPE_DIVEBITS_AXI4L_RDWRMASTER = 2010
+TYPE_DIVEBITS_AXI4_MASTER_WRONLY = 2011
 
 TYPE_DIVEBITS_BLOCKRAM_INIT = 3000
 
@@ -87,6 +88,13 @@ class DiveBits:
                 return bitcount
 
             elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+                db_num_codewords = component["DB_NUM_CODE_WORDS"]
+                bitcount += DB_ADDRESS_BITWIDTH
+                bitcount += DB_CHANNEL_BITWIDTH
+                bitcount += (32 * db_num_codewords)
+                return bitcount
+
+            elif db_type == TYPE_DIVEBITS_AXI4_MASTER_WRONLY:
                 db_num_codewords = component["DB_NUM_CODE_WORDS"]
                 bitcount += DB_ADDRESS_BITWIDTH
                 bitcount += DB_CHANNEL_BITWIDTH
@@ -177,6 +185,27 @@ class DiveBits:
                 n += 1
                 temp_comp["CONFIGURABLE"]["OPCODE_COUNT"] = n
                 temp_comp["CONFIGURABLE"]["CODE"] = code
+
+            elif db_type == TYPE_DIVEBITS_AXI4_MASTER_WRONLY:
+                temp_comp["READONLY"]["DB_NUM_CODE_WORDS"] = component["DB_NUM_CODE_WORDS"]
+                code: dict = {}
+
+                n = 0
+                codeword: dict = {"OPCODE": "SET_BASE_ADDR",
+                                  "ADDR": HexInt(0x40600000)}
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {"OPCODE": "WRITE_FROM_CODE",
+                                  "ADDR": 4,
+                                  "DATA": 0x41}
+                code[n] = codeword.copy()
+                n += 1
+                codeword: dict = {"OPCODE": "WRITE_FROM_BUFFER",
+                                  "ADDR": 4}
+                code[n] = codeword.copy();
+                n += 1
+                temp_comp["CONFIGURABLE"]["OPCODE_COUNT"] = n
+                temp_comp["CONFIGURABLE"]["CODE"] = code
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -184,6 +213,7 @@ class DiveBits:
 
     @staticmethod
     def generate_config_bitstring(config_data, block_data) -> BitArray:
+        # TODO check config blocks against block data availability... really all kinds of integrity checking...
 
         configbits = BitArray(0)
         db_address = block_data["DB_ADDRESS"]
@@ -260,7 +290,37 @@ class DiveBits:
             base_addr: HexInt = 0
             for i in range(0, opcode_cnt):
                 op = code[i]
-                #op["ADDR"] = op["ADDR"] - (op["ADDR"] % 4)  # clear 2 LSB - shoudn't be necessary
+                if op["OPCODE"] == "SET_BASE_ADDR":
+                    base_addr = op["ADDR"]
+                elif op["OPCODE"] == "WRITE_FROM_CODE":  # TODO check remaining wordcount first
+                    wordcount -= 2
+                    if wordcount < 1:
+                        raise SyntaxError("AXI Master code doesn't fit into", block_data["BLOCK_PATH"])
+                    addr: HexInt = base_addr + op["ADDR"] + 0  # adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+                    configbits.prepend(BitArray(uint=op["DATA"], length=32))
+                elif op["OPCODE"] == "WRITE_FROM_BUFFER":
+                    wordcount -= 1
+                    if wordcount < 1:
+                        raise SyntaxError("AXI Master code doesn't fit into", block_data["BLOCK_PATH"])
+                    addr: HexInt = base_addr + op["ADDR"] + 1  # adding opcode to addr
+                    configbits.prepend(BitArray(uint=addr, length=32))
+            # stuff with zeroes - at least one word needs to remain for stopcode 0x00000000
+            print("Remaining words: ",wordcount-1)
+            configbits.prepend(BitArray(32*wordcount))
+
+        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_WRONLY:
+            db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
+            configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
+            configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+            configbits.prepend(BitArray(uint=32*db_num_codewords, length=DB_LENGTH_BITWIDTH))
+
+            opcode_cnt = config_data["CONFIGURABLE"]["OPCODE_COUNT"]
+            code = config_data["CONFIGURABLE"]["CODE"]
+            wordcount = db_num_codewords
+            base_addr: HexInt = 0
+            for i in range(0, opcode_cnt):
+                op = code[i]
                 if op["OPCODE"] == "SET_BASE_ADDR":
                     base_addr = op["ADDR"]
                 elif op["OPCODE"] == "WRITE_FROM_CODE":  # TODO check remaining wordcount first
@@ -290,10 +350,9 @@ class DiveBits:
                     configbits.prepend(BitArray(uint=addr, length=32))
                     configbits.prepend(BitArray(uint=op["CHECK_MASK"], length=32))
                     configbits.prepend(BitArray(uint=op["CHECK_DATA"], length=32))
-
             # stuff with zeroes - at least one word needs to remain for stopcode 0x00000000
             print("Remaining words: ",wordcount-1)
-            configbits.prepend(BitArray(32*(wordcount)))
+            configbits.prepend(BitArray(32*wordcount))
 
         else:
             raise SyntaxError('DB_TYPE unknown')
