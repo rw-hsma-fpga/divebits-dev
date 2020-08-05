@@ -6,9 +6,41 @@ from bitstring import BitArray
 import yaml
 from DiveBits_class import DiveBits
 
-DB_CONFIG_LENGTH_BITWIDTH = 20
+from DiveBits_class import DB_CONFIG_LENGTH_BITWIDTH
+from DiveBits_class import DB_ADDRESS_BITWIDTH
+from DiveBits_class import DB_CHANNEL_BITWIDTH
+from DiveBits_class import DB_LENGTH_BITWIDTH
 
 db_project_path = ""
+
+
+def attach_crc32(config_string: BitArray) -> BitArray:
+
+    # 1 + x + x2 + x4 + x5 +x7 + x8 + x10 + x11 + x12 + x16 + x22 + x23 + x26 + x32.
+    polynomial = BitArray(bin='1110 1101 1011 1000 1000 0011 0010 0000 1')
+
+    # enter corrected length with CRC32 packet
+    current_length = config_string.length
+    length_with_crc32 = current_length + DB_ADDRESS_BITWIDTH + DB_CHANNEL_BITWIDTH + DB_LENGTH_BITWIDTH + 32
+    config_string.overwrite(BitArray(uint=length_with_crc32, length=DB_CONFIG_LENGTH_BITWIDTH),
+                            -DB_CONFIG_LENGTH_BITWIDTH)
+
+    # attach DB_ADDRESS 0, Channel 0 for CRC32 receiver, length 32 of checksum
+    config_string.prepend(BitArray(uint=0, length=DB_ADDRESS_BITWIDTH+DB_CHANNEL_BITWIDTH))
+    config_string.prepend(BitArray(uint=32, length=DB_LENGTH_BITWIDTH))
+
+    # actual CRC32 calculation
+    divstring = config_string[:-DB_CONFIG_LENGTH_BITWIDTH] # without config length (doesn't leave db_config)
+    divstring.prepend(BitArray(32))  # prepend empty CRC32
+    divstring.append(BitArray(1))  # attach a 0 to make indexing from LSB side easier
+    for j in range(1, divstring.length-32):
+        if divstring[-(j+1)] == 1:
+            divstring[-(j+33):-j] ^= polynomial
+    remainder = divstring[0:32]
+
+    config_string.prepend(remainder)
+    return config_string
+
 
 if __name__ == "__main__":
 
@@ -81,6 +113,10 @@ if __name__ == "__main__":
         configbits.overwrite(BitArray(uint=configbits.length, length=DB_CONFIG_LENGTH_BITWIDTH),
                              -DB_CONFIG_LENGTH_BITWIDTH)
 
+        if excomp_data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
+            print("CRC check activated")
+            configbits = attach_crc32(configbits)
+
         # extend bitstring to multiple of 8
         if (configbits.length % 8) != 0:
             missing_bits = 8-(configbits.length % 8)
@@ -100,7 +136,7 @@ if __name__ == "__main__":
         while configbits.length > 0:
             memfile.write(configbits[-8:].hex.upper() + " ")
             del configbits[-8:]
-            xpos = (xpos + 1) % 17
+            xpos = (xpos + 1) % 16
             if xpos == 0:
                 memfile.write("\n")
         memfile.write("\n")

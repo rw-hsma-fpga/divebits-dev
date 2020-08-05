@@ -60,7 +60,7 @@ architecture RTL of divebits_single_ROM_block is
 	signal dbuf: std_logic;--_vector(0 downto 0);
 	signal WE: std_logic := '0';
 
-	function srvec_init return std_logic_vector((4+ROM_ID*2)-1 downto 0) is
+	function srvec_init return std_logic_vector is--((4+ROM_ID*2)-1 downto 0) is
 		variable bitbuffer: std_logic_vector((4+ROM_ID*2)-1 downto 0); 
 	begin
 		for i in 0 to (4+ROM_ID*2)-1 loop

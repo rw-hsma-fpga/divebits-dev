@@ -101,8 +101,8 @@ proc _extract_block_diagram_components {} {
 	# extract config block data
 	set hosttime_id [ subDB::_get_host_time_id ]
 	puts $yamlfile "Hosttime_ID: $hosttime_id"
-#	puts $yamlfile "db_config_block:"
-#	puts $yamlfile "  BLOCK_PATH: $configpath"
+	puts $yamlfile "db_config_block:"
+	puts $yamlfile "  BLOCK_PATH: $configpath"
 
 	## output all DB_* properties
 	set PROPLIST [ list_property $config_block ]
@@ -110,9 +110,9 @@ proc _extract_block_diagram_components {} {
 	foreach prop $PROPLIST {
 			set propval [ get_property $prop [ get_bd_cells $config_block ] ]
 			set prop [ string range $prop 7 [ string length $prop ] ]
-#			puts $yamlfile "  $prop: $propval"
+			puts $yamlfile "  $prop: $propval"
 		}
-#	puts $yamlfile ""
+	puts $yamlfile ""
 
 	
 	
@@ -120,6 +120,7 @@ proc _extract_block_diagram_components {} {
 	foreach block $blocklist {
 			set DB_ADDRESS [ get_property CONFIG.DB_ADDRESS [ get_bd_cells $block ] ]
 			if { [ string length $DB_ADDRESS ] == 0 } {
+
 				set blocklist [ lsearch -all -inline -not -exact $blocklist $block ]
 			}
 		}

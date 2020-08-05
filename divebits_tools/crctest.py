@@ -33,7 +33,8 @@ if __name__ == "__main__":
     print("Divstring:")
     print(divstring)
     print(divstring.bin)
-    divstring.append(BitArray(1))  # attach two zeros to make indexing from LSB side easier
+
+    divstring.append(BitArray(1))  # attach a 0 to make indexing from LSB side easier
     print()
     print()
     print("Division:")

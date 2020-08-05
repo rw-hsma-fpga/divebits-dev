@@ -726,18 +726,17 @@
   </spirit:parameters>
   <spirit:vendorExtensions>
     <xilinx:coreExtensions>
-      <xilinx:supportedFamilies>
-        <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
-      </xilinx:supportedFamilies>
       <xilinx:taxonomies>
-        <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
+        <xilinx:taxonomy>/AXI_Peripheral</xilinx:taxonomy>
+        <xilinx:taxonomy>/DiveBits</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>divebits_AXI_Master_WriteOnly_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>2</xilinx:coreRevision>
+      <xilinx:autoFamilySupportLevel>level_2</xilinx:autoFamilySupportLevel>
+      <xilinx:coreRevision>4</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>user.org:user:divebits_AXI_Master_WriteOnly:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2020-07-31T18:23:01Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2020-08-05T20:43:03Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4dfd10f5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@73fb5c3a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
@@ -814,6 +813,20 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@14cd929d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@1154e013_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@5d14b970_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5357678e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48d56042_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5072d381_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49a7f93b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2102dfe3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50ea4b66_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a6659c1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f3eacf4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5be41cc2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2236f526_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d04c743_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e7d9f7e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19efb360_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@309e84b1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_WriteOnly</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>

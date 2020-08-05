@@ -5,11 +5,11 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity divebits_config is
 	Generic ( DB_RELEASE_HIGH_ACTIVE : boolean := true;
-			  DB_INCLUDE_CRC_CHECK   : boolean := false;
-			  DB_RELEASE_DELAY_CYCLES: natural range 4 to 259:= 20;
+			  DB_DAISY_CHAIN_CRC_CHECK : boolean := false;
+			  DB_RELEASE_DELAY_CYCLES: natural range 20 to 259:= 20;
 			  -- hidden parametres
 			  DB_ADDRESS : natural range 16#000# to 16#000# := 16#000#; -- special config block address
-	          DB_TYPE : natural range 1000 to 1000 := 1000; -- special config block type
+			  DB_TYPE : natural range 1000 to 1000 := 1000; -- special config block type
 			  DB_NUM_OF_32K_ROMS: natural range 1 to 8 := 1
 			  );			  
 	Port  ( -- system ports
@@ -23,7 +23,7 @@ entity divebits_config is
 			
 			-- DiveBits Slave - for data feedback, optional error checking
 			db_clock_in : in STD_LOGIC; -- unused, just for Master-Slave bus compatibility		
-			db_data_in : in STD_LOGIC   -- feedback input
+			db_data_in : in STD_LOGIC := '0'   -- feedback input
 			);
 end divebits_config;
 
@@ -104,6 +104,12 @@ architecture RTL of divebits_config is
 	
 	signal data_in_valid: std_logic;
 	signal data_in: std_logic;
+	
+	--- crc check signals
+	signal crc_register: std_logic_vector(32 downto 0) := (others=>'0');
+	constant crc_poly: std_logic_vector(32 downto 0) := X"edb88320" & '1';
+	signal crc_fill_cnt: unsigned(5 downto 0);
+	signal d_data_in_valid: std_logic;
 
 
 begin
@@ -168,7 +174,8 @@ begin
 							 DB_CONFIG_STATE <= dbcs_wait_for_STart;
 						end if;
 					when dbcs_wait_for_STart =>  -- Output token ST (11)
-						if (token_in_strobe='1' and token_in=ST) then
+						if ( (not DB_DAISY_CHAIN_CRC_CHECK and token_out_strobe='1') or
+							 (DB_DAISY_CHAIN_CRC_CHECK and token_in_strobe='1' and token_in=ST) ) then
 							if (unsigned(config_data_length) /= 0) then
 								DB_CONFIG_STATE <= dbcs_send;
 							else
@@ -180,12 +187,14 @@ begin
 							DB_CONFIG_STATE <= dbcs_wait_for_STop;
 						end if;
 					when dbcs_wait_for_STop =>  -- Output token ST (11)
-						if (token_in_strobe='1' and token_in=ST) then
+						if ( (not DB_DAISY_CHAIN_CRC_CHECK and token_out_strobe='1') or
+							 (DB_DAISY_CHAIN_CRC_CHECK and token_in_strobe='1' and token_in=ST) ) then
 							DB_CONFIG_STATE <= dbcs_transfer_done;
 						end if;	
 					when dbcs_transfer_done =>  -- Output token ST (11)
-						-- if ERROR_CHECK_FAILED go to dbcs_reset;
-						if (release_count = 0) then
+						if (DB_DAISY_CHAIN_CRC_CHECK and (crc_register(32 downto 1)/=X"00000000")) then
+							DB_CONFIG_STATE <= dbcs_reset; -- CRC failed, start all over again
+						elsif (release_count = 0) then
 							DB_CONFIG_STATE <= dbcs_released;
 						end if;
 					when dbcs_released =>  -- Output token ST (11)
@@ -307,7 +316,7 @@ begin
 	begin
 		if (rising_edge(sys_clock_in)) then
 			data_fb_SR <= data_fb_SR(4 downto 0) & db_data_in;
-			if (Reset='1') then data_fb_SR <= "000000"; end if;
+			if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then data_fb_SR <= "000000"; end if;
 				
 			if (token_in_strobe='1') then
 				token_in <= token(data_fb_SR(5),data_fb_SR(4)); end if;				
@@ -320,7 +329,7 @@ begin
 		if (rising_edge(sys_clock_in)) then
 			token_in_strobe <= not token_in_strobe;
 			if (data_fb_SR(5 downto 2)="0000") then token_in_strobe <= '0'; end if;
-			if (Reset='1') then token_in_strobe <= '0'; end if;
+			if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then token_in_strobe <= '0'; end if;
 		end if;
 	end process;
 
@@ -346,11 +355,50 @@ begin
 			else
 				data_in_valid <= '0';
 			end if;
-			if (Reset='1') then
+			if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then
 				data_in_valid <= '0';
 				data_in <= '0';
 			end if;
 		end if;
 	end process;
+	
+	
+	
+	-- CRC
+
+	gen_crc: if (DB_DAISY_CHAIN_CRC_CHECK) generate	
+		CRC_SR:process(sys_clock_in)
+		begin
+			if (rising_edge(sys_clock_in)) then
+				if (data_in_valid='1') then
+					crc_register <= data_in & crc_register(32 downto 1);
+				elsif (d_data_in_valid='1' and crc_fill_cnt=33) then
+					if (crc_register(0)='1') then
+						crc_register <= crc_register xor crc_poly;
+					end if;
+				end if;
+				if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then crc_register <= (others=>'1'); end if;
+			end if;
+		end process CRC_SR;
+		
+		-- delay data_in_valid
+		process(sys_clock_in)
+		begin
+			if (rising_edge(sys_clock_in)) then
+				d_data_in_valid <= data_in_valid;
+				if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then d_data_in_valid <= '0'; end if;
+			end if;
+		end process;	
+	
+		-- CRC initial bit counter
+		process(sys_clock_in)
+		begin
+			if (rising_edge(sys_clock_in)) then
+				if (crc_fill_cnt/=33 and data_in_valid='1') then
+					crc_fill_cnt <= crc_fill_cnt + 1; end if;
+				if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then crc_fill_cnt <= (others=>'0'); end if;
+			end if;
+		end process;
+	end generate gen_crc;
 
 end RTL;

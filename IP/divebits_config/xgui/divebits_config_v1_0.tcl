@@ -3,7 +3,7 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   ipgui::add_param $IPINST -name "DB_RELEASE_DELAY_CYCLES"
   ipgui::add_param $IPINST -name "DB_RELEASE_HIGH_ACTIVE"
-  ipgui::add_param $IPINST -name "DB_INCLUDE_CRC_CHECK"
+  ipgui::add_param $IPINST -name "DB_DAISY_CHAIN_CRC_CHECK"
 
 }
 
@@ -16,12 +16,12 @@ proc validate_PARAM_VALUE.DB_ADDRESS { PARAM_VALUE.DB_ADDRESS } {
 	return true
 }
 
-proc update_PARAM_VALUE.DB_INCLUDE_CRC_CHECK { PARAM_VALUE.DB_INCLUDE_CRC_CHECK } {
-	# Procedure called to update DB_INCLUDE_CRC_CHECK when any of the dependent parameters in the arguments change
+proc update_PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK { PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK } {
+	# Procedure called to update DB_DAISY_CHAIN_CRC_CHECK when any of the dependent parameters in the arguments change
 }
 
-proc validate_PARAM_VALUE.DB_INCLUDE_CRC_CHECK { PARAM_VALUE.DB_INCLUDE_CRC_CHECK } {
-	# Procedure called to validate DB_INCLUDE_CRC_CHECK
+proc validate_PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK { PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK } {
+	# Procedure called to validate DB_DAISY_CHAIN_CRC_CHECK
 	return true
 }
 
@@ -87,8 +87,8 @@ proc update_MODELPARAM_VALUE.DB_RELEASE_HIGH_ACTIVE { MODELPARAM_VALUE.DB_RELEAS
 	set_property value [get_property value ${PARAM_VALUE.DB_RELEASE_HIGH_ACTIVE}] ${MODELPARAM_VALUE.DB_RELEASE_HIGH_ACTIVE}
 }
 
-proc update_MODELPARAM_VALUE.DB_INCLUDE_CRC_CHECK { MODELPARAM_VALUE.DB_INCLUDE_CRC_CHECK PARAM_VALUE.DB_INCLUDE_CRC_CHECK } {
+proc update_MODELPARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK { MODELPARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
-	set_property value [get_property value ${PARAM_VALUE.DB_INCLUDE_CRC_CHECK}] ${MODELPARAM_VALUE.DB_INCLUDE_CRC_CHECK}
+	set_property value [get_property value ${PARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK}] ${MODELPARAM_VALUE.DB_DAISY_CHAIN_CRC_CHECK}
 }
 

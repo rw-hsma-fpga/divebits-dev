@@ -267,7 +267,9 @@ begin
 						master_state <= ST_decode;
 						
 					when ST_decode =>
-						if (fetched_code_word=X"00000000") then -- write to physical address 0 not possible
+						if ((fetched_code_word=X"00000000") -- write to physical address 0 not possible
+							or (opcode(1)/='0')) -- READ operation specified 
+						then
 							master_state <= ST_done;
 						else
 							master_state <= ST_wr_addr;

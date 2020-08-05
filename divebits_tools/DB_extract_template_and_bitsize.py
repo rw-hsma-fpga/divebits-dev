@@ -5,7 +5,9 @@ import json
 from DiveBits_class import HexInt
 from DiveBits_class import DiveBits
 from DiveBits_class import DB_CONFIG_LENGTH_BITWIDTH
-
+from DiveBits_class import DB_ADDRESS_BITWIDTH
+from DiveBits_class import DB_CHANNEL_BITWIDTH
+from DiveBits_class import DB_LENGTH_BITWIDTH
 
 def representer(dumper, data):
     return yaml.ScalarNode('tag:yaml.org,2002:int', hex(data))
@@ -49,6 +51,10 @@ if __name__ == "__main__":
         bitcount += DiveBits.num_configbits(component)
         # generate template data structure by component
         db_template_components.append(DiveBits.generate_component_template(component))
+
+    if data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
+        print("CRC check activated")
+        bitcount += (DB_ADDRESS_BITWIDTH + DB_CHANNEL_BITWIDTH + DB_LENGTH_BITWIDTH + 32)
 
     bram32cnt = bitcount // 32768
     if (bitcount % 32768) != 0:
