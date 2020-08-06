@@ -10,15 +10,17 @@ DB_ADDRESS_BITWIDTH = 12
 DB_CHANNEL_BITWIDTH = 4
 DB_LENGTH_BITWIDTH = 16
 
+
 TYPE_DIVEBITS_CONSTANT = 1001
 TYPE_DIVEBITS_4_CONSTANTS = 1003
 TYPE_DIVEBITS_16_CONSTANTS = 1005
 
 TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
-TYPE_DIVEBITS_AXI4L_RDWRMASTER = 2010
+TYPE_DIVEBITS_AXI4_MASTER_RDWR = 2010
 TYPE_DIVEBITS_AXI4_MASTER_WRONLY = 2011
 
 TYPE_DIVEBITS_BLOCKRAM_INIT = 3000
+
 
 class DiveBits:
 
@@ -87,7 +89,7 @@ class DiveBits:
                 bitcount += (db_bram_data_width * pow(2, db_bram_addr_width))
                 return bitcount
 
-            elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+            elif db_type == TYPE_DIVEBITS_AXI4_MASTER_RDWR:
                 db_num_codewords = component["DB_NUM_CODE_WORDS"]
                 bitcount += DB_ADDRESS_BITWIDTH
                 bitcount += DB_CHANNEL_BITWIDTH
@@ -155,7 +157,7 @@ class DiveBits:
                 temp_comp["READONLY"]["DB_BRAM_DATA_WIDTH"] = component["DB_BRAM_DATA_WIDTH"]
                 temp_comp["CONFIGURABLE"]["default"] = 0
 
-            elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+            elif db_type == TYPE_DIVEBITS_AXI4_MASTER_RDWR:
                 temp_comp["READONLY"]["DB_NUM_CODE_WORDS"] = component["DB_NUM_CODE_WORDS"]
                 code: dict = {}
 
@@ -278,7 +280,7 @@ class DiveBits:
                         value = bram_config_data["default_value"]
                 configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
 
-        elif db_type == TYPE_DIVEBITS_AXI4L_RDWRMASTER:
+        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_RDWR:
             db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
             configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
             configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
@@ -357,5 +359,4 @@ class DiveBits:
         else:
             raise SyntaxError('DB_TYPE unknown')
 
-        # TODO remove
         return configbits

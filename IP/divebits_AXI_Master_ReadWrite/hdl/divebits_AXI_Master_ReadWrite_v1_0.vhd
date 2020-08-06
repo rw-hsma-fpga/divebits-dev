@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity divebits_AXI4L_RdWrMaster_v1_0 is
+entity divebits_AXI_Master_ReadWrite_v1_0 is
 	generic (
 			DB_ADDRESS : natural range 16#001# to 16#FFE# := 16#001#;
 			DB_TYPE : natural range 2010 to 2010 := 2010; -- must be unique to IP
@@ -12,15 +12,10 @@ entity divebits_AXI4L_RdWrMaster_v1_0 is
 			DB_REPEAT_AFTER_BUS_ERROR: boolean := true;
 
 			DB_DAISY_CHAIN: boolean := true;
-		-- Users to add parameters here
 
-		-- User parameters ends
-		-- Do not modify the parameters beyond this line
-
-
-		-- Parameters of Axi Master Bus Interface M00_AXI
-		C_M00_AXI_ADDR_WIDTH	: integer range 32 to 32 := 32;
-		C_M00_AXI_DATA_WIDTH	: integer range 32 to 32 := 32
+			-- Parameters of Axi Master Bus Interface M00_AXI
+			C_M00_AXI_ADDR_WIDTH	: integer range 32 to 32 := 32;
+			C_M00_AXI_DATA_WIDTH	: integer range 32 to 32 := 32
 	);
 	port (
 		-- DiveBits Slave 
@@ -32,10 +27,6 @@ entity divebits_AXI4L_RdWrMaster_v1_0 is
 		db_data_out : out STD_LOGIC;
 
 		-- Ports of Axi Master Bus Interface M00_AXI
-		--m00_axi_init_axi_txn	: in std_logic;
-		--m00_axi_error	: out std_logic := '0';
-		--m00_axi_txn_done	: out std_logic := '0';
-		
 		m00_axi_aclk	: in std_logic;
 		m00_axi_aresetn	: in std_logic;
 		
@@ -66,9 +57,9 @@ entity divebits_AXI4L_RdWrMaster_v1_0 is
 		READ_ERROR : out std_logic;
 		WRITE_ERROR : out std_logic
 	);
-end divebits_AXI4L_RdWrMaster_v1_0;
+end divebits_AXI_Master_ReadWrite_v1_0;
 
-architecture arch_imp of divebits_AXI4L_RdWrMaster_v1_0 is
+architecture arch_imp of divebits_AXI_Master_ReadWrite_v1_0 is
 	
 	function log2ceil (n : integer) return integer is
 		variable m, p : integer;

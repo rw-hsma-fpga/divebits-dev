@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <spirit:vendor>user.org</spirit:vendor>
-  <spirit:library>user</spirit:library>
-  <spirit:name>divebits_AXI4L_RdWrMaster</spirit:name>
+  <spirit:vendor>hs-mannheim.de</spirit:vendor>
+  <spirit:library>divebits</spirit:library>
+  <spirit:name>divebits_AXI_Master_ReadWrite</spirit:name>
   <spirit:version>1.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
@@ -195,7 +195,7 @@
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>POLARITY</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXI_RST.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXI_RST.POLARITY" spirit:choiceRef="choice_list_74b5137e">ACTIVE_LOW</spirit:value>
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
@@ -224,30 +224,6 @@
           <spirit:value spirit:id="BUSIFPARAM_VALUE.M00_AXI_CLK.ASSOCIATED_RESET">m00_axi_aresetn</spirit:value>
         </spirit:parameter>
       </spirit:parameters>
-    </spirit:busInterface>
-    <spirit:busInterface>
-      <spirit:name>DiveBits_in</spirit:name>
-      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
-      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
-      <spirit:monitor spirit:interfaceMode="master"/>
-      <spirit:portMaps>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>db_data</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>db_data_in</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-        <spirit:portMap>
-          <spirit:logicalPort>
-            <spirit:name>db_clock</spirit:name>
-          </spirit:logicalPort>
-          <spirit:physicalPort>
-            <spirit:name>db_clock_in</spirit:name>
-          </spirit:physicalPort>
-        </spirit:portMap>
-      </spirit:portMaps>
     </spirit:busInterface>
     <spirit:busInterface>
       <spirit:name>DiveBits_out</spirit:name>
@@ -280,6 +256,30 @@
         </xilinx:busInterfaceInfo>
       </spirit:vendorExtensions>
     </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>DiveBits_in</spirit:name>
+      <spirit:busType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="hs-mannheim.de" spirit:library="divebits" spirit:name="DiveBits_rtl" spirit:version="1.0"/>
+      <spirit:monitor spirit:interfaceMode="master"/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_data</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_data_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>db_clock</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>db_clock_in</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:addressSpaces>
     <spirit:addressSpace>
@@ -295,14 +295,14 @@
         <spirit:displayName>VHDL Synthesis</spirit:displayName>
         <spirit:envIdentifier>vhdlSource:vivado.xilinx.com:synthesis</spirit:envIdentifier>
         <spirit:language>vhdl</spirit:language>
-        <spirit:modelName>divebits_AXI4L_RdWrMaster_v1_0</spirit:modelName>
+        <spirit:modelName>divebits_AXI_Master_ReadWrite_v1_0</spirit:modelName>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlsynthesis_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>641b7f4b</spirit:value>
+            <spirit:value>1206d275</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -311,14 +311,14 @@
         <spirit:displayName>VHDL Simulation</spirit:displayName>
         <spirit:envIdentifier>vhdlSource:vivado.xilinx.com:simulation</spirit:envIdentifier>
         <spirit:language>vhdl</spirit:language>
-        <spirit:modelName>divebits_AXI4L_RdWrMaster_v1_0</spirit:modelName>
+        <spirit:modelName>divebits_AXI_Master_ReadWrite_v1_0</spirit:modelName>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>641b7f4b</spirit:value>
+            <spirit:value>1206d275</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -332,7 +332,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>2a1931a2</spirit:value>
+            <spirit:value>25578384</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -779,20 +779,20 @@
         <spirit:displayName>Db Num Code Words</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_NUM_CODE_WORDS" spirit:minimum="64" spirit:maximum="256" spirit:rangeType="long">64</spirit:value>
       </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="boolean">
-        <spirit:name>DB_DAISY_CHAIN</spirit:name>
-        <spirit:displayName>Db Daisy Chain</spirit:displayName>
-        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DB_REPEAT_WAITCYCLES_WIDTH</spirit:name>
+        <spirit:displayName>Db Repeat Waitcycles Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH" spirit:minimum="3" spirit:maximum="20" spirit:rangeType="long">7</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="boolean">
         <spirit:name>DB_REPEAT_AFTER_BUS_ERROR</spirit:name>
         <spirit:displayName>Db Repeat After Bus Error</spirit:displayName>
         <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR">true</spirit:value>
       </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>DB_REPEAT_WAITCYCLES_WIDTH</spirit:name>
-        <spirit:displayName>Db Repeat Waitcycles Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH" spirit:minimum="3" spirit:maximum="20" spirit:rangeType="long">7</spirit:value>
+      <spirit:modelParameter spirit:dataType="boolean">
+        <spirit:name>DB_DAISY_CHAIN</spirit:name>
+        <spirit:displayName>Db Daisy Chain</spirit:displayName>
+        <spirit:value spirit:format="bool" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
       </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
@@ -802,12 +802,12 @@
       <spirit:enumeration>32</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
-      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:name>choice_list_74b5137e</spirit:name>
       <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
       <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
     </spirit:choice>
     <spirit:choice>
-      <spirit:name>choice_list_a2e5156e</spirit:name>
+      <spirit:name>choice_list_f0fa11aa</spirit:name>
       <spirit:enumeration>64</spirit:enumeration>
       <spirit:enumeration>128</spirit:enumeration>
       <spirit:enumeration>256</spirit:enumeration>
@@ -822,32 +822,24 @@
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlsynthesis_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>hdl/divebits_receiver.vhd</spirit:name>
+        <spirit:name>hdl/divebits_AXI_Master_ReadWrite_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/divebits_AXI4L_RdWrMaster_v1_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_92befa0e</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_1206d275</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>hdl/divebits_receiver.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>hdl/divebits_AXI4L_RdWrMaster_v1_0.vhd</spirit:name>
+        <spirit:name>hdl/divebits_AXI_Master_ReadWrite_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/divebits_AXI4L_RdWrMaster_v1_0.tcl</spirit:name>
+        <spirit:name>xgui/divebits_AXI_Master_ReadWrite_v1_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_2a1931a2</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_25578384</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -859,7 +851,7 @@
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>My new AXI IP</spirit:description>
+  <spirit:description>DiveBits AXI4Lite Master - Read and Write operations</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>C_M00_AXI_ADDR_WIDTH</spirit:name>
@@ -891,7 +883,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
-      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">divebits_AXI4L_RdWrMaster_v1_0</spirit:value>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">divebits_AXI_Master_ReadWrite_v1_0</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DB_ADDRESS</spirit:name>
@@ -906,12 +898,12 @@
     <spirit:parameter>
       <spirit:name>DB_NUM_CODE_WORDS</spirit:name>
       <spirit:displayName>Number of AXI Master instruction words</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_NUM_CODE_WORDS" spirit:choiceRef="choice_list_a2e5156e">64</spirit:value>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_NUM_CODE_WORDS" spirit:choiceRef="choice_list_f0fa11aa">64</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>DB_DAISY_CHAIN</spirit:name>
-      <spirit:displayName>Daisy-chaining possible</spirit:displayName>
-      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
+      <spirit:name>DB_REPEAT_WAITCYCLES_WIDTH</spirit:name>
+      <spirit:displayName>Bitwidth of repeat waitcycles counter</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH" spirit:minimum="3" spirit:maximum="20" spirit:rangeType="long">7</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>DB_REPEAT_AFTER_BUS_ERROR</spirit:name>
@@ -919,132 +911,74 @@
       <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_REPEAT_AFTER_BUS_ERROR">true</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
-      <spirit:name>DB_REPEAT_WAITCYCLES_WIDTH</spirit:name>
-      <spirit:displayName>Bitwidth of repeat waitcycles counter</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_REPEAT_WAITCYCLES_WIDTH" spirit:minimum="3" spirit:maximum="20" spirit:rangeType="long">7</spirit:value>
+      <spirit:name>DB_DAISY_CHAIN</spirit:name>
+      <spirit:displayName>Daisy-chaining possible</spirit:displayName>
+      <spirit:value spirit:format="bool" spirit:resolve="user" spirit:id="PARAM_VALUE.DB_DAISY_CHAIN">true</spirit:value>
     </spirit:parameter>
   </spirit:parameters>
   <spirit:vendorExtensions>
     <xilinx:coreExtensions>
-      <xilinx:supportedFamilies>
-        <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
-      </xilinx:supportedFamilies>
       <xilinx:taxonomies>
-        <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
+        <xilinx:taxonomy>/AXI_Peripheral</xilinx:taxonomy>
+        <xilinx:taxonomy>/DiveBits</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>divebits_AXI4L_RdWrMaster</xilinx:displayName>
-      <xilinx:coreRevision>5</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-07-30T22:29:25Z</xilinx:coreCreationDateTime>
+      <xilinx:displayName>divebits_AXI_Master_ReadWrite_v1.0</xilinx:displayName>
+      <xilinx:autoFamilySupportLevel>level_2</xilinx:autoFamilySupportLevel>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>user.org:user:divebits_AXI_Master_ReadWrite:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2020-08-06T21:58:09Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@71fc2010_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@dbbd2ca_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d5b9f31_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@54b54cf2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b71275a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c62d80e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a1ca573_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@567f3557_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@604f6a00_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3325a0c8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fa1a4dd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@209a69b3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@393d0f29_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@58a34746_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf5a043_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f81a590_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@60adee5c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b65bceb_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4aced2a9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4be53c68_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@20a2b124_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@751cef5e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@17a708f5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b96e650_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7577597b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@640a0370_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@10132593_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@666ef24d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@48b95374_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@79ea0932_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@9b11496_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@658d8d8e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@75922743_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@511b814f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bd78f2a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@165bacbd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6df7d560_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b30d341_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@59413929_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@763ae1b7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@142572c0_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@44e2b88b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@19670695_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@560576bd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@723da7fc_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@13c0b906_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4bda9000_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@c4418d3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@240226da_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a64dba4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@57bbb085_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@755eb955_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@d9dd740_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@424412c5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@68b8a813_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@564d1d95_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@269f44a7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@22a5824e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@623d3bb6_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@43d75ccd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b94ea8a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ba15056_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c0686b7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@d71b174_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@60333ea4_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@60181744_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@21306107_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@672a03f1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@711a266c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a7ef6fd_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@52751bb0_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dfbe9b5_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c6a4d4e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d64004c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@697e6a30_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@359db7c7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@56b0072f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fe86475_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@61d74a8e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f4f6280_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c5473e2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1992deb8_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@126f6681_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4799ca0f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c6ec997_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@28b2c0ef_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d6605e9_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@649cbd35_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3441407d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@492ce87e_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7760721_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bd87b0c_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f41430a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@755590fb_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c0cb16_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c26198b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@43a4a71b_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b5dbe42_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f508d30_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI4L_RdWrMaster</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a6448c7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@158594ff_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@84a206d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e7d9b18_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56f9dafe_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d4f4462_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e57f351_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a58470f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@795ab0de_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@658e3701_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30593160_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@facaf81_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63dd69f2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38229b1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@46cc8a1f_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48a16a35_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5eb4648_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a4e403_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1304062d_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@582a19f7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e9d05d2_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5107b445_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2caca0d3_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b2fb266_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7978f35_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ab976bf_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ef2b290_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6db8500_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a49f4a0_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7798f690_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@84c7b57_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38eb7349_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33de6cb7_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d9605b1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2be7d962_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@f935a_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@467dd690_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f8c4b65_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f036ce1_ARCHIVE_LOCATION">/home/willenbe/Projekte/divebits-dev/IP/divebits_AXI_Master_ReadWrite</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="960c2556"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="f522ba7d"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="55bfeea0"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="79c763a2"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="d256af76"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="0c497822"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="7ec0cc58"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="cb89d8d3"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="8ff1efe6"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="787ae1bf"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="c6bd4dd8"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>
