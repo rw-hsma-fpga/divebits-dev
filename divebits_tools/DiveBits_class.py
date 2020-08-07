@@ -1,5 +1,5 @@
 from bitstring import BitArray
-
+import math
 
 class HexInt(int):  # subtype definition to allow Hex YAML output
     pass
@@ -18,6 +18,7 @@ TYPE_DIVEBITS_16_CONSTANTS = 1005
 TYPE_DIVEBITS_AXI_4_CONSTANT_REGS = 2002
 TYPE_DIVEBITS_AXI4_MASTER_RDWR = 2010
 TYPE_DIVEBITS_AXI4_MASTER_WRONLY = 2011
+TYPE_DIVEBITS_AXI4S_MASTER = 2020
 
 TYPE_DIVEBITS_BLOCKRAM_INIT = 3000
 
@@ -101,6 +102,16 @@ class DiveBits:
                 bitcount += DB_ADDRESS_BITWIDTH
                 bitcount += DB_CHANNEL_BITWIDTH
                 bitcount += (32 * db_num_codewords)
+                return bitcount
+
+            elif db_type == TYPE_DIVEBITS_AXI4S_MASTER:
+                db_num_datawords = component["DB_NUM_DATA_WORDS"]
+                db_data_width = component["DB_DATA_WIDTH"]
+                code_addr_width = math.ceil(math.log2(db_num_datawords))
+                bitcount += DB_ADDRESS_BITWIDTH
+                bitcount += DB_CHANNEL_BITWIDTH
+                bitcount += (db_num_datawords * (db_data_width+1))
+                bitcount += (code_addr_width+1)
                 return bitcount
 
             else:
@@ -208,6 +219,26 @@ class DiveBits:
                 n += 1
                 temp_comp["CONFIGURABLE"]["OPCODE_COUNT"] = n
                 temp_comp["CONFIGURABLE"]["CODE"] = code
+
+            elif db_type == TYPE_DIVEBITS_AXI4S_MASTER:
+                temp_comp["READONLY"]["DB_NUM_DATA_WORDS"] = component["DB_NUM_DATA_WORDS"]
+                temp_comp["READONLY"]["DB_DATA_WIDTH"] = component["DB_DATA_WIDTH"]
+
+                words: dict = {}
+
+                n = 0
+                dataword: dict = {"TDATA": HexInt(0xDEADBEEF), "TLAST": False }
+                words[n] = dataword.copy()
+                n += 1
+                dataword: dict = {"TDATA": HexInt(0xC0FFEE77), "TLAST": False }
+                words[n] = dataword.copy()
+                n += 1
+                dataword: dict = {"TDATA": HexInt(0xBADC0C0A), "TLAST": True }
+                words[n] = dataword.copy()
+                n += 1
+                temp_comp["CONFIGURABLE"]["WORD_COUNT"] = n
+                temp_comp["CONFIGURABLE"]["DATA"] = words
+
             else:
                 raise SyntaxError('DB_TYPE unknown')
 
@@ -355,6 +386,26 @@ class DiveBits:
             # stuff with zeroes - at least one word needs to remain for stopcode 0x00000000
             print("Remaining words: ",wordcount-1)
             configbits.prepend(BitArray(32*wordcount))
+
+        elif db_type == TYPE_DIVEBITS_AXI4S_MASTER:
+            db_num_datawords = block_data["DB_NUM_DATA_WORDS"]
+            db_data_width = block_data["DB_DATA_WIDTH"]
+            code_addr_width = math.ceil(math.log2(db_num_datawords))
+            payloadbits = ((db_num_datawords * (db_data_width + 1)) + (code_addr_width + 1))
+
+            configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
+            configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
+            configbits.prepend(BitArray(uint=payloadbits, length=DB_LENGTH_BITWIDTH))
+
+            word_count = config_data["CONFIGURABLE"]["WORD_COUNT"]
+            data = config_data["CONFIGURABLE"]["DATA"]
+
+            for i in range(0, word_count):
+                configbits.prepend(BitArray(uint=data[i]["TDATA"], length=db_data_width))
+                configbits.prepend(BitArray(bool=data[i]["TLAST"]))
+            configbits.prepend(BitArray((db_data_width+1) * (db_num_datawords-word_count)))
+
+            configbits.prepend(BitArray(uint=word_count, length=code_addr_width+1))
 
         else:
             raise SyntaxError('DB_TYPE unknown')

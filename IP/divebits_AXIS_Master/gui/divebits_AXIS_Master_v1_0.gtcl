@@ -1,0 +1,2 @@
+# This file is automatically written.  Do not modify.
+proc gen_USERPARAMETER_C_M00_AXIS_TDATA_WIDTH_VALUE {DB_DATA_WIDTH } {expr $DB_DATA_WIDTH}
