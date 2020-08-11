@@ -311,7 +311,7 @@ class DiveBits:
                         value = bram_config_data["default_value"]
                 configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
 
-        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_RDWR:
+        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_WRONLY:
             db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
             configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
             configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
@@ -342,7 +342,7 @@ class DiveBits:
             print("Remaining words: ",wordcount-1)
             configbits.prepend(BitArray(32*wordcount))
 
-        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_WRONLY:
+        elif db_type == TYPE_DIVEBITS_AXI4_MASTER_RDWR:
             db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
             configbits.prepend(BitArray(uint=0, length=DB_CHANNEL_BITWIDTH))
             configbits.prepend(BitArray(uint=db_address, length=DB_ADDRESS_BITWIDTH))
