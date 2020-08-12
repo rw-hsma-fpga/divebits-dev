@@ -337,9 +337,10 @@ proc DB_1_component_extraction { } {
 	set config_bram_info [ ::subDB::_extract_block_diagram_components ]
 	
 	::subDB::_call_python3_script \
-				"${db_toolpath}/DB_extract_template_and_bitsize.py" \
+				"${db_toolpath}/DB_extract.py" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/"
+				#"${db_toolpath}/DB_extract_template_and_bitsize.py" \
 
 	set CONFIG_BLOCK_PATH [ lindex $config_bram_info 0 ]
 	set NUM_BRAMS [ lindex $config_bram_info 1 ]
@@ -445,11 +446,12 @@ proc DB_3_generate_bitstreams {} {
 	#::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
 	
 	::subDB::_call_python3_script \
-				"${db_toolpath}/DB_generate_mem_files.py" \
+				"${db_toolpath}/DB_generate.py" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_BITSTREAM_CONFIG_FILES}/" \
 				"${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}/"
+#				"${db_toolpath}/DB_generate_mem_files.py" \
 	
 	
 	
