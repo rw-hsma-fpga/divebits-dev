@@ -9,8 +9,8 @@ from DiveBits_base import db_bitwidths
 from DiveBits_base import DiveBits_base
 
 
-def representer(dumper, data):
-    return yaml.ScalarNode('tag:yaml.org,2002:int', hex(data))
+def representer(dumper, repdata):
+    return yaml.ScalarNode('tag:yaml.org,2002:int', hex(repdata))
 
 
 db_project_path = ""
@@ -40,21 +40,19 @@ if __name__ == "__main__":
     template_json = template_path + "/db_template.json"
 
     # read extracted components file
-    data = yaml.safe_load(open(excomp_file))
+    excomp_data = yaml.safe_load(open(excomp_file))
 
-    # parse extracted component data TODO error checks?
+    # parse extracted component data to make objects
+    component_objects = []
+    for component in excomp_data['db_components']:
+        component_objects.append(DiveBits_base.DiveBits_factory(component))
+
+    # accumulate length of configuration bitstring for storage requirements
     bitcount = db_bitwidths["CONFIG_LENGTH"]
-    db_template_components = []
+    for comp in component_objects:
+        bitcount += comp.num_configbits()
 
-    for component in data['db_components']:
-
-        comp_object = DiveBits_base.DiveBits_factory(component)
-        # accumulate length of configuration bitstring for storage requirements
-        bitcount += comp_object.num_configbits()
-        # generate template data structure by component
-        db_template_components.append(comp_object.generate_component_template())
-
-    if data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
+    if excomp_data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
         print("CRC check activated")
         bitcount += (db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"] + db_bitwidths["LENGTH"] + 32)
 
@@ -65,15 +63,21 @@ if __name__ == "__main__":
     print()
     print("Complete number of DB config bits:", bitcount)
     print("Number of RAMB36 required:", bram32cnt)
+
     # Generate Tcl command to set required number of BRAMs
     tcl_file = open(bram_tcl_file, 'w')
     tcl_file.write("global REQUIRED_BRAMS\n")
     tcl_file.write("set REQUIRED_BRAMS " + str(bram32cnt) + "\n")
     tcl_file.close()
 
+    # generate template data structure by component
+    db_template_components = []
+    for comp in component_objects:
+        db_template_components.append(comp.generate_component_template())
+
     # write template file in YAML
     template = open(template_file, 'w')
-    yaml.dump({"Hosttime_ID": data["Hosttime_ID"]}, template, sort_keys=False)
+    yaml.dump({"Hosttime_ID": excomp_data["Hosttime_ID"]}, template, sort_keys=False)
     template.write("# READONLY branches can be dropped in bitstream config files;\n")
     template.write("# the corresponding data is matched through the BLOCK_PATH\n")
     yaml.dump({"db_components": db_template_components}, template, sort_keys=False)
@@ -81,7 +85,7 @@ if __name__ == "__main__":
 
     # write template file in JSON - TODO make optional/choice?
     jtemplate = open(template_json, 'w')
-    json.dump({"Hosttime_ID": data["Hosttime_ID"]}, jtemplate, sort_keys=False, indent=2, separators=(',\n', ':'))
+    json.dump({"Hosttime_ID": excomp_data["Hosttime_ID"]}, jtemplate, sort_keys=False, indent=2, separators=(',\n', ':'))
     jtemplate.write("\n")  # TODO check if correct separation
     json.dump({"db_components": db_template_components}, jtemplate, sort_keys=False, indent=2, separators=(',\n', ':'))
     jtemplate.close()

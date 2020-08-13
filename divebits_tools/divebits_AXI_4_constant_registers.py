@@ -24,13 +24,15 @@ class divebits_AXI_4_constant_registers(DiveBits_base.DiveBits_base):
 
         return temp_comp
 
-    def generate_config_bitstring(self, config_data, block_data) -> BitArray:
+    def generate_config_bitstring(self, config_list) -> BitArray:
 
-        configbits = super().generate_config_bitstring(config_data, block_data)
+        configbits = BitArray(0)
+        if not super().find_block_config(config_list):
+            return configbits
 
         db_register_width = 32
         for i in range(0, 4):
-            value = config_data["CONFIGURABLE"]["REGISTER_" + f'{i:02d}' + "_VALUE"]
+            value = self.block_config["CONFIGURABLE"]["REGISTER_" + f'{i:02d}' + "_VALUE"]
             configbits.prepend(BitArray(uint=i, length=db_bitwidths["CHANNEL"]))
             configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
             configbits.prepend(BitArray(uint=db_register_width, length=db_bitwidths["LENGTH"]))

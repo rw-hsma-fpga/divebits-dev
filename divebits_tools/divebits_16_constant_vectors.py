@@ -30,13 +30,15 @@ class divebits_16_constant_vectors(DiveBits_base.DiveBits_base):
 
         return temp_comp
 
-    def generate_config_bitstring(self, config_data, block_data) -> BitArray:
+    def generate_config_bitstring(self, config_list) -> BitArray:
 
-        configbits = super().generate_config_bitstring(config_data, block_data)
+        configbits = BitArray(0)
+        if not super().find_block_config(config_list):
+            return configbits
 
-        db_vector_width = block_data["DB_VECTOR_WIDTH"]
+        db_vector_width = self.db_component["DB_VECTOR_WIDTH"]
         for i in range(0, 16):
-            value = config_data["CONFIGURABLE"]["VALUE_" + f'{i:02d}']
+            value = self.block_config["CONFIGURABLE"]["VALUE_" + f'{i:02d}']
             configbits.prepend(BitArray(uint=i, length=db_bitwidths["CHANNEL"]))
             configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
             configbits.prepend(BitArray(uint=db_vector_width, length=db_bitwidths["LENGTH"]))

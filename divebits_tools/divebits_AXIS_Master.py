@@ -43,12 +43,14 @@ class divebits_AXIS_Master(DiveBits_base.DiveBits_base):
 
         return temp_comp
 
-    def generate_config_bitstring(self, config_data, block_data) -> BitArray:
+    def generate_config_bitstring(self, config_list) -> BitArray:
 
-        configbits = super().generate_config_bitstring(config_data, block_data)
+        configbits = BitArray(0)
+        if not super().find_block_config(config_list):
+            return configbits
 
-        db_num_datawords = block_data["DB_NUM_DATA_WORDS"]
-        db_data_width = block_data["DB_DATA_WIDTH"]
+        db_num_datawords = self.db_component["DB_NUM_DATA_WORDS"]
+        db_data_width = self.db_component["DB_DATA_WIDTH"]
         code_addr_width = math.ceil(math.log2(db_num_datawords))
         payloadbits = ((db_num_datawords * (db_data_width + 1)) + (code_addr_width + 1))
 
@@ -56,8 +58,8 @@ class divebits_AXIS_Master(DiveBits_base.DiveBits_base):
         configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
         configbits.prepend(BitArray(uint=payloadbits, length=db_bitwidths["LENGTH"]))
 
-        word_count = config_data["CONFIGURABLE"]["WORD_COUNT"]
-        data = config_data["CONFIGURABLE"]["DATA"]
+        word_count = self.block_config["CONFIGURABLE"]["WORD_COUNT"]
+        data = self.block_config["CONFIGURABLE"]["DATA"]
 
         for i in range(0, word_count):
             configbits.prepend(BitArray(uint=data[i]["TDATA"], length=db_data_width))

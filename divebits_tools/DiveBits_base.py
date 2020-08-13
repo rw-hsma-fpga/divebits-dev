@@ -30,11 +30,11 @@ db_types = {
 
 class DiveBits_base:
 
+    db_component: dict  # dictionary of YAML block parameters extracted by tcl
     db_address: int
     db_type: int
     block_path: str
-
-    db_component: dict  # dictionary of YAML block parameters extracted by tcl
+    block_config: dict
 
     def __init__(self, comp: dict):
         self.db_component = comp
@@ -67,12 +67,20 @@ class DiveBits_base:
         return temp_comp
 
     # common base function
-    def generate_config_bitstring(self, config_data, block_data) -> BitArray:
-        # TODO check config blocks against block data availability... really all kinds of integrity checking...
+    def find_block_config(self, config_list) -> bool:
+
+        for block in config_list:
+            if "BLOCK_PATH" not in block:
+                raise KeyError('DiveBits ERROR: No BLOCK_PATH in component data')
+            if block["BLOCK_PATH"] == self.block_path:
+                self.block_config = block
+                return True
+
+        return False
+
+    def generate_config_bitstring(self, config_list) -> BitArray:
 
         configbits = BitArray(0)
-        self.db_address = block_data["DB_ADDRESS"]
-        self.db_type = block_data["DB_TYPE"]
 
         return configbits
 
