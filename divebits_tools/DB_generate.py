@@ -5,45 +5,8 @@ import yaml
 from datetime import datetime
 from bitstring import BitArray
 
+from DiveBits_base import db_bitwidths
 from DiveBits_base import DiveBits_base
-from DiveBits_base import DB_CONFIG_LENGTH_BITWIDTH
-from DiveBits_base import DB_ADDRESS_BITWIDTH
-from DiveBits_base import DB_CHANNEL_BITWIDTH
-from DiveBits_base import DB_LENGTH_BITWIDTH
-
-
-from DiveBits_factory import DiveBits_factory
-
-
-db_project_path = ""
-
-
-def attach_crc32(config_string: BitArray) -> BitArray:
-
-    # 1 + x + x2 + x4 + x5 +x7 + x8 + x10 + x11 + x12 + x16 + x22 + x23 + x26 + x32.
-    polynomial = BitArray(bin='1110 1101 1011 1000 1000 0011 0010 0000 1')
-
-    # enter corrected length with CRC32 packet
-    current_length = config_string.length
-    length_with_crc32 = current_length + DB_ADDRESS_BITWIDTH + DB_CHANNEL_BITWIDTH + DB_LENGTH_BITWIDTH + 32
-    config_string.overwrite(BitArray(uint=length_with_crc32, length=DB_CONFIG_LENGTH_BITWIDTH),
-                            -DB_CONFIG_LENGTH_BITWIDTH)
-
-    # attach DB_ADDRESS 0, Channel 0 for CRC32 receiver, length 32 of checksum
-    config_string.prepend(BitArray(uint=0, length=DB_ADDRESS_BITWIDTH+DB_CHANNEL_BITWIDTH))
-    config_string.prepend(BitArray(uint=32, length=DB_LENGTH_BITWIDTH))
-
-    # actual CRC32 calculation
-    divstring = config_string[:-DB_CONFIG_LENGTH_BITWIDTH] # without config length (doesn't leave db_config)
-    divstring.prepend(BitArray(32))  # prepend empty CRC32
-    divstring.append(BitArray(1))  # attach a 0 to make indexing from LSB side easier
-    for j in range(1, divstring.length-32):
-        if divstring[-(j+1)] == 1:
-            divstring[-(j+33):-j] ^= polynomial
-    remainder = divstring[0:32]
-
-    config_string.prepend(remainder)
-    return config_string
 
 
 if __name__ == "__main__":
@@ -98,7 +61,7 @@ if __name__ == "__main__":
     for file in config_files:
 
         # start configbits string with 20 reserved bits for complete bitstring length
-        configbits = BitArray(DB_CONFIG_LENGTH_BITWIDTH)
+        configbits = BitArray(db_bitwidths["CONFIG_LENGTH"])
 
         # open configuration file based on template
         config_data = yaml.safe_load(open(config_files_path+file+".yaml"))
@@ -111,16 +74,16 @@ if __name__ == "__main__":
                 if i["BLOCK_PATH"] == config_component["BLOCK_PATH"]:
                     block_component: dict = i
                     break
-            comp_object = DiveBits_factory(block_component)
+            comp_object = DiveBits_base.DiveBits_factory(block_component)
             configbits.prepend(comp_object.generate_config_bitstring(config_component, block_component))
 
         # insert length into lower end of bitstring
-        configbits.overwrite(BitArray(uint=configbits.length, length=DB_CONFIG_LENGTH_BITWIDTH),
-                             -DB_CONFIG_LENGTH_BITWIDTH)
+        configbits.overwrite(BitArray(uint=configbits.length, length=db_bitwidths["CONFIG_LENGTH"]),
+                             -db_bitwidths["CONFIG_LENGTH"])
 
         if excomp_data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
             print("CRC check activated")
-            configbits = attach_crc32(configbits)
+            configbits = DiveBits_base.attach_crc32(configbits)
 
         # extend bitstring to multiple of 8
         if (configbits.length % 8) != 0:

@@ -1,26 +1,26 @@
 import DiveBits_base
+from DiveBits_base import db_bitwidths
 from DiveBits_base import HexInt
 from bitstring import BitArray
 
 
 class divebits_AXI_Master_WriteOnly(DiveBits_base.DiveBits_base):
 
-    def num_configbits(self, component) -> int:
+    def num_configbits(self) -> int:
 
-        bitcount = super().num_configbits(component)
+        bitcount = super().num_configbits()
 
-        db_num_codewords = component["DB_NUM_CODE_WORDS"]
-        bitcount += DiveBits_base.DB_ADDRESS_BITWIDTH
-        bitcount += DiveBits_base.DB_CHANNEL_BITWIDTH
+        db_num_codewords = self.db_component["DB_NUM_CODE_WORDS"]
+        bitcount += (db_bitwidths["LENGTH"] + db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"])
         bitcount += (32 * db_num_codewords)
 
         return bitcount
 
-    def generate_component_template(self, component) -> dict:
+    def generate_component_template(self) -> dict:
 
-        temp_comp = super().generate_component_template(component)
+        temp_comp = super().generate_component_template()
 
-        temp_comp["READONLY"]["DB_NUM_CODE_WORDS"] = component["DB_NUM_CODE_WORDS"]
+        temp_comp["READONLY"]["DB_NUM_CODE_WORDS"] = self.db_component["DB_NUM_CODE_WORDS"]
         code: dict = {}
 
         n = 0
@@ -47,9 +47,9 @@ class divebits_AXI_Master_WriteOnly(DiveBits_base.DiveBits_base):
         configbits = super().generate_config_bitstring(config_data, block_data)
 
         db_num_codewords = block_data["DB_NUM_CODE_WORDS"]
-        configbits.prepend(BitArray(uint=0, length=DiveBits_base.DB_CHANNEL_BITWIDTH))
-        configbits.prepend(BitArray(uint=self.db_address, length=DiveBits_base.DB_ADDRESS_BITWIDTH))
-        configbits.prepend(BitArray(uint=32 * db_num_codewords, length=DiveBits_base.DB_LENGTH_BITWIDTH))
+        configbits.prepend(BitArray(uint=0, length=db_bitwidths["CHANNEL"]))
+        configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
+        configbits.prepend(BitArray(uint=32 * db_num_codewords, length=db_bitwidths["LENGTH"]))
 
         opcode_cnt = config_data["CONFIGURABLE"]["OPCODE_COUNT"]
         code = config_data["CONFIGURABLE"]["CODE"]

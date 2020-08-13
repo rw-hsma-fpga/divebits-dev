@@ -5,14 +5,8 @@ import yaml
 import json
 
 from DiveBits_base import HexInt
+from DiveBits_base import db_bitwidths
 from DiveBits_base import DiveBits_base
-from DiveBits_base import DB_CONFIG_LENGTH_BITWIDTH
-from DiveBits_base import DB_ADDRESS_BITWIDTH
-from DiveBits_base import DB_CHANNEL_BITWIDTH
-from DiveBits_base import DB_LENGTH_BITWIDTH
-
-
-from DiveBits_factory import DiveBits_factory
 
 
 def representer(dumper, data):
@@ -49,20 +43,20 @@ if __name__ == "__main__":
     data = yaml.safe_load(open(excomp_file))
 
     # parse extracted component data TODO error checks?
-    bitcount = DB_CONFIG_LENGTH_BITWIDTH
+    bitcount = db_bitwidths["CONFIG_LENGTH"]
     db_template_components = []
 
     for component in data['db_components']:
 
-        comp_object = DiveBits_factory(component)
+        comp_object = DiveBits_base.DiveBits_factory(component)
         # accumulate length of configuration bitstring for storage requirements
-        bitcount += comp_object.num_configbits(component)
+        bitcount += comp_object.num_configbits()
         # generate template data structure by component
-        db_template_components.append(comp_object.generate_component_template(component))
+        db_template_components.append(comp_object.generate_component_template())
 
     if data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
         print("CRC check activated")
-        bitcount += (DB_ADDRESS_BITWIDTH + DB_CHANNEL_BITWIDTH + DB_LENGTH_BITWIDTH + 32)
+        bitcount += (db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"] + db_bitwidths["LENGTH"] + 32)
 
     bram32cnt = bitcount // 32768
     if (bitcount % 32768) != 0:

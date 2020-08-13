@@ -1,38 +1,35 @@
 import DiveBits_base
+from DiveBits_base import db_bitwidths
 from bitstring import BitArray
 
 
 class divebits_constant_vector(DiveBits_base.DiveBits_base):
 
-    def num_configbits(self, component) -> int:
+    def num_configbits(self) -> int:
 
-        bitcount = super().num_configbits(component)
+        bitcount = super().num_configbits()
 
-        if "DB_VECTOR_WIDTH" not in component:
+        if "DB_VECTOR_WIDTH" not in self.db_component:
             raise SyntaxError('DB_VECTOR_WIDTH parameter missing')
         else:
-            db_vector_width = component["DB_VECTOR_WIDTH"]
+            db_vector_width = self.db_component["DB_VECTOR_WIDTH"]
             if db_vector_width != 0:
-                bitcount += DiveBits_base.DB_ADDRESS_BITWIDTH
-                bitcount += DiveBits_base.DB_CHANNEL_BITWIDTH
-                bitcount += DiveBits_base.DB_LENGTH_BITWIDTH
+                bitcount += (db_bitwidths["LENGTH"] + db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"])
                 bitcount += db_vector_width
                 return bitcount
             else:
                 raise SyntaxError('DB_VECTOR_WIDTH is 0')
 
-        return bitcount
+    def generate_component_template(self) -> dict:
 
-    def generate_component_template(self, component) -> dict:
+        temp_comp = super().generate_component_template()
 
-        temp_comp = super().generate_component_template(component)
-
-        if "DB_VECTOR_WIDTH" not in component:
+        if "DB_VECTOR_WIDTH" not in self.db_component:
             raise SyntaxError('DB_VECTOR_WIDTH parameter missing')
         else:
-            temp_comp["READONLY"]["DB_VECTOR_WIDTH"] = component["DB_VECTOR_WIDTH"]
+            temp_comp["READONLY"]["DB_VECTOR_WIDTH"] = self.db_component["DB_VECTOR_WIDTH"]
             # TODO maybe error checking size of default value?
-            temp_comp["CONFIGURABLE"]["VALUE"] = component["DB_DEFAULT_VALUE"]
+            temp_comp["CONFIGURABLE"]["VALUE"] = self.db_component["DB_DEFAULT_VALUE"]
 
         return temp_comp
 
@@ -42,9 +39,9 @@ class divebits_constant_vector(DiveBits_base.DiveBits_base):
 
         db_vector_width = block_data["DB_VECTOR_WIDTH"]
         value = config_data["CONFIGURABLE"]["VALUE"]
-        configbits.prepend(BitArray(uint=0, length=DiveBits_base.DB_CHANNEL_BITWIDTH))
-        configbits.prepend(BitArray(uint=self.db_address, length=DiveBits_base.DB_ADDRESS_BITWIDTH))
-        configbits.prepend(BitArray(uint=db_vector_width, length=DiveBits_base.DB_LENGTH_BITWIDTH))
+        configbits.prepend(BitArray(uint=0, length=db_bitwidths["CHANNEL"]))
+        configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
+        configbits.prepend(BitArray(uint=db_vector_width, length=db_bitwidths["LENGTH"]))
         configbits.prepend(BitArray(uint=value, length=db_vector_width))
 
         return configbits

@@ -1,30 +1,30 @@
 import DiveBits_base
+from DiveBits_base import db_bitwidths
 from DiveBits_base import HexInt
 from bitstring import BitArray
 import math
 
 class divebits_AXIS_Master(DiveBits_base.DiveBits_base):
 
-    def num_configbits(self, component) -> int:
+    def num_configbits(self) -> int:
 
-        bitcount = super().num_configbits(component)
+        bitcount = super().num_configbits()
 
-        db_num_datawords = component["DB_NUM_DATA_WORDS"]
-        db_data_width = component["DB_DATA_WIDTH"]
+        db_num_datawords = self.db_component["DB_NUM_DATA_WORDS"]
+        db_data_width = self.db_component["DB_DATA_WIDTH"]
         code_addr_width = math.ceil(math.log2(db_num_datawords))
-        bitcount += DiveBits_base.DB_ADDRESS_BITWIDTH
-        bitcount += DiveBits_base.DB_CHANNEL_BITWIDTH
+        bitcount += (db_bitwidths["LENGTH"] + db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"])
         bitcount += (db_num_datawords * (db_data_width + 1))
         bitcount += (code_addr_width + 1)
 
         return bitcount
 
-    def generate_component_template(self, component) -> dict:
+    def generate_component_template(self) -> dict:
 
-        temp_comp = super().generate_component_template(component)
+        temp_comp = super().generate_component_template()
 
-        temp_comp["READONLY"]["DB_NUM_DATA_WORDS"] = component["DB_NUM_DATA_WORDS"]
-        temp_comp["READONLY"]["DB_DATA_WIDTH"] = component["DB_DATA_WIDTH"]
+        temp_comp["READONLY"]["DB_NUM_DATA_WORDS"] = self.db_component["DB_NUM_DATA_WORDS"]
+        temp_comp["READONLY"]["DB_DATA_WIDTH"] = self.db_component["DB_DATA_WIDTH"]
 
         words: dict = {}
 
@@ -52,9 +52,9 @@ class divebits_AXIS_Master(DiveBits_base.DiveBits_base):
         code_addr_width = math.ceil(math.log2(db_num_datawords))
         payloadbits = ((db_num_datawords * (db_data_width + 1)) + (code_addr_width + 1))
 
-        configbits.prepend(BitArray(uint=0, length=DiveBits_base.DB_CHANNEL_BITWIDTH))
-        configbits.prepend(BitArray(uint=self.db_address, length=DiveBits_base.DB_ADDRESS_BITWIDTH))
-        configbits.prepend(BitArray(uint=payloadbits, length=DiveBits_base.DB_LENGTH_BITWIDTH))
+        configbits.prepend(BitArray(uint=0, length=db_bitwidths["CHANNEL"]))
+        configbits.prepend(BitArray(uint=self.db_address, length=db_bitwidths["ADDRESS"]))
+        configbits.prepend(BitArray(uint=payloadbits, length=db_bitwidths["LENGTH"]))
 
         word_count = config_data["CONFIGURABLE"]["WORD_COUNT"]
         data = config_data["CONFIGURABLE"]["DATA"]
