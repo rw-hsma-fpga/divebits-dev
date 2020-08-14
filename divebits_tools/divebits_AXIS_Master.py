@@ -61,7 +61,13 @@ class divebits_AXIS_Master(DiveBits_base.DiveBits_base):
         word_count = self.block_config["CONFIGURABLE"]["WORD_COUNT"]
         data = self.block_config["CONFIGURABLE"]["DATA"]
 
-        for i in range(0, word_count):
+        for j in range(0, word_count):
+            # TODO FIXING REQUIRED FOR YAML-JSON COMPATIBILTY
+            if j in data:
+                i = j
+            else:
+                i = str(j)
+
             configbits.prepend(BitArray(uint=data[i]["TDATA"], length=db_data_width))
             configbits.prepend(BitArray(bool=data[i]["TLAST"]))
         configbits.prepend(BitArray((db_data_width + 1) * (db_num_datawords - word_count)))

@@ -1,5 +1,6 @@
 import sys
 import os
+import argparse
 
 import yaml
 import json
@@ -13,33 +14,45 @@ def representer(dumper, repdata):
     return yaml.ScalarNode('tag:yaml.org,2002:int', hex(repdata))
 
 
-db_project_path = ""
-
 if __name__ == "__main__":
 
-    yaml.add_representer(HexInt, representer)
-
     if len(sys.argv) != 2:
-        raise SyntaxError('Wrong number of arguments')
-    tcl_args = str(sys.argv[1]).split()
-    if len(tcl_args) != 2:
-        raise SyntaxError('Wrong number of arguments')
-    excomp_path = tcl_args[0]
-    template_path = tcl_args[1]
+        raise SyntaxError('Arguments missing')
+    tcl_args = sys.argv[1]
+    tcl_args = tcl_args.replace('{', '')
+    tcl_args = tcl_args.replace('}', '')
+    tcl_args = tcl_args.split()
 
-    excomp_file = excomp_path + "/db_components.yaml"
-    bram_tcl_file = excomp_path + "/set_bram_count.tcl"
+    # parse command-line arguments
+    parser = argparse.ArgumentParser(description='Extract DiveBits component data from FPGA design top-level')
+
+    parser.add_argument('-x', '--excomp_path',
+                        action='store',
+                        required=True,
+                        dest="excomp_path",
+                        help='Path to extracted components YAML directory')
+
+    parser.add_argument('-t', '--tmpl_path',
+                        action='store',
+                        required=True,
+                        dest="template_path",
+                        help='Path to template data directory')
+
+    cl_args = parser.parse_args(tcl_args)
+    excomp_file = cl_args.excomp_path + "/db_components.yaml"
+    bram_tcl_file = cl_args.excomp_path + "/set_bram_count.tcl"
+    template_file = cl_args.template_path + "/db_template.yaml"
+    template_json = cl_args.template_path + "/db_template.json"
 
     if not os.path.exists(excomp_file):
         raise SyntaxError("Extracted components file doesn't exist")
 
-    if not os.path.exists(template_path):
+    if not os.path.exists(cl_args.template_path):
         raise SyntaxError("Template path doesn't exist")
 
-    template_file = template_path + "/db_template.yaml"
-    template_json = template_path + "/db_template.json"
 
     # read extracted components file
+    yaml.add_representer(HexInt, representer)
     excomp_data = yaml.safe_load(open(excomp_file))
 
     # parse extracted component data to make objects

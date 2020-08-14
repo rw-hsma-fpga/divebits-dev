@@ -22,7 +22,7 @@ class divebits_BlockRAM_init(DiveBits_base.DiveBits_base):
 
         temp_comp["READONLY"]["DB_BRAM_ADDR_WIDTH"] = self.db_component["DB_BRAM_ADDR_WIDTH"]
         temp_comp["READONLY"]["DB_BRAM_DATA_WIDTH"] = self.db_component["DB_BRAM_DATA_WIDTH"]
-        temp_comp["CONFIGURABLE"]["default"] = 0
+        temp_comp["CONFIGURABLE"]["default_value"] = 0
 
         return temp_comp
 
@@ -43,17 +43,25 @@ class divebits_BlockRAM_init(DiveBits_base.DiveBits_base):
 
         bram_config_data = self.block_config["CONFIGURABLE"]
         for addr in range(0, bram_num_words):
-            if addr in bram_config_data["words"]:
-                value = bram_config_data["words"][addr]
+
+            # TODO FIXING REQUIRED FOR YAML-JSON COMPATIBILTY
+            if "words" in bram_config_data:
+
+                if addr in bram_config_data["words"]:
+                    value = bram_config_data["words"][addr]
+
+                elif str(addr) in bram_config_data["words"]:
+                    value = bram_config_data["words"][str(addr)]
+
             else:
                 found_in_range = False
-                for addr_range in bram_config_data["ranges"]:
-                    if addr_range["from"] <= addr <= addr_range["to"]:
-                        value = addr_range["value"]
-                        found_in_range = True
+                if "ranges" in bram_config_data:
+                    for addr_range in bram_config_data["ranges"]:
+                        if addr_range["from"] <= addr <= addr_range["to"]:
+                            value = addr_range["value"]
+                            found_in_range = True
                 if not found_in_range:
                     value = bram_config_data["default_value"]
             configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
 
         return configbits
-

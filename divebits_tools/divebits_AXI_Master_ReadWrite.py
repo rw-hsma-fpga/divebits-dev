@@ -67,7 +67,13 @@ class divebits_AXI_Master_ReadWrite(DiveBits_base.DiveBits_base):
         code = self.block_config["CONFIGURABLE"]["CODE"]
         wordcount = db_num_codewords
         base_addr: HexInt = 0
-        for i in range(0, opcode_cnt):
+        for j in range(0, opcode_cnt):
+            # TODO FIXING REQUIRED FOR YAML-JSON COMPATIBILTY
+            if j in code:
+                i = j
+            else:
+                i = str(j)
+
             op = code[i]
             if op["OPCODE"] == "SET_BASE_ADDR":
                 base_addr = op["ADDR"]
