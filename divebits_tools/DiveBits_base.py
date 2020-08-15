@@ -101,30 +101,3 @@ class DiveBits_base:
 
         return inst
 
-    @staticmethod
-    def attach_crc32(config_string: BitArray) -> BitArray:
-
-        # 1 + x + x2 + x4 + x5 +x7 + x8 + x10 + x11 + x12 + x16 + x22 + x23 + x26 + x32.
-        polynomial = BitArray(bin='1110 1101 1011 1000 1000 0011 0010 0000 1')
-
-        # enter corrected length with CRC32 packet
-        current_length = config_string.length
-        len_w_crc32 = current_length + db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"] + db_bitwidths["LENGTH"] + 32
-        config_string.overwrite(BitArray(uint=len_w_crc32, length=db_bitwidths["CONFIG_LENGTH"]),
-                                -db_bitwidths["CONFIG_LENGTH"])
-
-        # attach DB_ADDRESS 0, Channel 0 for CRC32 receiver, length 32 of checksum
-        config_string.prepend(BitArray(uint=0, length=db_bitwidths["ADDRESS"]+db_bitwidths["CHANNEL"]))
-        config_string.prepend(BitArray(uint=32, length=db_bitwidths["LENGTH"]))
-
-        # actual CRC32 calculation
-        divstring = config_string[:-db_bitwidths["CONFIG_LENGTH"]] # without config length (doesn't leave db_config)
-        divstring.prepend(BitArray(32))  # prepend empty CRC32
-        divstring.append(BitArray(1))  # attach a 0 to make indexing from LSB side easier
-        for j in range(1, divstring.length-32):
-            if divstring[-(j+1)] == 1:
-                divstring[-(j+33):-j] ^= polynomial
-        remainder = divstring[0:32]
-
-        config_string.prepend(remainder)
-        return config_string

@@ -81,7 +81,6 @@ class divebits_AXI_Master_WriteOnly(DiveBits_base.DiveBits_base):
                 addr: HexInt = base_addr + op["ADDR"] + 1  # adding opcode to addr
                 configbits.prepend(BitArray(uint=addr, length=32))
         # stuff with zeroes - at least one word needs to remain for stopcode 0x00000000
-        print("Remaining words: ", wordcount - 1)
         configbits.prepend(BitArray(32 * wordcount))
 
         return configbits

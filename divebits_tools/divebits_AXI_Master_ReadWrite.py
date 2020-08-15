@@ -105,7 +105,6 @@ class divebits_AXI_Master_ReadWrite(DiveBits_base.DiveBits_base):
                 configbits.prepend(BitArray(uint=op["CHECK_MASK"], length=32))
                 configbits.prepend(BitArray(uint=op["CHECK_DATA"], length=32))
         # stuff with zeroes - at least one word needs to remain for stopcode 0x00000000
-        print("Remaining words: ", wordcount - 1)
         configbits.prepend(BitArray(32 * wordcount))
 
         return configbits

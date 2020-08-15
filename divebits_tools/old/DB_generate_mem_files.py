@@ -45,11 +45,9 @@ def attach_crc32(config_string: BitArray) -> BitArray:
 if __name__ == "__main__":
 
     if len(sys.argv) != 2:
-        print(len(sys.argv))
         raise SyntaxError('Wrong number of arguments')
     tcl_args = str(sys.argv[1]).split()
     if len(tcl_args) != 4:
-        print(len(tcl_args))
         raise SyntaxError('Wrong number of arguments')
 
     excomp_path       = tcl_args[0]
