@@ -325,6 +325,31 @@ proc _generate_mmi_file { filepath loclist device } {
 
 
 
+proc DB_0_add_DiveBits_IP_repo { } {
+
+	global db_toolpath
+	
+	set old_dir [ pwd ]
+	
+	set ip_repo_list [ get_property  ip_repo_paths  [current_project] ]
+
+	cd $db_toolpath
+	set db_repo_relative "../block_ip_xil/"
+	set db_repo_absolute [ file normalize $db_repo_relative ]
+	
+	if {[ lsearch -exact $ip_repo_list $db_repo_absolute ] >= 0} {
+		puts "DiveBits block IP repository is already included in project."
+	} else {
+		puts "Adding DiveBits block IP repository..."
+		lappend ip_repo_list $db_repo_absolute
+		set_property  ip_repo_paths $ip_repo_list [current_project]
+		update_ip_catalog
+	}
+	
+	cd $old_dir
+
+}
+
 proc DB_1_component_extraction { } {
 
 	global db_toolpath
@@ -340,7 +365,6 @@ proc DB_1_component_extraction { } {
 				"${db_toolpath}/DB_extract.py" \
 				"-x ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
 				"-t ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/"
-				#"${db_toolpath}/DB_extract_template_and_bitsize.py" \
 
 	set CONFIG_BLOCK_PATH [ lindex $config_bram_info 0 ]
 	set NUM_BRAMS [ lindex $config_bram_info 1 ]
@@ -443,20 +467,12 @@ proc DB_3_generate_bitstreams {} {
 	
 	::subDB::_establish_data_path
 	
-	#::subDB::_call_python3_script  "${db_toolpath}/DB_generate_mem_files.py"  "${env(DIVEBITS_PROJECT_PATH)}/"
-	
 	::subDB::_call_python3_script \
 				"${db_toolpath}/DB_generate.py" \
 				"-x ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_EXTRACTED_COMPONENTS}/" \
 				"-c ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_BITSTREAM_CONFIG_FILES}/" \
 				"-m ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}/"
-#				"-t ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/" \
-#				"${db_toolpath}/DB_generate_mem_files.py" \
-	
-	
-	
-	
-	
+
 	set memfiles [ glob -tails -nocomplain -directory "${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_MEM_CONFIG_FILES}" "*.mem" ]
 	set memfiles [ lsort $memfiles ]
 	
@@ -504,6 +520,8 @@ set db_subdir_OUTPUT_BITSTREAMS "7_output_bitstreams"
 
 set message "\n" ; append message "\n" ; append message "\n" ; append message "\n"
 append message "******************************************************************************" ; append message "\n"
+append message " call  DB_0_add_DiveBits_IP_repo               to add DiveBits IP repository  " ; append message "\n"
+append message "" ; append message "\n"
 append message " call  DB_1_component_extraction               after block design is finished " ; append message "\n"
 append message "" ; append message "\n"
 append message " call  DB_2_get_memory_data_and_bitstream      after implementation           " ; append message "\n"
