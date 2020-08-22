@@ -1,5 +1,7 @@
 from bitstring import BitArray
 import importlib
+import yaml
+import json
 
 
 class HexInt(int):  # subtype definition to allow Hex YAML output
@@ -101,3 +103,29 @@ class DiveBits_base:
 
         return inst
 
+    @staticmethod
+    def DiveBits_generate_templates(component_objects: list, hosttime_id: str, template_path: str):
+
+        template_file_yaml = template_path + "/db_template.yaml"
+        template_file_json = template_path + "/db_template.json"
+
+        db_template_components = []
+        for comp in component_objects:
+            db_template_components.append(comp.generate_component_template())
+
+        # write template file in YAML
+        yaml.add_representer(HexInt, lambda dumper, repdata: yaml.ScalarNode('tag:yaml.org,2002:int', hex(repdata)))
+        template_file = open(template_file_yaml, 'w')
+        template_file.write("# READONLY branches can be dropped in bitstream config files;\n")
+        template_file.write("# the corresponding data is matched through the BLOCK_PATH\n")
+        yaml.dump({"Hosttime_ID": hosttime_id,
+                   "db_components": db_template_components},
+                  template_file, sort_keys=False)
+        template_file.close()
+
+        # write template file in JSON
+        template_file = open(template_file_json, 'w')
+        json.dump({"Hosttime_ID": hosttime_id,
+                   "db_components": db_template_components},
+                  template_file, sort_keys=False, indent=2, separators=(',\n', ':'))
+        template_file.close()

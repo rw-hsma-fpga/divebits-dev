@@ -1,3 +1,4 @@
+import os
 import yaml
 import json
 
@@ -5,7 +6,6 @@ from datetime import datetime
 from bitstring import BitArray
 
 from DiveBits_base import db_bitwidths
-
 
 
 class DiveBits_configstring:
@@ -17,18 +17,18 @@ class DiveBits_configstring:
     components: list
     block_configs: list
 
-    def __init__(self, config_files_path: str, config_file: str, components: list):
+    def __init__(self, config_file: str, components: list):
 
         self.configbits = BitArray(0)
-        self.config_file = config_file
+        self.config_file = os.path.basename(config_file)
         self.components = components
-        self.config_name = config_file[:-5]
+        self.config_name = os.path.basename(config_file[:-5])
 
         # open configuration file based on template
-        if config_file[-4:] == "yaml":
-            self.config_data = yaml.safe_load(open(config_files_path + config_file))
-        if config_file[-4:] == "json":
-            self.config_data = json.load(open(config_files_path + config_file))
+        if config_file[-4:].lower() == "yaml":
+            self.config_data = yaml.safe_load(open(config_file))
+        if config_file[-4:].lower() == "json":
+            self.config_data = json.load(open(config_file))
 
         self.block_configs = self.config_data['db_components']
 
@@ -93,4 +93,29 @@ class DiveBits_configstring:
                 memfile.write("\n")
         memfile.write("\n")
         memfile.close()
-        # configbits is gone after this!
+        # configbits is empty after this!
+
+    # STATIC METHODS
+    @staticmethod
+    def calculate_configlength(components: list, crc: bool, bram_tcl_file: str):
+
+        bitcount = db_bitwidths["CONFIG_LENGTH"]
+        for comp in components:
+            bitcount += comp.num_configbits()
+
+        if crc:
+            bitcount += (db_bitwidths["ADDRESS"] + db_bitwidths["CHANNEL"] + db_bitwidths["LENGTH"] + 32)
+
+        bram32cnt = bitcount // 32768  # integer division (floor)
+        if (bitcount % 32768) != 0:
+            bram32cnt += 1  # ceiling
+
+        print("DiveBits component extraction:")
+        print("  Complete number of DB config bits:", bitcount)
+        print("  Number of RAMB36 required:", bram32cnt)
+
+        # Generate Tcl command to set required number of BRAMs
+        tcl_file = open(bram_tcl_file, 'w')
+        tcl_file.write("global REQUIRED_BRAMS\n")
+        tcl_file.write("set REQUIRED_BRAMS " + str(bram32cnt) + "\n")
+        tcl_file.close()

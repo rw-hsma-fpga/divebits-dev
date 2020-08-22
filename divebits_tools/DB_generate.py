@@ -8,6 +8,8 @@ from DiveBits_base import DiveBits_base
 from DiveBits_configstring import DiveBits_configstring
 
 
+# BEGIN
+
 if len(sys.argv) != 2:
     raise SyntaxError('Arguments missing')
 tcl_args = sys.argv[1]
@@ -56,13 +58,14 @@ for component in excomp_data['db_components']:
 # find config data files
 current_dir = os.getcwd()
 os.chdir(config_files_path)
-config_files = glob.glob("*.yaml", recursive=False)
-config_files += glob.glob("*.json", recursive=False)
+config_files = glob.glob(config_files_path+"/*.yaml", recursive=False)
+config_files += glob.glob(config_files_path+"/*.json", recursive=False)
 os.chdir(current_dir)
 
+# produce configstring objects and generate MEM files for each config data file
 for file in config_files:
 
-    configstring = DiveBits_configstring(config_files_path, file, component_objects)
+    configstring = DiveBits_configstring(file, component_objects)
     configstring.generate_configstring()
 
     if excomp_data["db_config_block"]["DB_DAISY_CHAIN_CRC_CHECK"]:
