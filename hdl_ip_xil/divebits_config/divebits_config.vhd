@@ -377,7 +377,7 @@ begin
 						crc_register <= crc_register xor crc_poly;
 					end if;
 				end if;
-				if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then crc_register <= (others=>'1'); end if;
+				if (DB_CONFIG_STATE=dbcs_reset or DB_CONFIG_STATE=dbcs_length_load) then crc_register <= (others=>'0'); end if;
 			end if;
 		end process CRC_SR;
 		

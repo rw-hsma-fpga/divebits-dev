@@ -26,10 +26,6 @@ entity divebits_BlockRAM_init is
 			db_data_out : out STD_LOGIC;
 			--
 
-			DEBUG_rx_data_valid_0 : out STD_LOGIC;
-			DEBUG_rx_data : out STD_LOGIC;
-			DEBUG_bit_cnt : out std_logic_vector(5 downto 0);
-
 			-- BRAM interface
 			CLK : out STD_LOGIC;
 			ADDR : out std_logic_vector(FULL_ADDR_WIDTH-1 downto 0);
@@ -173,9 +169,5 @@ begin
 			end if;
 		end if;
 	end process;	
-
-	DEBUG_bit_cnt <= std_logic_vector(to_unsigned(data_bit_cnt,6));
-	DEBUG_rx_data_valid_0 <= rx_data_valid(0);
-	DEBUG_rx_data <= rx_data;
 
 end RTL;

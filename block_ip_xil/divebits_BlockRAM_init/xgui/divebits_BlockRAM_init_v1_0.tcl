@@ -7,12 +7,13 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "Component_Name"
   #Adding Page
   set Page_0 [ipgui::add_page $IPINST -name "Page 0"]
+  ipgui::add_param $IPINST -name "DB_DAISY_CHAIN" -parent ${Page_0}
   ipgui::add_param $IPINST -name "DB_ADDRESS" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "DB_BRAMCTRL_MODE" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "DB_BRAM_DATA_WIDTH" -parent ${Page_0}
+  set DB_BRAM_ADDR_WIDTH [ipgui::add_param $IPINST -name "DB_BRAM_ADDR_WIDTH" -parent ${Page_0}]
+  set_property tooltip {BRAM Port Address Width (log2(num_words))} ${DB_BRAM_ADDR_WIDTH}
 
-  ipgui::add_param $IPINST -name "DB_BRAM_DATA_WIDTH"
-  ipgui::add_param $IPINST -name "DB_BRAM_ADDR_WIDTH"
-  ipgui::add_param $IPINST -name "DB_BRAMCTRL_MODE"
-  ipgui::add_param $IPINST -name "DB_DAISY_CHAIN"
 
 }
 
