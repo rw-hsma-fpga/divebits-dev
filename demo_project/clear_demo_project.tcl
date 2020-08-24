@@ -11,12 +11,14 @@ set script_folder [_tcl::get_script_folder]
 set old_folder [ pwd ]
 cd $script_folder
 
-file delete -force -- "./.Xil"
-file delete -force -- "./divebits_demo_prj"
-file delete -force -- "./bd/db_demo_block"
-file delete -force -- "./elf_prebuilt/bram_locs.mmi"
-file delete -force -- "./elf_prebuilt/download.bit"
-file delete {*}[glob *.jou]
-file delete {*}[glob *.log]
-
+catch {
+	close_project
+	file delete -force -- "./.Xil"
+	file delete -force -- "./divebits_demo_prj"
+	file delete -force -- "./bd/db_demo_block"
+	file delete -force -- "./elf_prebuilt/bram_locs.mmi"
+	file delete -force -- "./elf_prebuilt/download.bit"
+	file delete -force {*}[glob *.jou]
+	file delete -force {*}[glob *.log]
+}
 cd $old_folder
