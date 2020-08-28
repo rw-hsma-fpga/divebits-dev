@@ -423,7 +423,7 @@ add_files -fileset constrs_1 -norecurse ${script_folder}/constraints/db_demo_zed
 
 
 
-launch_runs impl_1 -quiet -to_step write_bitstream -jobs 4
+launch_runs impl_1 -quiet -to_step write_bitstream -jobs 8
 set impl_done [ get_property STATUS [ get_runs impl_1 ] ]
 set impl_done_goal "write_bitstream Complete!"
 while { $impl_done != $impl_done_goal } { 

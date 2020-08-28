@@ -9,16 +9,30 @@ proc get_script_folder {} {
 variable script_folder
 set script_folder [_tcl::get_script_folder]
 set old_folder [ pwd ]
+
 cd $script_folder
+file delete -force -- "./.Xil"
+file delete -force -- "./divebits_demo_prj"
+file delete -force -- "./bd/db_demo_block"
+set del_files { "./elf_prebuilt/bram_locs.mmi" "./elf_prebuilt/download.bit"}
+lappend del_files [glob -nocomplain *.jou]
+lappend del_files [glob -nocomplain *.log]
+foreach del_file $del_files {
+	file delete $del_file
+}
+cd $old_folder
 
 catch {
 	close_project
+	cd $script_folder
 	file delete -force -- "./.Xil"
 	file delete -force -- "./divebits_demo_prj"
 	file delete -force -- "./bd/db_demo_block"
-	file delete -force -- "./elf_prebuilt/bram_locs.mmi"
-	file delete -force -- "./elf_prebuilt/download.bit"
-	file delete -force {*}[glob *.jou]
-	file delete -force {*}[glob *.log]
+	set del_files { "./elf_prebuilt/bram_locs.mmi" "./elf_prebuilt/download.bit"}
+	lappend del_files [glob -nocomplain *.jou]
+	lappend del_files [glob -nocomplain *.log]
+	foreach del_file $del_files {
+		file delete $del_file
+	}
+	cd $old_folder
 }
-cd $old_folder
