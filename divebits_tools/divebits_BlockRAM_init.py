@@ -45,23 +45,25 @@ class divebits_BlockRAM_init(DiveBits_base.DiveBits_base):
         for addr in range(0, bram_num_words):
 
             # TODO FIXING REQUIRED FOR YAML-JSON COMPATIBILTY
+            addr_found = False
             if "words" in bram_config_data:
 
                 if addr in bram_config_data["words"]:
                     value = bram_config_data["words"][addr]
+                    addr_found = True
 
                 elif str(addr) in bram_config_data["words"]:
                     value = bram_config_data["words"][str(addr)]
+                    addr_found = True
 
-            else:
-                found_in_range = False
-                if "ranges" in bram_config_data:
+                elif "ranges" in bram_config_data:
                     for addr_range in bram_config_data["ranges"]:
                         if addr_range["from"] <= addr <= addr_range["to"]:
                             value = addr_range["value"]
-                            found_in_range = True
-                if not found_in_range:
-                    value = bram_config_data["default_value"]
+                            addr_found = True
+
+            if not addr_found:
+                value = bram_config_data["default_value"]
             configbits.prepend(BitArray(uint=value, length=db_bram_data_width))
 
         return configbits

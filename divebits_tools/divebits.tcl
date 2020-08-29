@@ -496,6 +496,27 @@ proc DB_3_generate_bitstreams {} {
 
 }
 
+proc DB_PT_run_python3_config_generator { py_script_path } {
+
+	global db_toolpath
+	global env
+	global db_subdir_INPUT_BITSTREAM
+	global db_subdir_MMI_FILE
+	global db_subdir_MEM_CONFIG_FILES
+	global db_subdir_BITSTREAM_CONFIG_FILES
+	global db_subdir_OUTPUT_BITSTREAMS
+	global db_subdir_CONFIG_FILE_TEMPLATE
+	global db_subdir_EXTRACTED_COMPONENTS
+	
+	::subDB::_establish_data_path
+	
+	::subDB::_call_python3_script \
+				"$py_script_path" \
+				"-t ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_CONFIG_FILE_TEMPLATE}/" \
+				"-c ${env(DIVEBITS_PROJECT_PATH)}/${db_subdir_BITSTREAM_CONFIG_FILES}/"
+
+}
+
 ### IS THERE MORE THAN CAN BE MOVED INTO PYTHON (portability?) Calling Xilinx-specific Tcl stuff from Python?
 global db_toolpath
 
@@ -519,14 +540,16 @@ set db_subdir_OUTPUT_BITSTREAMS "7_output_bitstreams"
 
 
 set message "\n" ; append message "\n" ; append message "\n" ; append message "\n"
-append message "******************************************************************************" ; append message "\n"
-append message " call  DB_0_add_DiveBits_IP_repo               to add DiveBits IP repository  " ; append message "\n"
+append message "*************************************************************************************" ; append message "\n"
+append message " call  DB_0_add_DiveBits_IP_repo                      to add DiveBits IP repository  " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_1_component_extraction               after block design is finished " ; append message "\n"
+append message " call  DB_1_component_extraction                      after block design is finished " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_2_get_memory_data_and_bitstream      after implementation           " ; append message "\n"
+append message " call  DB_2_get_memory_data_and_bitstream             after implementation           " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_2b_get_other_input_bitstream \$path  if other bitstream (e.g. SDK)  " ; append message "\n"
+append message " call  DB_2b_get_other_input_bitstream \$path          if other bitstream (e.g. SDK)  " ; append message "\n"
 append message "" ; append message "\n"
-append message " call  DB_3_generate_bitstreams                to make diversified bitstreams " ; append message "\n"
-append message "******************************************************************************" ; append message "\n"
+append message " call  DB_PT_run_python3_config_generator \$script     to make config files           " ; append message "\n"
+append message "" ; append message "\n"
+append message " call  DB_3_generate_bitstreams                       to make diversified bitstreams " ; append message "\n"
+append message "*************************************************************************************" ; append message "\n"
